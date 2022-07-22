@@ -1,0 +1,226 @@
+{
+  "typeName": "Fastly::Services::Service",
+  "description": "Manage a Fastly service.",
+  "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-rpdk.git",
+  "definitions": {
+    "FastlyAccess": {
+      "description": "Properties needed to access Fastly.",
+      "type": "object",
+      "properties": {
+        "Token": {
+          "type": "string",
+          "description": "API token used to access Fastly"
+        }
+      },
+      "required": [
+        "Token"
+      ],
+      "additionalProperties": false
+    },
+    "Comment": {
+      "description": "A freeform descriptive note.",
+      "type": "string"
+    },
+    "CreatedAt": {
+      "description": "Date and time in ISO 8601 format. Read-only.",
+      "type": "string",
+      "format": "date-time"
+    },
+    "CustomerId": {
+      "description": "Alphanumeric string identifying the customer. Ready-only.",
+      "type": "string"
+    },
+    "DeletedAt": {
+      "description": "Date and time in ISO 8601 format. Read-only.",
+      "type": "string",
+      "format": "date-time"
+    },
+    "Id": {
+      "description": "Alphanumeric string identifying the service. Read-only.",
+      "type": "string"
+    },
+    "Name": {
+      "description": "The name of the service.",
+      "type": "string",
+      "minLength": 1
+    },
+    "PublishKey": {
+      "description": "Unused at this time.",
+      "type": "string"
+    },
+    "Paused": {
+      "description": "Whether the service is paused. Services are paused due to a lack of traffic for an extended period of time. Services are resumed either when a draft version is activated or a locked version is cloned and reactivated.",
+      "type": "boolean"
+    },
+    "Type": {
+      "description": "The type of this service.",
+      "type": "string",
+      "enum": [
+        "vcl",
+        "wasm"
+      ]
+    },
+    "UpdatedAt": {
+      "description": "Date and time in ISO 8601 format. Read-only.",
+      "type": "string",
+      "format": "date-time"
+    },
+    "Versions": {
+      "description": "A list of versions associated with the service.",
+      "type": "array",
+      "insertionOrder": false,
+      "items": {
+        "$ref": "#/definitions/Version"
+      }
+    },
+    "Version": {
+      "description": "A Version represents a specific instance of the configuration for a service. A Version can be cloned, locked, activated, or deactivated.",
+      "type": "object",
+      "properties": {
+        "Active": {
+          "description": "Whether this is the active version or not. [Default false]",
+          "type": "boolean",
+          "default": false
+        },
+        "Comment": {
+          "$ref": "#/definitions/Comment"
+        },
+        "Deployed": {
+          "description": "Unused at this time.",
+          "type": "boolean"
+        },
+        "Locked": {
+          "description": "Whether this version is locked or not. Objects can not be added or edited on locked versions. [Default false]",
+          "type": "boolean",
+          "default": true
+        },
+        "Number": {
+          "description": "The number of this version. Read-only.",
+          "type": "integer"
+        },
+        "Staging": {
+          "description": "Unused at this time. [Default false]",
+          "type": "boolean",
+          "default": false
+        },
+        "Testing": {
+          "description": "Unused at this time. [Default false]",
+          "type": "boolean",
+          "default": false
+        },
+        "ServiceId": {
+          "description": "Alphanumeric string identifying the service. Read-only.",
+          "type": "string"
+        },
+        "CreatedAt": {
+          "$ref": "#/definitions/CreatedAt"
+        },
+        "DeletedAt": {
+          "$ref": "#/definitions/DeletedAt"
+        },
+        "UpdatedAt": {
+          "$ref": "#/definitions/UpdatedAt"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Service": {
+      "type": "object",
+      "properties": {
+        "Comment": {
+          "$ref": "#/definitions/Comment"
+        },
+        "CreatedAt": {
+          "$ref": "#/definitions/CreatedAt"
+        },
+        "CustomerId": {
+          "$ref": "#/definitions/CustomerId"
+        },
+        "DeletedAt": {
+          "$ref": "#/definitions/DeletedAt"
+        },
+        "Id": {
+          "$ref": "#/definitions/Id"
+        },
+        "Name": {
+          "$ref": "#/definitions/Name"
+        },
+        "PublishKey": {
+          "$ref": "#/definitions/PublishKey"
+        },
+        "Paused": {
+          "$ref": "#/definitions/Paused"
+        },
+        "Type": {
+          "$ref": "#/definitions/Type"
+        },
+        "UpdatedAt": {
+          "$ref": "#/definitions/UpdatedAt"
+        },
+        "Versions": {
+          "$ref": "#/definitions/Versions"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "typeConfiguration": {
+    "properties": {
+      "FastlyAccess": {
+        "$ref": "#/definitions/FastlyAccess"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "FastlyAccess"
+    ]
+  },
+  "properties": {
+    "Name": {
+      "$ref": "#/definitions/Name"
+    },
+    "Comment": {
+      "$ref": "#/definitions/Comment"
+    },
+    "Paused": {
+      "$ref": "#/definitions/Paused"
+    },
+    "Id": {
+      "$ref": "#/definitions/Id"
+    },
+    "Service": {
+      "$ref": "#/definitions/Service"
+    }
+  },
+  "additionalProperties": false,
+  "tagging": {
+    "taggable": false
+  },
+  "required": [
+    "Name"
+  ],
+  "readOnlyProperties": [
+    "/properties/Id",
+    "/properties/Service"
+  ],
+  "primaryIdentifier": [
+    "/properties/Id"
+  ],
+  "handlers": {
+    "create": {
+      "permissions": []
+    },
+    "read": {
+      "permissions": []
+    },
+    "update": {
+      "permissions": []
+    },
+    "delete": {
+      "permissions": []
+    },
+    "list": {
+      "permissions": []
+    }
+  }
+}
