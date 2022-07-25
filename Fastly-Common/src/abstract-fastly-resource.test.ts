@@ -46,7 +46,7 @@ class TestAbstractFastlyResource extends AbstractFastlyResource<BaseModel, {}, {
     }
 }
 
-describe('AbstractBigIdResource', () => {
+describe('AbstractFastlyResource', () => {
     describe('processRequestException', () => {
         let testInstance: TestAbstractFastlyResource;
 
@@ -83,6 +83,8 @@ describe('AbstractBigIdResource', () => {
                 expect(e).toBeInstanceOf(errorType);
                 if (e instanceof NotFound) {
                     expect(e.message).not.toContain(error);
+                } else if (e instanceof InternalFailure) {
+                    expect(e.message).toContain(`Unexpected error occurred, see serialized exception below:\n${JSON.stringify(axiosError)}`);
                 } else {
                     expect(e.message).toContain(error);
                 }

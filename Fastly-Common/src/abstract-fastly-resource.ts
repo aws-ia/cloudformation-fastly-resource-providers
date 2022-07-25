@@ -9,7 +9,7 @@ import {FastlyError} from "./types";
 export abstract class AbstractFastlyResource<ResourceModelType extends BaseModel, GetResponseData, CreateResponseData, UpdateResponseData, TypeConfigurationM> extends AbstractBaseResource<ResourceModelType, GetResponseData, CreateResponseData, UpdateResponseData, FastlyError, TypeConfigurationM> {
 
     processRequestException(e: FastlyError, request: ResourceHandlerRequest<ResourceModelType>) {
-        const errors = [e.error?.message || 'Unexpected error'];
+        const errors = [e.error?.message];
         if (e.body) {
             errors.push(`[${e.body.msg}] ${e.body.detail}`);
         }
@@ -29,7 +29,7 @@ export abstract class AbstractFastlyResource<ResourceModelType extends BaseModel
             case 429:
                 throw new exceptions.ServiceLimitExceeded(errorMessage);
             default:
-                throw new exceptions.InternalFailure(`Unexpected error occurred while talking to the BigId API (HTTP status ${e.status}) => ${errorMessage}`);
+                throw new exceptions.InternalFailure(`Unexpected error occurred, see serialized exception below:\n${JSON.stringify(e)}`);
         }
     }
 
