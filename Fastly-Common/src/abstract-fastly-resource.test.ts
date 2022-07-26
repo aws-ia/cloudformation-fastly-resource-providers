@@ -51,7 +51,7 @@ describe('AbstractFastlyResource', () => {
         let testInstance: TestAbstractFastlyResource;
 
         beforeAll(() => {
-            testInstance = new TestAbstractFastlyResource('foo', BaseModel, BaseModel);
+            testInstance = new TestAbstractFastlyResource('foo', BaseModel, undefined, undefined, BaseModel);
         });
 
         it.each([

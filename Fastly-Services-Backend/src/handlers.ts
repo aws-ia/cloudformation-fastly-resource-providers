@@ -8,8 +8,8 @@ import * as Fastly from "fastly";
 
 class Resource extends AbstractFastlyResource<ResourceModel, Backend, Backend, Backend, TypeConfigurationModel> {
 
-    async get(model: ResourceModel, typeConfiguration: TypeConfigurationModel): Promise<Backend> {
-        Fastly.ApiClient.instance.authenticate(typeConfiguration.fastlyAccess.token);
+    async get(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<Backend> {
+        Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
         const response: ResponseWithHttpInfo = await new Fastly.BackendApi().getBackendWithHttpInfo({
             ...transformObjectCase(model.toJSON(), CaseTransformer.PASCAL_TO_SNAKE),
             backend_name: model.backend?.name || model.name
@@ -23,8 +23,8 @@ class Resource extends AbstractFastlyResource<ResourceModel, Backend, Backend, B
         return backend;
     }
 
-    async list(model: ResourceModel, typeConfiguration: TypeConfigurationModel): Promise<ResourceModel[]> {
-        Fastly.ApiClient.instance.authenticate(typeConfiguration.fastlyAccess.token);
+    async list(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<ResourceModel[]> {
+        Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
         const response: ResponseWithHttpInfo = await new Fastly.BackendApi().listBackendsWithHttpInfo(transformObjectCase(model.toJSON(), CaseTransformer.PASCAL_TO_SNAKE));
         return response.response.body
             .map((backendPayload: any) => {
@@ -37,14 +37,14 @@ class Resource extends AbstractFastlyResource<ResourceModel, Backend, Backend, B
             .filter((newModel: ResourceModel) => newModel.backend.deletedAt === null)
     }
 
-    async create(model: ResourceModel, typeConfiguration: TypeConfigurationModel): Promise<Backend> {
-        Fastly.ApiClient.instance.authenticate(typeConfiguration.fastlyAccess.token);
+    async create(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<Backend> {
+        Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
         const response: ResponseWithHttpInfo = await new Fastly.BackendApi().createBackendWithHttpInfo(transformObjectCase(model.toJSON(), CaseTransformer.PASCAL_TO_SNAKE));
         return new Backend(transformObjectCase(response.response.body, CaseTransformer.SNAKE_TO_CAMEL));
     }
 
-    async update(model: ResourceModel, typeConfiguration: TypeConfigurationModel): Promise<Backend> {
-        Fastly.ApiClient.instance.authenticate(typeConfiguration.fastlyAccess.token);
+    async update(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<Backend> {
+        Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
         const response: ResponseWithHttpInfo = await new Fastly.BackendApi().updateBackendWithHttpInfo({
             ...transformObjectCase(model.toJSON(), CaseTransformer.PASCAL_TO_SNAKE),
             backend_name: model.backend.name
@@ -52,8 +52,8 @@ class Resource extends AbstractFastlyResource<ResourceModel, Backend, Backend, B
         return new Backend(transformObjectCase(response.response.body, CaseTransformer.SNAKE_TO_CAMEL));
     }
 
-    async delete(model: ResourceModel, typeConfiguration: TypeConfigurationModel): Promise<void> {
-        Fastly.ApiClient.instance.authenticate(typeConfiguration.fastlyAccess.token);
+    async delete(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<void> {
+        Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
         await new Fastly.BackendApi().deleteBackendWithHttpInfo({
             ...transformObjectCase(model.toJSON(), CaseTransformer.PASCAL_TO_SNAKE),
             backend_name: model.name
@@ -73,7 +73,7 @@ class Resource extends AbstractFastlyResource<ResourceModel, Backend, Backend, B
     }
 }
 
-export const resource = new Resource(ResourceModel.TYPE_NAME, ResourceModel, TypeConfigurationModel);
+export const resource = new Resource(ResourceModel.TYPE_NAME, ResourceModel, null, null, TypeConfigurationModel);
 
 // Entrypoint for production usage after registered in CloudFormation
 export const entrypoint = resource.entrypoint;

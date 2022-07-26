@@ -8,8 +8,8 @@ import * as Fastly from "fastly";
 
 class Resource extends AbstractFastlyResource<ResourceModel, Domain, Domain, Domain, TypeConfigurationModel> {
 
-    async get(model: ResourceModel, typeConfiguration: TypeConfigurationModel): Promise<Domain> {
-        Fastly.ApiClient.instance.authenticate(typeConfiguration.fastlyAccess.token);
+    async get(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<Domain> {
+        Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
         const response: ResponseWithHttpInfo = await new Fastly.DomainApi().getDomainWithHttpInfo({
             ...transformObjectCase(model.toJSON(), CaseTransformer.PASCAL_TO_SNAKE),
             domain_name: model.domain?.name || model.name
@@ -23,8 +23,8 @@ class Resource extends AbstractFastlyResource<ResourceModel, Domain, Domain, Dom
         return domain;
     }
 
-    async list(model: ResourceModel, typeConfiguration: TypeConfigurationModel): Promise<ResourceModel[]> {
-        Fastly.ApiClient.instance.authenticate(typeConfiguration.fastlyAccess.token);
+    async list(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<ResourceModel[]> {
+        Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
         const response: ResponseWithHttpInfo = await new Fastly.DomainApi().listDomainsWithHttpInfo(transformObjectCase(model.toJSON(), CaseTransformer.PASCAL_TO_SNAKE));
         return response.response.body
             .map((domainPayload: any) => {
@@ -37,14 +37,14 @@ class Resource extends AbstractFastlyResource<ResourceModel, Domain, Domain, Dom
             .filter((newModel: ResourceModel) => newModel.domain.deletedAt === null)
     }
 
-    async create(model: ResourceModel, typeConfiguration: TypeConfigurationModel): Promise<Domain> {
-        Fastly.ApiClient.instance.authenticate(typeConfiguration.fastlyAccess.token);
+    async create(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<Domain> {
+        Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
         const response: ResponseWithHttpInfo = await new Fastly.DomainApi().createDomainWithHttpInfo(transformObjectCase(model.toJSON(), CaseTransformer.PASCAL_TO_SNAKE));
         return new Domain(transformObjectCase(response.response.body, CaseTransformer.SNAKE_TO_CAMEL));
     }
 
-    async update(model: ResourceModel, typeConfiguration: TypeConfigurationModel): Promise<Domain> {
-        Fastly.ApiClient.instance.authenticate(typeConfiguration.fastlyAccess.token);
+    async update(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<Domain> {
+        Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
         const response: ResponseWithHttpInfo = await new Fastly.DomainApi().updateDomainWithHttpInfo({
             ...transformObjectCase(model.toJSON(), CaseTransformer.PASCAL_TO_SNAKE),
             domain_name: model.domain.name
@@ -52,8 +52,8 @@ class Resource extends AbstractFastlyResource<ResourceModel, Domain, Domain, Dom
         return new Domain(transformObjectCase(response.response.body, CaseTransformer.SNAKE_TO_CAMEL));
     }
 
-    async delete(model: ResourceModel, typeConfiguration: TypeConfigurationModel): Promise<void> {
-        Fastly.ApiClient.instance.authenticate(typeConfiguration.fastlyAccess.token);
+    async delete(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<void> {
+        Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
         await new Fastly.DomainApi().deleteDomainWithHttpInfo({
             ...transformObjectCase(model.toJSON(), CaseTransformer.PASCAL_TO_SNAKE),
             domain_name: model.name
@@ -74,7 +74,7 @@ class Resource extends AbstractFastlyResource<ResourceModel, Domain, Domain, Dom
 
 }
 
-export const resource = new Resource(ResourceModel.TYPE_NAME, ResourceModel, TypeConfigurationModel);
+export const resource = new Resource(ResourceModel.TYPE_NAME, ResourceModel, null, null, TypeConfigurationModel);
 
 // Entrypoint for production usage after registered in CloudFormation
 export const entrypoint = resource.entrypoint;

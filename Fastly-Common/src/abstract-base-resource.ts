@@ -26,42 +26,47 @@ export abstract class AbstractBaseResource<ResourceModelType extends BaseModel, 
      * Typically, this uses the primary identifier to perform an REST API request.
      *
      * @param model Current model coming from CloudFormation. This contains the input given by the user as well as any
+     * @param typeConfiguration The type configuration for the resource. This can be null
      * output already set by previous handler which returned an IN_PROGRESS event.
      */
-    abstract get(model: ResourceModelType, typeConfiguration: TypeConfigurationType): Promise<GetResponseData>;
+    abstract get(model: ResourceModelType, typeConfiguration?: TypeConfigurationType): Promise<GetResponseData>;
 
     /**
      * This method is invoked to list all possible resources from a vendor API, of the current resource type.
      *
      * @param model Current model coming from CloudFormation. This contains the input given by the user as well as any
+     * @param typeConfiguration The type configuration for the resource. This can be null
      * output already set by previous handler which returned an IN_PROGRESS event.
      */
-    abstract list(model: ResourceModelType, typeConfiguration: TypeConfigurationType): Promise<ResourceModelType[]>;
+    abstract list(model: ResourceModelType, typeConfiguration?: TypeConfigurationType): Promise<ResourceModelType[]>;
 
     /**
      * This method is invoked to create a resource from a vendor API, that should correspond to the given the CloudFormation model input.
      *
      * @param model Current model coming from CloudFormation. This contains the input given by the user as well as any
+     * @param typeConfiguration The type configuration for the resource. This can be null
      * output already set by previous handler which returned an IN_PROGRESS event.
      * @param typeConfiguration
      */
-    abstract create(model: ResourceModelType, typeConfiguration: TypeConfigurationType): Promise<CreateResponseData>;
+    abstract create(model: ResourceModelType, typeConfiguration?: TypeConfigurationType): Promise<CreateResponseData>;
 
     /**
      * This method is invoked to update a resource from a vendor API, that should correspond to the given the CloudFormation model input.
      *
      * @param model Current model coming from CloudFormation. This contains the input given by the user as well as any
+     * @param typeConfiguration The type configuration for the resource. This can be null
      * output already set by previous handler which returned an IN_PROGRESS event.
      */
-    abstract update(model: ResourceModelType, typeConfiguration: TypeConfigurationType): Promise<UpdateResponseData>;
+    abstract update(model: ResourceModelType, typeConfiguration?: TypeConfigurationType): Promise<UpdateResponseData>;
 
     /**
      * This method is invoked to delete a resource from a vendor API, that should correspond to the given the CloudFormation model input.
      *
      * @param model Current model coming from CloudFormation. This contains the input given by the user as well as any
+     * @param typeConfiguration The type configuration for the resource. This can be null
      * output already set by previous handler which returned an IN_PROGRESS event.
      */
-    abstract delete(model: ResourceModelType, typeConfiguration: TypeConfigurationType): Promise<void>;
+    abstract delete(model: ResourceModelType, typeConfiguration?: TypeConfigurationType): Promise<void>;
 
     /**
      * This method is invoked to instantiate a new resource model
@@ -98,16 +103,16 @@ export abstract class AbstractBaseResource<ResourceModelType extends BaseModel, 
      * @param request The request object for the provisioning request passed to the implementor
      * @param callbackContext Custom context object to allow the passing through of additional
      * state or metadata between subsequent retries
-     * @param typeConfiguration The resource configuration data
      * @param logger Logger to proxy requests to default publishers
+     * @param typeConfiguration The resource configuration data
      */
     @handlerEvent(Action.Create)
     public async createHandler(
         session: Optional<SessionProxy>,
         request: ResourceHandlerRequest<ResourceModelType>,
         callbackContext: RetryableCallbackContext,
-        typeConfiguration: TypeConfigurationType,
-        logger: LoggerProxy
+        logger: LoggerProxy,
+        typeConfiguration: TypeConfigurationType
     ): Promise<ProgressEvent<ResourceModelType, RetryableCallbackContext>> {
         let model = this.newModel(request.desiredResourceState);
 
@@ -159,16 +164,16 @@ export abstract class AbstractBaseResource<ResourceModelType extends BaseModel, 
      * @param request The request object for the provisioning request passed to the implementor
      * @param callbackContext Custom context object to allow the passing through of additional
      * state or metadata between subsequent retries
-     * @param typeConfiguration The resource configuration data
      * @param logger Logger to proxy requests to default publishers
+     * @param typeConfiguration The resource configuration data
      */
     @handlerEvent(Action.Update)
     public async updateHandler(
         session: Optional<SessionProxy>,
         request: ResourceHandlerRequest<ResourceModelType>,
         callbackContext: RetryableCallbackContext,
-        typeConfiguration: TypeConfigurationType,
-        logger: LoggerProxy
+        logger: LoggerProxy,
+        typeConfiguration: TypeConfigurationType
     ): Promise<ProgressEvent<ResourceModelType, RetryableCallbackContext>> {
         let model = this.newModel(request.desiredResourceState);
 
@@ -197,16 +202,16 @@ export abstract class AbstractBaseResource<ResourceModelType extends BaseModel, 
      * @param request The request object for the provisioning request passed to the implementor
      * @param callbackContext Custom context object to allow the passing through of additional
      * state or metadata between subsequent retries
-     * @param typeConfiguration The resource configuration data
      * @param logger Logger to proxy requests to default publishers
+     * @param typeConfiguration The resource configuration data
      */
     @handlerEvent(Action.Delete)
     public async deleteHandler(
         session: Optional<SessionProxy>,
         request: ResourceHandlerRequest<ResourceModelType>,
         callbackContext: RetryableCallbackContext,
-        typeConfiguration: TypeConfigurationType,
-        logger: LoggerProxy
+        logger: LoggerProxy,
+        typeConfiguration: TypeConfigurationType
     ): Promise<ProgressEvent<ResourceModelType, RetryableCallbackContext>> {
         let model = this.newModel(request.desiredResourceState);
 
@@ -256,16 +261,16 @@ export abstract class AbstractBaseResource<ResourceModelType extends BaseModel, 
      * @param request The request object for the provisioning request passed to the implementor
      * @param callbackContext Custom context object to allow the passing through of additional
      * state or metadata between subsequent retries
-     * @param typeConfiguration The resource configuration data
      * @param logger Logger to proxy requests to default publishers
+     * @param typeConfiguration The resource configuration data
      */
     @handlerEvent(Action.Read)
     public async readHandler(
         session: Optional<SessionProxy>,
         request: ResourceHandlerRequest<ResourceModelType>,
         callbackContext: RetryableCallbackContext,
-        typeConfiguration: TypeConfigurationType,
-        logger: LoggerProxy
+        logger: LoggerProxy,
+        typeConfiguration: TypeConfigurationType
     ): Promise<ProgressEvent<ResourceModelType, RetryableCallbackContext>> {
         let model = this.newModel(request.desiredResourceState);
 
@@ -288,16 +293,16 @@ export abstract class AbstractBaseResource<ResourceModelType extends BaseModel, 
      * @param request The request object for the provisioning request passed to the implementor
      * @param callbackContext Custom context object to allow the passing through of additional
      * state or metadata between subsequent retries
-     * @param typeConfiguration The resource configuration data
      * @param logger Logger to proxy requests to default publishers
+     * @param typeConfiguration The resource configuration data
      */
     @handlerEvent(Action.List)
     public async listHandler(
         session: Optional<SessionProxy>,
         request: ResourceHandlerRequest<ResourceModelType>,
         callbackContext: RetryableCallbackContext,
-        typeConfiguration: TypeConfigurationType,
-        logger: LoggerProxy
+        logger: LoggerProxy,
+        typeConfiguration: TypeConfigurationType
     ): Promise<ProgressEvent<ResourceModelType, RetryableCallbackContext>> {
         const model = this.newModel(request.desiredResourceState);
 

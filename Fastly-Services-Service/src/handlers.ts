@@ -8,8 +8,8 @@ import * as Fastly from "fastly";
 
 class Resource extends AbstractFastlyResource<ResourceModel, Service, Service, Service, TypeConfigurationModel> {
 
-    async get(model: ResourceModel, typeConfiguration: TypeConfigurationModel): Promise<Service> {
-        Fastly.ApiClient.instance.authenticate(typeConfiguration.fastlyAccess.token);
+    async get(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<Service> {
+        Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
         const response: ResponseWithHttpInfo = await new Fastly.ServiceApi().getServiceWithHttpInfo({service_id: model.id || ''});
         const service = new Service(transformObjectCase(response.response.body, CaseTransformer.SNAKE_TO_CAMEL));
         // When a resource is deleted, the GET still returns the resource but with the "deletedAt" field set.
@@ -20,8 +20,8 @@ class Resource extends AbstractFastlyResource<ResourceModel, Service, Service, S
         return service;
     }
 
-    async list(model: ResourceModel, typeConfiguration: TypeConfigurationModel): Promise<ResourceModel[]> {
-        Fastly.ApiClient.instance.authenticate(typeConfiguration.fastlyAccess.token);
+    async list(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<ResourceModel[]> {
+        Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
         const response: ResponseWithHttpInfo = await new Fastly.ServiceApi().listServicesWithHttpInfo();
         return response.response.body
             .map((servicePayload: any) => new ResourceModel({
@@ -31,14 +31,14 @@ class Resource extends AbstractFastlyResource<ResourceModel, Service, Service, S
             .filter((newModel: ResourceModel) => newModel.service.deletedAt === null)
     }
 
-    async create(model: ResourceModel, typeConfiguration: TypeConfigurationModel): Promise<Service> {
-        Fastly.ApiClient.instance.authenticate(typeConfiguration.fastlyAccess.token);
+    async create(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<Service> {
+        Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
         const response: ResponseWithHttpInfo = await new Fastly.ServiceApi().createServiceWithHttpInfo(transformObjectCase(model.toJSON(), CaseTransformer.PASCAL_TO_SNAKE));
         return new Service(transformObjectCase(response.response.body, CaseTransformer.SNAKE_TO_CAMEL));
     }
 
-    async update(model: ResourceModel, typeConfiguration: TypeConfigurationModel): Promise<Service> {
-        Fastly.ApiClient.instance.authenticate(typeConfiguration.fastlyAccess.token);
+    async update(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<Service> {
+        Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
         const response: ResponseWithHttpInfo = await new Fastly.ServiceApi().updateServiceWithHttpInfo({
             service_id: model.id,
             ...transformObjectCase(model.toJSON(), CaseTransformer.PASCAL_TO_SNAKE)
@@ -46,8 +46,8 @@ class Resource extends AbstractFastlyResource<ResourceModel, Service, Service, S
         return new Service(transformObjectCase(response.response.body, CaseTransformer.SNAKE_TO_CAMEL));
     }
 
-    async delete(model: ResourceModel, typeConfiguration: TypeConfigurationModel): Promise<void> {
-        Fastly.ApiClient.instance.authenticate(typeConfiguration.fastlyAccess.token);
+    async delete(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<void> {
+        Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
         await new Fastly.ServiceApi().deleteServiceWithHttpInfo({service_id: model.id});
     }
 
@@ -68,7 +68,7 @@ class Resource extends AbstractFastlyResource<ResourceModel, Service, Service, S
 
 }
 
-export const resource = new Resource(ResourceModel.TYPE_NAME, ResourceModel, TypeConfigurationModel);
+export const resource = new Resource(ResourceModel.TYPE_NAME, ResourceModel, null, null, TypeConfigurationModel);
 
 // Entrypoint for production usage after registered in CloudFormation
 export const entrypoint = resource.entrypoint;
