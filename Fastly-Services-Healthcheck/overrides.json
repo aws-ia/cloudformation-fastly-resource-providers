@@ -1,0 +1,24 @@
+{
+  "CREATE": {
+    "/ServiceId": "<FASTLY_SERVICE_ID>",
+    "/VersionId": "<FASTLY_VERSION_ID>",
+    "/Name": "Test healthcheck",
+    "/CheckInterval": 60000,
+    "/Host": "aws.amazon.com",
+    "/Initial": 1,
+    "/Path": "/",
+    "/Threshold": 1,
+    "/Timeout": 5000,
+    "/Window": <FASTLY_VERSION_ID>
+  },
+  "UPDATE": {
+    "/Name": "Test healthcheck [UPDATE]",
+    "/CheckInterval": <FASTLY_VERSION_ID>000,
+    "/Host": "aws.amazon.com",
+    "/Initial": 9,
+    "/Path": "/cloudformation",
+    "/Threshold": 7,
+    "/Timeout": 5000,
+    "/Window": 10
+  }
+}

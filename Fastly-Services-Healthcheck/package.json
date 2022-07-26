@@ -1,0 +1,28 @@
+{
+    "name": "fastly-services-healthcheck",
+    "version": "0.1.0",
+    "description": "AWS custom resource provider named Fastly::Services::Healthcheck.",
+    "private": true,
+    "main": "dist/Fastly-Services-Healthcheck/src/handlers.js",
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "build": "npx tsc",
+        "watch": "npx tsc -w",
+        "prepack": "npm run build",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "dependencies": {
+        "@amazon-web-services-cloudformation/cloudformation-cli-typescript-lib": "https://github.com/cloudsoft/cloudformation-cli-typescript-plugin/releases/download/cs-release/amazon-web-services-cloudformation-cloudformation-cli-typescript-lib-1.0.1.tgz",
+        "class-transformer": "0.3.1",
+        "fastly": "^3.0.0-beta3"
+    },
+    "devDependencies": {
+        "@types/node": "^12.0.0",
+        "typescript": "^4.1.2"
+    },
+    "optionalDependencies": {
+        "aws-sdk": "^2.656.0"
+    }
+}
