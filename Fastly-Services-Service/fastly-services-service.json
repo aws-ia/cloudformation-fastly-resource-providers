@@ -190,6 +190,14 @@
     },
     "Service": {
       "$ref": "#/definitions/Service"
+    },
+    "ActiveVersionId": {
+      "description": "The number of the active version.",
+      "type": "string"
+    },
+    "LatestVersionId": {
+      "description": "The number of the latest version.",
+      "type": "string"
     }
   },
   "additionalProperties": false,
@@ -201,7 +209,9 @@
   ],
   "readOnlyProperties": [
     "/properties/Id",
-    "/properties/Service"
+    "/properties/Service",
+    "/properties/ActiveVersionId",
+    "/properties/LatestVersionId"
   ],
   "primaryIdentifier": [
     "/properties/Id"

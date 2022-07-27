@@ -83,3 +83,11 @@ Alphanumeric string identifying the service. Read-only.
 
 Returns the <code>Service</code> value.
 
+#### ActiveVersionId
+
+The number of the active version.
+
+#### LatestVersionId
+
+The number of the latest version.
+

@@ -1,6 +1,6 @@
-import {ResourceModel, Service, TypeConfigurationModel} from './models';
+import {ResourceModel, Service, TypeConfigurationModel, Version} from './models';
 import {AbstractFastlyResource} from '../../Fastly-Common/src/abstract-fastly-resource';
-import {CaseTransformer, transformObjectCase} from '../../Fastly-Common/src/util';
+import {CaseTransformer, Transformer} from '../../Fastly-Common/src/util';
 import {fastlyNotFoundError, ResponseWithHttpInfo} from '../../Fastly-Common/src/types';
 // We have to use @ts-ignore here as the "fastly" lib doesn't have TypeScript definitions
 // @ts-ignore
@@ -11,7 +11,7 @@ class Resource extends AbstractFastlyResource<ResourceModel, Service, Service, S
     async get(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<Service> {
         Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
         const response: ResponseWithHttpInfo = await new Fastly.ServiceApi().getServiceWithHttpInfo({service_id: model.id || ''});
-        const service = new Service(transformObjectCase(response.response.body, CaseTransformer.SNAKE_TO_CAMEL));
+        const service = this.getServiceFrom(response.response.body);
         // When a resource is deleted, the GET still returns the resource but with the "deletedAt" field set.
         // When this happens, we should throw a `NotFound` exception to CloudFormation instead of returning the resource
         if (service.deletedAt !== null) {
@@ -26,24 +26,28 @@ class Resource extends AbstractFastlyResource<ResourceModel, Service, Service, S
         return response.response.body
             .map((servicePayload: any) => new ResourceModel({
                 id: servicePayload.id,
-                service: new Service(transformObjectCase(servicePayload, CaseTransformer.SNAKE_TO_CAMEL))
+                service: this.getServiceFrom(response.response.body)
             }))
             .filter((newModel: ResourceModel) => newModel.service.deletedAt === null)
     }
 
     async create(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<Service> {
         Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
-        const response: ResponseWithHttpInfo = await new Fastly.ServiceApi().createServiceWithHttpInfo(transformObjectCase(model.toJSON(), CaseTransformer.PASCAL_TO_SNAKE));
-        return new Service(transformObjectCase(response.response.body, CaseTransformer.SNAKE_TO_CAMEL));
+        const response: ResponseWithHttpInfo = await new Fastly.ServiceApi().createServiceWithHttpInfo(Transformer.for(model.toJSON())
+            .transformKeys(CaseTransformer.PASCAL_TO_SNAKE)
+            .transform());
+        return this.getServiceFrom(response.response.body);
     }
 
     async update(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<Service> {
         Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
         const response: ResponseWithHttpInfo = await new Fastly.ServiceApi().updateServiceWithHttpInfo({
             service_id: model.id,
-            ...transformObjectCase(model.toJSON(), CaseTransformer.PASCAL_TO_SNAKE)
+            ...Transformer.for(model.toJSON())
+                .transformKeys(CaseTransformer.PASCAL_TO_SNAKE)
+                .transform()
         });
-        return new Service(transformObjectCase(response.response.body, CaseTransformer.SNAKE_TO_CAMEL));
+        return this.getServiceFrom(response.response.body);
     }
 
     async delete(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<void> {
@@ -63,7 +67,23 @@ class Resource extends AbstractFastlyResource<ResourceModel, Service, Service, S
         if (from.id) {
             model.id = from.id;
         }
+        if (Array.isArray(from.versions)) {
+            model.activeVersionId = from.versions.find(v => v.active === true)?.number_.toString() || '';
+            model.latestVersionId = from.versions.reduce((max, v) => max.number_ > v.number_ ? max : v)?.number_.toString() || '';
+        }
         return model;
+    }
+
+    private getServiceFrom(payload: any) {
+        const service = new Service(Transformer.for(payload)
+            .transformKeys(CaseTransformer.SNAKE_TO_CAMEL)
+            .forModelIngestion()
+            .transform());
+        service.versions = (payload.versions || []).map((versionPayload: any) => new Version(Transformer.for(versionPayload)
+            .transformKeys(CaseTransformer.SNAKE_TO_CAMEL)
+            .forModelIngestion()
+            .transform()));
+        return service;
     }
 
 }

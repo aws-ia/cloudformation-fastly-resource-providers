@@ -50,6 +50,24 @@ export class ResourceModel extends BaseModel {
     @Expose({ name: 'Service' })
     @Type(() => Service)
     service?: Optional<Service>;
+    @Expose({ name: 'ActiveVersionId' })
+    @Transform(
+        (value: any, obj: any) =>
+            transformValue(String, 'activeVersionId', value, obj, []),
+        {
+            toClassOnly: true,
+        }
+    )
+    activeVersionId?: Optional<string>;
+    @Expose({ name: 'LatestVersionId' })
+    @Transform(
+        (value: any, obj: any) =>
+            transformValue(String, 'latestVersionId', value, obj, []),
+        {
+            toClassOnly: true,
+        }
+    )
+    latestVersionId?: Optional<string>;
 
     @Exclude()
     public getPrimaryIdentifier(): Dict {
