@@ -1,6 +1,6 @@
 # Fastly::Services::Healthcheck
 
-An example resource schema demonstrating some basic constructs and validation rules.
+Manage a Fastly service health check.
 
 ## Syntax
 

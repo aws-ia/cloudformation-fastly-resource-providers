@@ -1,6 +1,6 @@
 {
   "typeName": "Fastly::Services::Healthcheck",
-  "description": "An example resource schema demonstrating some basic constructs and validation rules.",
+  "description": "Manage a Fastly service health check.",
   "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-rpdk.git",
   "definitions": {
     "FastlyAccess": {
