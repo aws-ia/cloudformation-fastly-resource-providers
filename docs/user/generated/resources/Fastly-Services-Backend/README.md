@@ -20,7 +20,6 @@ To declare this entity in your AWS CloudFormation template, use the following sy
         "<a href="#connecttimeout" title="ConnectTimeout">ConnectTimeout</a>" : <i>Integer</i>,
         "<a href="#firstbytetimeout" title="FirstByteTimeout">FirstByteTimeout</a>" : <i>Integer</i>,
         "<a href="#healthcheck" title="Healthcheck">Healthcheck</a>" : <i>String</i>,
-        "<a href="#hostname" title="Hostname">Hostname</a>" : <i>String</i>,
         "<a href="#ipv4" title="Ipv4">Ipv4</a>" : <i>String</i>,
         "<a href="#ipv6" title="Ipv6">Ipv6</a>" : <i>String</i>,
         "<a href="#maxconn" title="MaxConn">MaxConn</a>" : <i>Integer</i>,
@@ -59,7 +58,6 @@ Properties:
     <a href="#connecttimeout" title="ConnectTimeout">ConnectTimeout</a>: <i>Integer</i>
     <a href="#firstbytetimeout" title="FirstByteTimeout">FirstByteTimeout</a>: <i>Integer</i>
     <a href="#healthcheck" title="Healthcheck">Healthcheck</a>: <i>String</i>
-    <a href="#hostname" title="Hostname">Hostname</a>: <i>String</i>
     <a href="#ipv4" title="Ipv4">Ipv4</a>: <i>String</i>
     <a href="#ipv6" title="Ipv6">Ipv6</a>: <i>String</i>
     <a href="#maxconn" title="MaxConn">MaxConn</a>: <i>Integer</i>
@@ -158,16 +156,6 @@ _Update requires_: [No interruption](https://docs.aws.amazon.com/AWSCloudFormati
 #### Healthcheck
 
 The name of the healthcheck to use with this backend.
-
-_Required_: No
-
-_Type_: String
-
-_Update requires_: [No interruption](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-no-interrupt)
-
-#### Hostname
-
-The hostname of the backend. May be used as an alternative to address to set the backend location.
 
 _Required_: No
 
@@ -397,7 +385,19 @@ The `Fn::GetAtt` intrinsic function returns a value for a specified attribute of
 
 For more information about using the `Fn::GetAtt` intrinsic function, see [Fn::GetAtt](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-getatt.html).
 
-#### Backend
+#### BackendName
 
-Returns the <code>Backend</code> value.
+The name of the backend.
+
+#### CreatedAt
+
+Date and time in ISO 8601 format. Read-only.
+
+#### UpdatedAt
+
+Date and time in ISO 8601 format. Read-only.
+
+#### DeletedAt
+
+Date and time in ISO 8601 format. Read-only.
 

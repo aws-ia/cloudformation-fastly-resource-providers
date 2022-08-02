@@ -1,75 +1,61 @@
-import {Backend, ResourceModel, TypeConfigurationModel} from './models';
+import {ResourceModel, TypeConfigurationModel} from './models';
 import {AbstractFastlyResource} from '../../Fastly-Common/src/abstract-fastly-resource';
 import {CaseTransformer, Transformer} from '../../Fastly-Common/src/util';
-import {fastlyNotFoundError, ResponseWithHttpInfo} from '../../Fastly-Common/src/types';
+import {FastlyApiObject, fastlyNotFoundError, ResponseWithHttpInfo} from '../../Fastly-Common/src/types';
 // We have to use @ts-ignore here as the "fastly" lib doesn't have TypeScript definitions
 // @ts-ignore
 import * as Fastly from "fastly";
+
+// The type below are only partial representation of what the API is returning. It's only needed for TypeScript niceties
+type Backend = {
+    hostname?: string
+} & FastlyApiObject
 
 class Resource extends AbstractFastlyResource<ResourceModel, Backend, Backend, Backend, TypeConfigurationModel> {
 
     async get(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<Backend> {
         Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
-        const response: ResponseWithHttpInfo = await new Fastly.BackendApi().getBackendWithHttpInfo({
+        const response: ResponseWithHttpInfo<Backend> = await new Fastly.BackendApi().getBackendWithHttpInfo({
             ...Transformer.for(model.toJSON())
                 .transformKeys(CaseTransformer.PASCAL_TO_SNAKE)
                 .transform(),
-            backend_name: model.backend?.name || model.name
+            backend_name: model.backendName || model.name
         });
-        const backend = new Backend(Transformer.for(response.response.body)
-            .transformKeys(CaseTransformer.SNAKE_TO_CAMEL)
-            .forModelIngestion()
-            .transform());
         // When a resource is deleted, the GET still returns the resource but with the "deletedAt" field set.
         // When this happens, we should throw a `NotFound` exception to CloudFormation instead of returning the resource
-        if (backend.deletedAt !== null) {
+        if (response.response.body.deleted_at !== null) {
             throw fastlyNotFoundError;
         }
-        return backend;
+        return response.response.body;
     }
 
     async list(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<ResourceModel[]> {
         Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
-        const response: ResponseWithHttpInfo = await new Fastly.BackendApi().listBackendsWithHttpInfo(Transformer.for(model.toJSON())
+        const response: ResponseWithHttpInfo<Backend[]> = await new Fastly.BackendApi().listBackendsWithHttpInfo(Transformer.for(model.toJSON())
             .transformKeys(CaseTransformer.PASCAL_TO_SNAKE)
             .transform());
         return response.response.body
-            .map((backendPayload: any) => {
-                const backend = new Backend(Transformer.for(backendPayload)
-                    .transformKeys(CaseTransformer.SNAKE_TO_CAMEL)
-                    .forModelIngestion()
-                    .transform());
-                return new ResourceModel({
-                    ...model,
-                    backend: backend
-                });
-            })
-            .filter((newModel: ResourceModel) => newModel.backend.deletedAt === null)
+            .map(backendPayload => this.setModelFrom(model, backendPayload))
+            .filter(newModel => newModel.deletedAt === null)
     }
 
     async create(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<Backend> {
         Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
-        const response: ResponseWithHttpInfo = await new Fastly.BackendApi().createBackendWithHttpInfo(Transformer.for(model.toJSON())
+        const response: ResponseWithHttpInfo<Backend> = await new Fastly.BackendApi().createBackendWithHttpInfo(Transformer.for(model.toJSON())
             .transformKeys(CaseTransformer.PASCAL_TO_SNAKE)
             .transform());
-        return new Backend(Transformer.for(response.response.body)
-            .transformKeys(CaseTransformer.SNAKE_TO_CAMEL)
-            .forModelIngestion()
-            .transform());
+        return response.response.body;
     }
 
     async update(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<Backend> {
         Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
-        const response: ResponseWithHttpInfo = await new Fastly.BackendApi().updateBackendWithHttpInfo({
+        const response: ResponseWithHttpInfo<Backend> = await new Fastly.BackendApi().updateBackendWithHttpInfo({
             ...Transformer.for(model.toJSON())
                 .transformKeys(CaseTransformer.PASCAL_TO_SNAKE)
                 .transform(),
-            backend_name: model.backend?.name || model.name
+            backend_name: model.backendName || model.name
         });
-        return new Backend(Transformer.for(response.response.body)
-            .transformKeys(CaseTransformer.PASCAL_TO_SNAKE)
-            .forModelIngestion()
-            .transform());
+        return response.response.body;
     }
 
     async delete(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<void> {
@@ -78,7 +64,7 @@ class Resource extends AbstractFastlyResource<ResourceModel, Backend, Backend, B
             ...Transformer.for(model.toJSON())
                 .transformKeys(CaseTransformer.PASCAL_TO_SNAKE)
                 .transform(),
-            backend_name: model.backend?.name || model.name
+            backend_name: model.backendName || model.name
         });
     }
 
@@ -90,8 +76,18 @@ class Resource extends AbstractFastlyResource<ResourceModel, Backend, Backend, B
         if (!from) {
             return model;
         }
-        model.backend = from;
-        return model;
+        model.backendName = model.name;
+
+        // `hostname` is generated from `address` but we don't care about this.
+        delete from.hostname;
+
+        return new ResourceModel({
+            ...model,
+            ...Transformer.for(from)
+                .transformKeys(CaseTransformer.SNAKE_TO_CAMEL)
+                .forModelIngestion()
+                .transform()
+        });
     }
 }
 
