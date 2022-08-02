@@ -101,61 +101,7 @@
     },
     "Version": {
       "description": "Integer identifying a healthcheck version. Read-only.",
-      "type": "integer"
-    },
-    "Healthcheck": {
-      "type": "object",
-      "properties": {
-        "CheckInterval": {
-          "$ref": "#/definitions/CheckInterval"
-        },
-        "Comment": {
-          "$ref": "#/definitions/Comment"
-        },
-        "ExpectedResponse": {
-          "$ref": "#/definitions/ExpectedResponse"
-        },
-        "Host": {
-          "$ref": "#/definitions/Host"
-        },
-        "HttpVersion": {
-          "$ref": "#/definitions/HttpVersion"
-        },
-        "Initial": {
-          "$ref": "#/definitions/Initial"
-        },
-        "Method": {
-          "$ref": "#/definitions/Method"
-        },
-        "Name": {
-          "$ref": "#/definitions/Name"
-        },
-        "Path": {
-          "$ref": "#/definitions/Path"
-        },
-        "Threshold": {
-          "$ref": "#/definitions/Threshold"
-        },
-        "Timeout": {
-          "$ref": "#/definitions/Timeout"
-        },
-        "Window": {
-          "$ref": "#/definitions/Window"
-        },
-        "CreatedAt": {
-          "$ref": "#/definitions/CreatedAt"
-        },
-        "UpdatedAt": {
-          "$ref": "#/definitions/UpdatedAt"
-        },
-        "DeletedAt": {
-          "$ref": "#/definitions/DeletedAt"
-        },
-        "Version": {
-          "$ref": "#/definitions/Version"
-        }
-      },
-      "additionalProperties": false
+      "type": "string"
     }
   },
   "typeConfiguration": {
@@ -212,8 +158,20 @@
     "VersionId": {
       "$ref": "#/definitions/VersionId"
     },
-    "Healthcheck": {
-      "$ref": "#/definitions/Healthcheck"
+    "HealthcheckName": {
+      "$ref": "#/definitions/Name"
+    },
+    "Version": {
+      "$ref": "#/definitions/Version"
+    },
+    "CreatedAt": {
+      "$ref": "#/definitions/CreatedAt"
+    },
+    "UpdatedAt": {
+      "$ref": "#/definitions/UpdatedAt"
+    },
+    "DeletedAt": {
+      "$ref": "#/definitions/DeletedAt"
     }
   },
   "additionalProperties": false,
@@ -226,7 +184,11 @@
     "VersionId"
   ],
   "readOnlyProperties": [
-    "/properties/Healthcheck"
+    "/properties/HealthcheckName",
+    "/properties/Version",
+    "/properties/CreatedAt",
+    "/properties/UpdatedAt",
+    "/properties/DeletedAt"
   ],
   "createOnlyProperties": [
     "/properties/Name",

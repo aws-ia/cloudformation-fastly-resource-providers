@@ -1,16 +1,16 @@
 import {ResourceModel, TypeConfigurationModel} from './models';
 import {AbstractFastlyResource} from '../../Fastly-Common/src/abstract-fastly-resource';
 import {CaseTransformer, Transformer} from '../../Fastly-Common/src/util';
-import {fastlyNotFoundError, ResponseWithHttpInfo} from '../../Fastly-Common/src/types';
+import {FastlyApiObject, fastlyNotFoundError, ResponseWithHttpInfo} from '../../Fastly-Common/src/types';
 // We have to use @ts-ignore here as the "fastly" lib doesn't have TypeScript definitions
 // @ts-ignore
 import * as Fastly from "fastly";
 
-// The type below are only partial representation of what the API is returning. It's only needed for TypeScript niceties
+// The types below are only partial representation of what the API is returning. It's only needed for TypeScript niceties
 type Service = {
     versions: Version[]
     deleted_at: string
-}
+} & FastlyApiObject
 
 type Version = {
     active: boolean

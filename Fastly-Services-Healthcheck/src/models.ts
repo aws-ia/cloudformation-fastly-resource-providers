@@ -141,149 +141,24 @@ export class ResourceModel extends BaseModel {
         }
     )
     versionId?: Optional<string>;
-    @Expose({ name: 'Healthcheck' })
-    @Type(() => Healthcheck)
-    healthcheck?: Optional<Healthcheck>;
-
-    @Exclude()
-    public getPrimaryIdentifier(): Dict {
-        const identifier: Dict = {};
-        if (this.name != null) {
-            identifier[this.IDENTIFIER_KEY_NAME] = this.name;
-        }
-
-        if (this.serviceId != null) {
-            identifier[this.IDENTIFIER_KEY_SERVICEID] = this.serviceId;
-        }
-
-        if (this.versionId != null) {
-            identifier[this.IDENTIFIER_KEY_VERSIONID] = this.versionId;
-        }
-
-        // only return the identifier if it can be used, i.e. if all components are present
-        return Object.keys(identifier).length === 3 ? identifier : null;
-    }
-
-    @Exclude()
-    public getAdditionalIdentifiers(): Array<Dict> {
-        const identifiers: Array<Dict> = new Array<Dict>();
-        // only return the identifiers if any can be used
-        return identifiers.length === 0 ? null : identifiers;
-    }
-}
-
-export class Healthcheck extends BaseModel {
-    ['constructor']: typeof Healthcheck;
-
-
-    @Expose({ name: 'CheckInterval' })
+    @Expose({ name: 'HealthcheckName' })
     @Transform(
         (value: any, obj: any) =>
-            transformValue(Integer, 'checkInterval', value, obj, []),
+            transformValue(String, 'healthcheckName', value, obj, []),
         {
             toClassOnly: true,
         }
     )
-    checkInterval?: Optional<integer>;
-    @Expose({ name: 'Comment' })
+    healthcheckName?: Optional<string>;
+    @Expose({ name: 'Version' })
     @Transform(
         (value: any, obj: any) =>
-            transformValue(String, 'comment', value, obj, []),
+            transformValue(String, 'version', value, obj, []),
         {
             toClassOnly: true,
         }
     )
-    comment?: Optional<string>;
-    @Expose({ name: 'ExpectedResponse' })
-    @Transform(
-        (value: any, obj: any) =>
-            transformValue(Integer, 'expectedResponse', value, obj, []),
-        {
-            toClassOnly: true,
-        }
-    )
-    expectedResponse?: Optional<integer>;
-    @Expose({ name: 'Host' })
-    @Transform(
-        (value: any, obj: any) =>
-            transformValue(String, 'host', value, obj, []),
-        {
-            toClassOnly: true,
-        }
-    )
-    host?: Optional<string>;
-    @Expose({ name: 'HttpVersion' })
-    @Transform(
-        (value: any, obj: any) =>
-            transformValue(String, 'httpVersion', value, obj, []),
-        {
-            toClassOnly: true,
-        }
-    )
-    httpVersion?: Optional<string>;
-    @Expose({ name: 'Initial' })
-    @Transform(
-        (value: any, obj: any) =>
-            transformValue(Integer, 'initial', value, obj, []),
-        {
-            toClassOnly: true,
-        }
-    )
-    initial?: Optional<integer>;
-    @Expose({ name: 'Method' })
-    @Transform(
-        (value: any, obj: any) =>
-            transformValue(String, 'method', value, obj, []),
-        {
-            toClassOnly: true,
-        }
-    )
-    method?: Optional<string>;
-    @Expose({ name: 'Name' })
-    @Transform(
-        (value: any, obj: any) =>
-            transformValue(String, 'name', value, obj, []),
-        {
-            toClassOnly: true,
-        }
-    )
-    name?: Optional<string>;
-    @Expose({ name: 'Path' })
-    @Transform(
-        (value: any, obj: any) =>
-            transformValue(String, 'path', value, obj, []),
-        {
-            toClassOnly: true,
-        }
-    )
-    path?: Optional<string>;
-    @Expose({ name: 'Threshold' })
-    @Transform(
-        (value: any, obj: any) =>
-            transformValue(Integer, 'threshold', value, obj, []),
-        {
-            toClassOnly: true,
-        }
-    )
-    threshold?: Optional<integer>;
-    @Expose({ name: 'Timeout' })
-    @Transform(
-        (value: any, obj: any) =>
-            transformValue(Integer, 'timeout', value, obj, []),
-        {
-            toClassOnly: true,
-        }
-    )
-    timeout?: Optional<integer>;
-    @Expose({ name: 'Window' })
-    @Transform(
-        (value: any, obj: any) =>
-            transformValue(Integer, 'window', value, obj, []),
-        {
-            toClassOnly: true,
-        }
-    )
-    window?: Optional<integer>;
+    version?: Optional<string>;
     @Expose({ name: 'CreatedAt' })
     @Transform(
         (value: any, obj: any) =>
@@ -311,16 +186,32 @@ export class Healthcheck extends BaseModel {
         }
     )
     deletedAt?: Optional<string>;
-    @Expose({ name: 'Version' })
-    @Transform(
-        (value: any, obj: any) =>
-            transformValue(Integer, 'version', value, obj, []),
-        {
-            toClassOnly: true,
-        }
-    )
-    version?: Optional<integer>;
 
+    @Exclude()
+    public getPrimaryIdentifier(): Dict {
+        const identifier: Dict = {};
+        if (this.name != null) {
+            identifier[this.IDENTIFIER_KEY_NAME] = this.name;
+        }
+
+        if (this.serviceId != null) {
+            identifier[this.IDENTIFIER_KEY_SERVICEID] = this.serviceId;
+        }
+
+        if (this.versionId != null) {
+            identifier[this.IDENTIFIER_KEY_VERSIONID] = this.versionId;
+        }
+
+        // only return the identifier if it can be used, i.e. if all components are present
+        return Object.keys(identifier).length === 3 ? identifier : null;
+    }
+
+    @Exclude()
+    public getAdditionalIdentifiers(): Array<Dict> {
+        const identifiers: Array<Dict> = new Array<Dict>();
+        // only return the identifiers if any can be used
+        return identifiers.length === 0 ? null : identifiers;
+    }
 }
 
 export class TypeConfigurationModel extends BaseModel {

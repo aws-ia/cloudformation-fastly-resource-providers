@@ -3,6 +3,7 @@
     "/ServiceId": "<FASTLY_SERVICE_ID>",
     "/VersionId": "<FASTLY_VERSION_ID>",
     "/Name": "Test healthcheck",
+    "/Comment": "This is a comment",
     "/CheckInterval": 60000,
     "/Host": "aws.amazon.com",
     "/Initial": 1,
@@ -13,6 +14,7 @@
   },
   "UPDATE": {
     "/Name": "Test healthcheck [UPDATE]",
+    "/Comment": "This is a comment [UPDATE]",
     "/CheckInterval": <FASTLY_VERSION_ID>000,
     "/Host": "aws.amazon.com",
     "/Initial": 9,
