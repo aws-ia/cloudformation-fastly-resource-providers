@@ -16,11 +16,11 @@ export const fastlyNotFoundError: FastlyError = {
     error: new Error('Fastly API returned the requested resource but it is marked as "deleted"')
 }
 
-export type ResponseWithHttpInfo = {
+export type ResponseWithHttpInfo<T> = {
     data: any,
     response: {
         status: number
         text: string
-        body: any
+        body: T
     }
 }

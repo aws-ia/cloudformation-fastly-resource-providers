@@ -14,7 +14,6 @@ To declare this entity in your AWS CloudFormation template, use the following sy
     "Properties" : {
         "<a href="#name" title="Name">Name</a>" : <i>String</i>,
         "<a href="#comment" title="Comment">Comment</a>" : <i>String</i>,
-        "<a href="#paused" title="Paused">Paused</a>" : <i>Boolean</i>,
     }
 }
 </pre>
@@ -26,7 +25,6 @@ Type: Fastly::Services::Service
 Properties:
     <a href="#name" title="Name">Name</a>: <i>String</i>
     <a href="#comment" title="Comment">Comment</a>: <i>String</i>
-    <a href="#paused" title="Paused">Paused</a>: <i>Boolean</i>
 </pre>
 
 ## Properties
@@ -53,16 +51,6 @@ _Type_: String
 
 _Update requires_: [No interruption](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-no-interrupt)
 
-#### Paused
-
-Whether the service is paused. Services are paused due to a lack of traffic for an extended period of time. Services are resumed either when a draft version is activated or a locked version is cloned and reactivated.
-
-_Required_: No
-
-_Type_: Boolean
-
-_Update requires_: [No interruption](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-no-interrupt)
-
 ## Return Values
 
 ### Ref
@@ -79,10 +67,6 @@ For more information about using the `Fn::GetAtt` intrinsic function, see [Fn::G
 
 Alphanumeric string identifying the service. Read-only.
 
-#### Service
-
-Returns the <code>Service</code> value.
-
 #### ActiveVersionId
 
 The number of the active version.
@@ -90,4 +74,28 @@ The number of the active version.
 #### LatestVersionId
 
 The number of the latest version.
+
+#### Type
+
+The type of this service.
+
+#### Paused
+
+Whether the service is paused. Services are paused due to a lack of traffic for an extended period of time. Services are resumed either when a draft version is activated or a locked version is cloned and reactivated.
+
+#### CustomerId
+
+Alphanumeric string identifying the customer. Ready-only.
+
+#### CreatedAt
+
+Date and time in ISO 8601 format. Read-only.
+
+#### UpdatedAt
+
+Date and time in ISO 8601 format. Read-only.
+
+#### DeletedAt
+
+Date and time in ISO 8601 format. Read-only.
 
