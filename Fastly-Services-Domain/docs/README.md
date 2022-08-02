@@ -35,7 +35,7 @@ Properties:
 
 #### Name
 
-The name of the service.
+The name of the domain or domains associated with this service.
 
 _Required_: Yes
 
@@ -83,7 +83,23 @@ The `Fn::GetAtt` intrinsic function returns a value for a specified attribute of
 
 For more information about using the `Fn::GetAtt` intrinsic function, see [Fn::GetAtt](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-getatt.html).
 
-#### Domain
+#### DomainName
 
-Returns the <code>Domain</code> value.
+The name of the domain or domains associated with this service.
+
+#### Version
+
+Integer identifying a domain version.
+
+#### CreatedAt
+
+Date and time in ISO 8601 format. Read-only.
+
+#### UpdatedAt
+
+Date and time in ISO 8601 format. Read-only.
+
+#### DeletedAt
+
+Date and time in ISO 8601 format. Read-only.
 

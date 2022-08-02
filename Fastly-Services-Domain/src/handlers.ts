@@ -1,4 +1,4 @@
-import {Domain, ResourceModel, TypeConfigurationModel} from './models';
+import {ResourceModel, TypeConfigurationModel} from './models';
 import {AbstractFastlyResource} from '../../Fastly-Common/src/abstract-fastly-resource';
 import {CaseTransformer, Transformer} from '../../Fastly-Common/src/util';
 import {fastlyNotFoundError, ResponseWithHttpInfo} from '../../Fastly-Common/src/types';
@@ -6,70 +6,56 @@ import {fastlyNotFoundError, ResponseWithHttpInfo} from '../../Fastly-Common/src
 // @ts-ignore
 import * as Fastly from "fastly";
 
+type Domain = {
+    name: string
+    deleted_at: string
+}
+
 class Resource extends AbstractFastlyResource<ResourceModel, Domain, Domain, Domain, TypeConfigurationModel> {
 
     async get(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<Domain> {
         Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
-        const response: ResponseWithHttpInfo = await new Fastly.DomainApi().getDomainWithHttpInfo({
+        const response: ResponseWithHttpInfo<Domain> = await new Fastly.DomainApi().getDomainWithHttpInfo({
             ...Transformer.for(model.toJSON())
                 .transformKeys(CaseTransformer.PASCAL_TO_SNAKE)
                 .transform(),
-            domain_name: model.domain?.name || model.name
+            domain_name: model.domainName || model.name
         });
-        const domain = new Domain(Transformer.for(response.response.body)
-            .transformKeys(CaseTransformer.SNAKE_TO_CAMEL)
-            .forModelIngestion()
-            .transform());
         // When a resource is deleted, the GET still returns the resource but with the "deletedAt" field set.
         // When this happens, we should throw a `NotFound` exception to CloudFormation instead of returning the resource
-        if (domain.deletedAt !== null) {
+        if (response.response.body.deleted_at !== null) {
             throw fastlyNotFoundError;
         }
-        return domain;
+        return response.response.body;
     }
 
     async list(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<ResourceModel[]> {
         Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
-        const response: ResponseWithHttpInfo = await new Fastly.DomainApi().listDomainsWithHttpInfo(Transformer.for(model.toJSON())
+        const response: ResponseWithHttpInfo<Domain[]> = await new Fastly.DomainApi().listDomainsWithHttpInfo(Transformer.for(model.toJSON())
             .transformKeys(CaseTransformer.PASCAL_TO_SNAKE)
             .transform());
         return response.response.body
-            .map((domainPayload: any) => {
-                const domain = new Domain(Transformer.for(domainPayload)
-                    .transformKeys(CaseTransformer.SNAKE_TO_CAMEL)
-                    .forModelIngestion()
-                    .transform());
-                return new ResourceModel({
-                    ...model,
-                    domain: domain
-                });
-            })
-            .filter((newModel: ResourceModel) => newModel.domain.deletedAt === null)
+            .map(domainPayload => this.setModelFrom(model, domainPayload))
+            .filter(newModel => newModel.deletedAt === null)
     }
 
     async create(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<Domain> {
         Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
-        const response: ResponseWithHttpInfo = await new Fastly.DomainApi().createDomainWithHttpInfo(Transformer.for(model.toJSON())
+        const response: ResponseWithHttpInfo<Domain> = await new Fastly.DomainApi().createDomainWithHttpInfo(Transformer.for(model.toJSON())
             .transformKeys(CaseTransformer.PASCAL_TO_SNAKE)
             .transform());
-        return new Domain(Transformer.for(response.response.body)
-            .transformKeys(CaseTransformer.SNAKE_TO_CAMEL)
-            .forModelIngestion()
-            .transform());
+        return response.response.body;
     }
 
     async update(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<Domain> {
         Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
-        const response: ResponseWithHttpInfo = await new Fastly.DomainApi().updateDomainWithHttpInfo({
+        const response: ResponseWithHttpInfo<Domain> = await new Fastly.DomainApi().updateDomainWithHttpInfo({
             ...Transformer.for(model.toJSON())
                 .transformKeys(CaseTransformer.PASCAL_TO_SNAKE)
                 .transform(),
-            domain_name: model.domain.name
+            domain_name: model.name
         });
-        return new Domain(Transformer.for(response.response.body)
-            .transformKeys(CaseTransformer.SNAKE_TO_CAMEL)
-            .forModelIngestion()
-            .transform());
+        return response.response.body;
     }
 
     async delete(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<void> {
@@ -90,8 +76,15 @@ class Resource extends AbstractFastlyResource<ResourceModel, Domain, Domain, Dom
         if (!from) {
             return model;
         }
-        model.domain = from;
-        return model;
+        model.domainName = from.name;
+
+        return new ResourceModel({
+            ...model,
+            ...Transformer.for(from)
+                .transformKeys(CaseTransformer.SNAKE_TO_CAMEL)
+                .forModelIngestion()
+                .transform()
+        });
     }
 
 }

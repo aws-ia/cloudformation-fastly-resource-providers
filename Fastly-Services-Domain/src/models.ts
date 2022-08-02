@@ -51,68 +51,24 @@ export class ResourceModel extends BaseModel {
         }
     )
     versionId?: Optional<string>;
-    @Expose({ name: 'Domain' })
-    @Type(() => Domain)
-    domain?: Optional<Domain>;
-
-    @Exclude()
-    public getPrimaryIdentifier(): Dict {
-        const identifier: Dict = {};
-        if (this.name != null) {
-            identifier[this.IDENTIFIER_KEY_NAME] = this.name;
-        }
-
-        if (this.serviceId != null) {
-            identifier[this.IDENTIFIER_KEY_SERVICEID] = this.serviceId;
-        }
-
-        if (this.versionId != null) {
-            identifier[this.IDENTIFIER_KEY_VERSIONID] = this.versionId;
-        }
-
-        // only return the identifier if it can be used, i.e. if all components are present
-        return Object.keys(identifier).length === 3 ? identifier : null;
-    }
-
-    @Exclude()
-    public getAdditionalIdentifiers(): Array<Dict> {
-        const identifiers: Array<Dict> = new Array<Dict>();
-        // only return the identifiers if any can be used
-        return identifiers.length === 0 ? null : identifiers;
-    }
-}
-
-export class Domain extends BaseModel {
-    ['constructor']: typeof Domain;
-
-
-    @Expose({ name: 'ServiceId' })
+    @Expose({ name: 'Version' })
     @Transform(
         (value: any, obj: any) =>
-            transformValue(String, 'serviceId', value, obj, []),
+            transformValue(String, 'version', value, obj, []),
         {
             toClassOnly: true,
         }
     )
-    serviceId?: Optional<string>;
-    @Expose({ name: 'Name' })
+    version?: Optional<string>;
+    @Expose({ name: 'DomainName' })
     @Transform(
         (value: any, obj: any) =>
-            transformValue(String, 'name', value, obj, []),
+            transformValue(String, 'domainName', value, obj, []),
         {
             toClassOnly: true,
         }
     )
-    name?: Optional<string>;
-    @Expose({ name: 'Comment' })
-    @Transform(
-        (value: any, obj: any) =>
-            transformValue(String, 'comment', value, obj, []),
-        {
-            toClassOnly: true,
-        }
-    )
-    comment?: Optional<string>;
+    domainName?: Optional<string>;
     @Expose({ name: 'CreatedAt' })
     @Transform(
         (value: any, obj: any) =>
@@ -140,16 +96,32 @@ export class Domain extends BaseModel {
         }
     )
     deletedAt?: Optional<string>;
-    @Expose({ name: 'Version' })
-    @Transform(
-        (value: any, obj: any) =>
-            transformValue(Integer, 'version', value, obj, []),
-        {
-            toClassOnly: true,
-        }
-    )
-    version?: Optional<integer>;
 
+    @Exclude()
+    public getPrimaryIdentifier(): Dict {
+        const identifier: Dict = {};
+        if (this.name != null) {
+            identifier[this.IDENTIFIER_KEY_NAME] = this.name;
+        }
+
+        if (this.serviceId != null) {
+            identifier[this.IDENTIFIER_KEY_SERVICEID] = this.serviceId;
+        }
+
+        if (this.versionId != null) {
+            identifier[this.IDENTIFIER_KEY_VERSIONID] = this.versionId;
+        }
+
+        // only return the identifier if it can be used, i.e. if all components are present
+        return Object.keys(identifier).length === 3 ? identifier : null;
+    }
+
+    @Exclude()
+    public getAdditionalIdentifiers(): Array<Dict> {
+        const identifiers: Array<Dict> = new Array<Dict>();
+        // only return the identifiers if any can be used
+        return identifiers.length === 0 ? null : identifiers;
+    }
 }
 
 export class TypeConfigurationModel extends BaseModel {

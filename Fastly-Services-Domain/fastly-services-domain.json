@@ -26,7 +26,7 @@
       "type": "string"
     },
     "Name": {
-      "description": "The name of the service.",
+      "description": "The name of the domain or domains associated with this service.",
       "type": "string",
       "minLength": 1
     },
@@ -51,34 +51,7 @@
     },
     "Version": {
       "description": "Integer identifying a domain version.",
-      "type": "integer"
-    },
-    "Domain": {
-      "type": "object",
-      "properties": {
-        "ServiceId": {
-          "$ref": "#/definitions/ServiceId"
-        },
-        "Name": {
-          "$ref": "#/definitions/Name"
-        },
-        "Comment": {
-          "$ref": "#/definitions/Comment"
-        },
-        "CreatedAt": {
-          "$ref": "#/definitions/CreatedAt"
-        },
-        "UpdatedAt": {
-          "$ref": "#/definitions/UpdatedAt"
-        },
-        "DeletedAt": {
-          "$ref": "#/definitions/DeletedAt"
-        },
-        "Version": {
-          "$ref": "#/definitions/Version"
-        }
-      },
-      "additionalProperties": false
+      "type": "string"
     }
   },
   "typeConfiguration": {
@@ -105,8 +78,20 @@
     "VersionId": {
       "$ref": "#/definitions/VersionId"
     },
-    "Domain": {
-      "$ref": "#/definitions/Domain"
+    "Version": {
+      "$ref": "#/definitions/Version"
+    },
+    "DomainName": {
+      "$ref": "#/definitions/Name"
+    },
+    "CreatedAt": {
+      "$ref": "#/definitions/CreatedAt"
+    },
+    "UpdatedAt": {
+      "$ref": "#/definitions/UpdatedAt"
+    },
+    "DeletedAt": {
+      "$ref": "#/definitions/DeletedAt"
     }
   },
   "additionalProperties": false,
@@ -119,7 +104,11 @@
     "VersionId"
   ],
   "readOnlyProperties": [
-    "/properties/Domain"
+    "/properties/DomainName",
+    "/properties/Version",
+    "/properties/CreatedAt",
+    "/properties/UpdatedAt",
+    "/properties/DeletedAt"
   ],
   "createOnlyProperties": [
     "/properties/Name",
