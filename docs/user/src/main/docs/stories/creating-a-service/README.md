@@ -23,23 +23,6 @@ Parameters:
     Description: Name of the delivery service in Fastly
 ```
 
-## Other parameter
-
-For the purpose of this example, we are going to define a mapping that will help you setup the other resources
-
-```yaml
-Mappings:
-  CountryMap:
-    UK:
-      Domain: acme.co.uk
-      BackendName: acme.co.uk
-      HealthcheckName: "Heathcheck for the UK"
-    China:
-      Domain: acme.cn
-      BackendName: acme.cn
-      HealthcheckName: "Heathcheck for China (Mainland)"
-```
-
 ## Create a delivery service
 
 We can define our new delivery service as follows:
@@ -62,14 +45,14 @@ In this example, we are going to attach two domain: `acme.co.uk` and `acme.cn`:
   UKDomain:
     Type: Fastly::Services::Domain
     Properties:
-      Name: !FindInMap [CountryMap, UK, Domain]
+      Name: acme.co.uk
       Comment: This is a specific domain to access the ACME public webpage in the UK
       ServiceId: !GetAtt DeliveryService.Id
       VersionId: !GetAtt DeliveryService.LatestVersionId
   ChinaDomain:
     Type: Fastly::Services::Domain
     Properties:
-      Name: !FindInMap [CountryMap, China, Domain]
+      Name: acme.cn
       Comment: This is a specific domain to access the ACME public webpage in China
       ServiceId: !GetAtt DeliveryService.Id
       VersionId: !GetAtt DeliveryService.LatestVersionId
@@ -87,9 +70,9 @@ If all origin servers are marked unhealthy, Fastly will attempt to serve stale. 
     Properties:
       ServiceId: !GetAtt DeliveryService.Id
       VersionId: !GetAtt DeliveryService.LatestVersionId
-      Name: !FindInMap [CountryMap, UK, HealthcheckName]
+      Name: Heathcheck for the UK
       CheckInterval: 60000
-      Host: !FindInMap [CountryMap, UK, Domain]
+      Host: !GetAtt UKDomain.DomainName
       Initial: 1
       Path: "/"
       Threshold: 1
@@ -100,9 +83,9 @@ If all origin servers are marked unhealthy, Fastly will attempt to serve stale. 
     Properties:
       ServiceId: !GetAtt DeliveryService.Id
       VersionId: !GetAtt DeliveryService.LatestVersionId
-      Name: !FindInMap [CountryMap, China, HealthcheckName]
+      Name: Heathcheck for China (Mainland)
       CheckInterval: 60000
-      Host: !FindInMap [CountryMap, China, Domain]
+      Host: !GetAtt ChinaDomain.DomainName
       Initial: 1
       Path: "/"
       Threshold: 1
@@ -126,24 +109,24 @@ or whose condition is satisfied for the current request, will be used.
     Properties:
       ServiceId: !GetAtt DeliveryService.Id
       VersionId: !GetAtt DeliveryService.LatestVersionId
-      Name: !FindInMap [CountryMap, UK, BackendName]
-      Address: !FindInMap [CountryMap, UK, Domain]
+      Name: !GetAtt UKDomain.DomainName
+      Address: !GetAtt UKDomain.DomainName
       Port: 443
       UseSsl: true
       MinTlsVersion: "1.2"
-      Healthcheck: !FindInMap [CountryMap, UK, HealthcheckName]
+      Healthcheck: !GetAtt UKHealthcheck.HealthcheckName
   ChinaBackend:
     Type: Fastly::Services::Backend
     DependsOn: ChinaHealthcheck
     Properties:
       ServiceId: !GetAtt DeliveryService.Id
       VersionId: !GetAtt DeliveryService.LatestVersionId
-      Name: !FindInMap [CountryMap, China, BackendName]
-      Address: !FindInMap [CountryMap, China, Domain]
+      Name: !GetAtt ChinaDomain.DomainName
+      Address: !GetAtt ChinaDomain.DomainName
       Port: 443
       UseSsl: true
       MinTlsVersion: "1.2"
-      Healthcheck: !FindInMap [CountryMap, China, HealthcheckName]
+      Healthcheck: !GetAtt ChinaHealthcheck.HealthcheckName
 ```
 
 ## Conclusion
