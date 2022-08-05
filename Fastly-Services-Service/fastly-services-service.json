@@ -27,7 +27,7 @@
       "format": "date-time"
     },
     "CustomerId": {
-      "description": "Alphanumeric string identifying the customer. Ready-only.",
+      "description": "Alphanumeric string identifying the customer. Read-only.",
       "type": "string"
     },
     "DeletedAt": {
