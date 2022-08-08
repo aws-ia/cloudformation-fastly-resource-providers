@@ -1,7 +1,7 @@
 {
   "typeName": "Fastly::Services::Domain",
   "description": "Manage a Fastly service domain.",
-  "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-rpdk.git",
+  "sourceUrl": "https://developer.fastly.com/reference/api/services/domain/",
   "definitions": {
     "FastlyAccess": {
       "description": "Properties needed to access Fastly.",
