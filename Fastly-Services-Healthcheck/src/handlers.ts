@@ -6,11 +6,15 @@ import {FastlyApiObject, fastlyNotFoundError, ResponseWithHttpInfo} from '../../
 // @ts-ignore
 import * as Fastly from "fastly";
 
-class Resource extends AbstractFastlyResource<ResourceModel, FastlyApiObject, FastlyApiObject, FastlyApiObject, TypeConfigurationModel> {
+type Healthcheck = {
+    version: number
+} & FastlyApiObject;
 
-    async get(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<FastlyApiObject> {
+class Resource extends AbstractFastlyResource<ResourceModel, Healthcheck, Healthcheck, Healthcheck, TypeConfigurationModel> {
+
+    async get(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<Healthcheck> {
         Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
-        const response: ResponseWithHttpInfo<FastlyApiObject> = await new Fastly.HealthcheckApi().getHealthcheckWithHttpInfo({
+        const response: ResponseWithHttpInfo<Healthcheck> = await new Fastly.HealthcheckApi().getHealthcheckWithHttpInfo({
             ...Transformer.for(model.toJSON())
                 .transformKeys(CaseTransformer.PASCAL_TO_SNAKE)
                 .transform(),
@@ -26,7 +30,7 @@ class Resource extends AbstractFastlyResource<ResourceModel, FastlyApiObject, Fa
 
     async list(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<ResourceModel[]> {
         Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
-        const response: ResponseWithHttpInfo<FastlyApiObject[]> = await new Fastly.HealthcheckApi().listHealthchecksWithHttpInfo(Transformer.for(model.toJSON())
+        const response: ResponseWithHttpInfo<Healthcheck[]> = await new Fastly.HealthcheckApi().listHealthchecksWithHttpInfo(Transformer.for(model.toJSON())
             .transformKeys(CaseTransformer.PASCAL_TO_SNAKE)
             .transform());
         return response.response.body
@@ -34,17 +38,17 @@ class Resource extends AbstractFastlyResource<ResourceModel, FastlyApiObject, Fa
             .filter(newModel => newModel.deletedAt === null)
     }
 
-    async create(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<FastlyApiObject> {
+    async create(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<Healthcheck> {
         Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
-        const response: ResponseWithHttpInfo<FastlyApiObject> = await new Fastly.HealthcheckApi().createHealthcheckWithHttpInfo(Transformer.for(model.toJSON())
+        const response: ResponseWithHttpInfo<Healthcheck> = await new Fastly.HealthcheckApi().createHealthcheckWithHttpInfo(Transformer.for(model.toJSON())
             .transformKeys(CaseTransformer.PASCAL_TO_SNAKE)
             .transform());
         return response.response.body;
     }
 
-    async update(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<FastlyApiObject> {
+    async update(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<Healthcheck> {
         Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
-        const response: ResponseWithHttpInfo<FastlyApiObject> = await new Fastly.HealthcheckApi().updateHealthcheckWithHttpInfo({
+        const response: ResponseWithHttpInfo<Healthcheck> = await new Fastly.HealthcheckApi().updateHealthcheckWithHttpInfo({
             ...Transformer.for(model.toJSON())
                 .transformKeys(CaseTransformer.PASCAL_TO_SNAKE)
                 .transform(),
@@ -67,7 +71,7 @@ class Resource extends AbstractFastlyResource<ResourceModel, FastlyApiObject, Fa
         return new ResourceModel(partial);
     }
 
-    setModelFrom(model: ResourceModel, from?: FastlyApiObject): ResourceModel {
+    setModelFrom(model: ResourceModel, from?: Healthcheck): ResourceModel {
         if (!from) {
             return model;
         }
@@ -78,7 +82,8 @@ class Resource extends AbstractFastlyResource<ResourceModel, FastlyApiObject, Fa
             ...Transformer.for(from)
                 .transformKeys(CaseTransformer.SNAKE_TO_CAMEL)
                 .forModelIngestion()
-                .transform()
+                .transform(),
+            version: from.version.toString()
         });
     }
 

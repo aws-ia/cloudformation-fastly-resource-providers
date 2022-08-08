@@ -87,6 +87,10 @@
       "description": "The name of the backend.",
       "type": "string"
     },
+    "BackendName": {
+      "description": "The name of the backend. Read-only",
+      "type": "string"
+    },
     "OverrideHost": {
       "description": "If set, will replace the client-supplied HTTP Host header on connections to this backend. Applied after VCL has been processed, so this setting will take precedence over changing bereq.http.Host in VCL.",
       "type": "string"
@@ -175,7 +179,7 @@
     },
     "Version": {
       "description": "Integer identifying a backend version. Read-only.",
-      "type": "integer"
+      "type": "string"
     }
   },
   "typeConfiguration": {
@@ -275,7 +279,7 @@
       "$ref": "#/definitions/ServiceId"
     },
     "BackendName": {
-      "$ref": "#/definitions/Name"
+      "$ref": "#/definitions/BackendName"
     },
     "VersionId": {
       "$ref": "#/definitions/VersionId"
@@ -301,6 +305,8 @@
   ],
   "readOnlyProperties": [
     "/properties/BackendName",
+    "/properties/Version",
+    "/properties/Locked",
     "/properties/CreatedAt",
     "/properties/UpdatedAt",
     "/properties/DeletedAt"

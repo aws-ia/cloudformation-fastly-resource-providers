@@ -8,7 +8,8 @@ import * as Fastly from "fastly";
 
 // The type below are only partial representation of what the API is returning. It's only needed for TypeScript niceties
 type Domain = {
-    name: string
+    name: string,
+    version: number
 } & FastlyApiObject
 
 class Resource extends AbstractFastlyResource<ResourceModel, Domain, Domain, Domain, TypeConfigurationModel> {
@@ -83,7 +84,8 @@ class Resource extends AbstractFastlyResource<ResourceModel, Domain, Domain, Dom
             ...Transformer.for(from)
                 .transformKeys(CaseTransformer.SNAKE_TO_CAMEL)
                 .forModelIngestion()
-                .transform()
+                .transform(),
+            version: from.version.toString()
         });
     }
 

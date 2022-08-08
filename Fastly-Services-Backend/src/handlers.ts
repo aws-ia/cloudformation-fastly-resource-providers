@@ -8,7 +8,8 @@ import * as Fastly from "fastly";
 
 // The type below are only partial representation of what the API is returning. It's only needed for TypeScript niceties
 type Backend = {
-    hostname?: string
+    hostname?: string,
+    version: number
 } & FastlyApiObject
 
 class Resource extends AbstractFastlyResource<ResourceModel, Backend, Backend, Backend, TypeConfigurationModel> {
@@ -86,7 +87,8 @@ class Resource extends AbstractFastlyResource<ResourceModel, Backend, Backend, B
             ...Transformer.for(from)
                 .transformKeys(CaseTransformer.SNAKE_TO_CAMEL)
                 .forModelIngestion()
-                .transform()
+                .transform(),
+            version: from.version.toString()
         });
     }
 }
