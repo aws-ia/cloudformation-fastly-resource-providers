@@ -1,0 +1,89 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+
+Description: |
+  The following CloudFormation Fastly resource types allow the creation and configuration of 
+  service level objectives, locations, monitors and metrics related to your application.
+  This allows kicking off monitoring of new projects simply, efficiently, and consistently.
+
+Parameters:
+  DeliveryServiceName:
+    Type: String
+    Description: Name of the delivery service in Fastly
+
+Resources:
+  # 1. Delivery service
+  DeliveryService:
+    Type: Fastly::Services::Service
+    Properties:
+      Name: !Ref DeliveryServiceName
+
+  # 2. Domains
+  UKDomain:
+    Type: Fastly::Services::Domain
+    Properties:
+      Name: acme.co.uk
+      Comment: This is a specific domain to access the ACME public webpage in the UK
+      ServiceId: !GetAtt DeliveryService.Id
+      VersionId: !GetAtt DeliveryService.LatestVersionId
+  ChinaDomain:
+    Type: Fastly::Services::Domain
+    Properties:
+      Name: acme.cn
+      Comment: This is a specific domain to access the ACME public webpage in China
+      ServiceId: !GetAtt DeliveryService.Id
+      VersionId: !GetAtt DeliveryService.LatestVersionId
+
+  # 3. Health checks
+  UKHealthcheck:
+    Type: Fastly::Services::Healthcheck
+    Properties:
+      ServiceId: !GetAtt DeliveryService.Id
+      VersionId: !GetAtt DeliveryService.LatestVersionId
+      Name: Heathcheck for the UK
+      CheckInterval: 60000
+      Host: !GetAtt UKDomain.DomainName
+      Initial: 1
+      Path: "/"
+      Threshold: 1
+      Timeout: 5000
+      Window: 2
+  ChinaHealthcheck:
+    Type: Fastly::Services::Healthcheck
+    Properties:
+      ServiceId: !GetAtt DeliveryService.Id
+      VersionId: !GetAtt DeliveryService.LatestVersionId
+      Name: Heathcheck for China (Mainland)
+      CheckInterval: 60000
+      Host: !GetAtt ChinaDomain.DomainName
+      Initial: 1
+      Path: "/"
+      Threshold: 1
+      Timeout: 5000
+      Window: 2
+
+  # 4. Backends
+  UKBackend:
+    Type: Fastly::Services::Backend
+    DependsOn: UKHealthcheck
+    Properties:
+      ServiceId: !GetAtt DeliveryService.Id
+      VersionId: !GetAtt DeliveryService.LatestVersionId
+      Name: !GetAtt UKDomain.DomainName
+      Address: !GetAtt UKDomain.DomainName
+      Port: 443
+      UseSsl: true
+      MinTlsVersion: "1.2"
+      Healthcheck: !GetAtt UKHealthcheck.HealthcheckName
+  ChinaBackend:
+    Type: Fastly::Services::Backend
+    DependsOn: ChinaHealthcheck
+    Properties:
+      ServiceId: !GetAtt DeliveryService.Id
+      VersionId: !GetAtt DeliveryService.LatestVersionId
+      Name: !GetAtt ChinaDomain.DomainName
+      Address: !GetAtt ChinaDomain.DomainName
+      Port: 443
+      UseSsl: true
+      MinTlsVersion: "1.2"
+      Healthcheck: !GetAtt ChinaHealthcheck.HealthcheckName
