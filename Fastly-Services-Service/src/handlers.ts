@@ -5,6 +5,7 @@ import {FastlyApiObject, fastlyNotFoundError, ResponseWithHttpInfo} from '../../
 // We have to use @ts-ignore here as the "fastly" lib doesn't have TypeScript definitions
 // @ts-ignore
 import * as Fastly from "fastly";
+import {version} from '../package.json';
 
 // The types below are only partial representation of what the API is returning. It's only needed for TypeScript niceties
 type Service = {
@@ -19,8 +20,13 @@ type Version = {
 
 class Resource extends AbstractFastlyResource<ResourceModel, Service, Service, Service, TypeConfigurationModel> {
 
+    private userAgent = `AWS CloudFormation (+https://aws.amazon.com/cloudformation/) CloudFormation resource ${this.typeName}/${version}`;
+
     async get(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<Service> {
         Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
+        Fastly.ApiClient.instance.defaultHeaders = {
+            'User-Agent': this.userAgent
+        };
         const response: ResponseWithHttpInfo<Service> = await new Fastly.ServiceApi().getServiceWithHttpInfo({service_id: model.id || ''});
         // When a resource is deleted, the GET still returns the resource but with the "deletedAt" field set.
         // When this happens, we should throw a `NotFound` exception to CloudFormation instead of returning the resource
@@ -32,6 +38,9 @@ class Resource extends AbstractFastlyResource<ResourceModel, Service, Service, S
 
     async list(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<ResourceModel[]> {
         Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
+        Fastly.ApiClient.instance.defaultHeaders = {
+            'User-Agent': this.userAgent
+        };
         const response: ResponseWithHttpInfo<Service[]> = await new Fastly.ServiceApi().listServicesWithHttpInfo();
         return response.response.body
             .map(servicePayload => this.setModelFrom(new ResourceModel(), servicePayload))
@@ -40,6 +49,9 @@ class Resource extends AbstractFastlyResource<ResourceModel, Service, Service, S
 
     async create(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<Service> {
         Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
+        Fastly.ApiClient.instance.defaultHeaders = {
+            'User-Agent': this.userAgent
+        };
         const response: ResponseWithHttpInfo<Service> = await new Fastly.ServiceApi().createServiceWithHttpInfo(Transformer.for(model.toJSON())
             .transformKeys(CaseTransformer.PASCAL_TO_SNAKE)
             .transform());
@@ -48,6 +60,9 @@ class Resource extends AbstractFastlyResource<ResourceModel, Service, Service, S
 
     async update(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<Service> {
         Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
+        Fastly.ApiClient.instance.defaultHeaders = {
+            'User-Agent': this.userAgent
+        };
         const response: ResponseWithHttpInfo<Service> = await new Fastly.ServiceApi().updateServiceWithHttpInfo({
             service_id: model.id,
             ...Transformer.for(model.toJSON())
@@ -59,6 +74,9 @@ class Resource extends AbstractFastlyResource<ResourceModel, Service, Service, S
 
     async delete(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<void> {
         Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
+        Fastly.ApiClient.instance.defaultHeaders = {
+            'User-Agent': this.userAgent
+        };
         await new Fastly.ServiceApi().deleteServiceWithHttpInfo({service_id: model.id});
     }
 
