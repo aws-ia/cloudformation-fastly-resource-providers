@@ -2,7 +2,7 @@
     "artifact_type": "RESOURCE",
     "typeName": "Fastly::Services::Healthcheck",
     "language": "typescript",
-    "runtime": "nodejs12.x",
+    "runtime": "nodejs14.x",
     "entrypoint": "dist/Fastly-Services-Healthcheck/src/handlers.entrypoint",
     "testEntrypoint": "dist/Fastly-Services-Healthcheck/src/handlers.testEntrypoint",
     "settings": {

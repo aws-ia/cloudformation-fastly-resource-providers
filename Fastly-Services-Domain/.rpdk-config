@@ -2,7 +2,7 @@
     "artifact_type": "RESOURCE",
     "typeName": "Fastly::Services::Domain",
     "language": "typescript",
-    "runtime": "nodejs12.x",
+    "runtime": "nodejs14.x",
     "entrypoint": "dist/Fastly-Services-Domain/src/handlers.entrypoint",
     "testEntrypoint": "dist/Fastly-Services-Domain/src/handlers.testEntrypoint",
     "settings": {
