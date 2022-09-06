@@ -5,6 +5,7 @@ import {FastlyApiObject, fastlyNotFoundError, ResponseWithHttpInfo} from '../../
 // We have to use @ts-ignore here as the "fastly" lib doesn't have TypeScript definitions
 // @ts-ignore
 import * as Fastly from "fastly";
+import {version} from '../package.json';
 
 type Healthcheck = {
     version: number
@@ -12,8 +13,13 @@ type Healthcheck = {
 
 class Resource extends AbstractFastlyResource<ResourceModel, Healthcheck, Healthcheck, Healthcheck, TypeConfigurationModel> {
 
+    private userAgent = `AWS CloudFormation (+https://aws.amazon.com/cloudformation/) CloudFormation resource ${this.typeName}/${version}`;
+
     async get(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<Healthcheck> {
         Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
+        Fastly.ApiClient.instance.defaultHeaders = {
+            'User-Agent': this.userAgent
+        };
         const response: ResponseWithHttpInfo<Healthcheck> = await new Fastly.HealthcheckApi().getHealthcheckWithHttpInfo({
             ...Transformer.for(model.toJSON())
                 .transformKeys(CaseTransformer.PASCAL_TO_SNAKE)
@@ -30,6 +36,9 @@ class Resource extends AbstractFastlyResource<ResourceModel, Healthcheck, Health
 
     async list(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<ResourceModel[]> {
         Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
+        Fastly.ApiClient.instance.defaultHeaders = {
+            'User-Agent': this.userAgent
+        };
         const response: ResponseWithHttpInfo<Healthcheck[]> = await new Fastly.HealthcheckApi().listHealthchecksWithHttpInfo(Transformer.for(model.toJSON())
             .transformKeys(CaseTransformer.PASCAL_TO_SNAKE)
             .transform());
@@ -40,6 +49,9 @@ class Resource extends AbstractFastlyResource<ResourceModel, Healthcheck, Health
 
     async create(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<Healthcheck> {
         Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
+        Fastly.ApiClient.instance.defaultHeaders = {
+            'User-Agent': this.userAgent
+        };
         const response: ResponseWithHttpInfo<Healthcheck> = await new Fastly.HealthcheckApi().createHealthcheckWithHttpInfo(Transformer.for(model.toJSON())
             .transformKeys(CaseTransformer.PASCAL_TO_SNAKE)
             .transform());
@@ -48,6 +60,9 @@ class Resource extends AbstractFastlyResource<ResourceModel, Healthcheck, Health
 
     async update(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<Healthcheck> {
         Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
+        Fastly.ApiClient.instance.defaultHeaders = {
+            'User-Agent': this.userAgent
+        };
         const response: ResponseWithHttpInfo<Healthcheck> = await new Fastly.HealthcheckApi().updateHealthcheckWithHttpInfo({
             ...Transformer.for(model.toJSON())
                 .transformKeys(CaseTransformer.PASCAL_TO_SNAKE)
@@ -59,6 +74,9 @@ class Resource extends AbstractFastlyResource<ResourceModel, Healthcheck, Health
 
     async delete(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<void> {
         Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
+        Fastly.ApiClient.instance.defaultHeaders = {
+            'User-Agent': this.userAgent
+        };
         await new Fastly.HealthcheckApi().deleteHealthcheckWithHttpInfo({
             ...Transformer.for(model.toJSON())
                 .transformKeys(CaseTransformer.PASCAL_TO_SNAKE)

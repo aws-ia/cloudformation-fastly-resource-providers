@@ -89,7 +89,7 @@ The name of the domain or domains associated with this service.
 
 #### Version
 
-Integer identifying a domain version.
+Integer identifying a domain version. Read-only.
 
 #### CreatedAt
 

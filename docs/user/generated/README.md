@@ -16,7 +16,7 @@ In the AWS CloudFormation UI, find the Fastly types in the third-party registry 
 Alternatively follow the [Developer](docs/dev) instructions to install them manually.
 
 You will need to set up a [Type Configuration](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/cloudformation/set-type-configuration.html)
-for each of the activated types, containing a Fastly **API Token** in order to reach the Fastly API correctly.
+for each of the activated types, containing a Fastly **[API Token](https://docs.fastly.com/en/guides/using-api-tokens)** in order to reach the Fastly API correctly.
 It is recommended to set the token into Systems Manager's secure parameter store,
 e.g. as `/path/to/fastly/token` and then it can be applied any of the Fastly types,
 e.g. `Fastly::Services::Service`, using:

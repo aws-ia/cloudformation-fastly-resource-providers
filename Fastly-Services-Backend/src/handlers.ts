@@ -5,6 +5,7 @@ import {FastlyApiObject, fastlyNotFoundError, ResponseWithHttpInfo} from '../../
 // We have to use @ts-ignore here as the "fastly" lib doesn't have TypeScript definitions
 // @ts-ignore
 import * as Fastly from "fastly";
+import {version} from '../package.json';
 
 // The type below are only partial representation of what the API is returning. It's only needed for TypeScript niceties
 type Backend = {
@@ -14,8 +15,13 @@ type Backend = {
 
 class Resource extends AbstractFastlyResource<ResourceModel, Backend, Backend, Backend, TypeConfigurationModel> {
 
+    private userAgent = `AWS CloudFormation (+https://aws.amazon.com/cloudformation/) CloudFormation resource ${this.typeName}/${version}`;
+
     async get(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<Backend> {
         Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
+        Fastly.ApiClient.instance.defaultHeaders = {
+            'User-Agent': this.userAgent
+        };
         const response: ResponseWithHttpInfo<Backend> = await new Fastly.BackendApi().getBackendWithHttpInfo({
             ...Transformer.for(model.toJSON())
                 .transformKeys(CaseTransformer.PASCAL_TO_SNAKE)
@@ -32,6 +38,9 @@ class Resource extends AbstractFastlyResource<ResourceModel, Backend, Backend, B
 
     async list(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<ResourceModel[]> {
         Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
+        Fastly.ApiClient.instance.defaultHeaders = {
+            'User-Agent': this.userAgent
+        };
         const response: ResponseWithHttpInfo<Backend[]> = await new Fastly.BackendApi().listBackendsWithHttpInfo(Transformer.for(model.toJSON())
             .transformKeys(CaseTransformer.PASCAL_TO_SNAKE)
             .transform());
@@ -42,6 +51,9 @@ class Resource extends AbstractFastlyResource<ResourceModel, Backend, Backend, B
 
     async create(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<Backend> {
         Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
+        Fastly.ApiClient.instance.defaultHeaders = {
+            'User-Agent': this.userAgent
+        };
         const response: ResponseWithHttpInfo<Backend> = await new Fastly.BackendApi().createBackendWithHttpInfo(Transformer.for(model.toJSON())
             .transformKeys(CaseTransformer.PASCAL_TO_SNAKE)
             .transform());
@@ -50,6 +62,9 @@ class Resource extends AbstractFastlyResource<ResourceModel, Backend, Backend, B
 
     async update(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<Backend> {
         Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
+        Fastly.ApiClient.instance.defaultHeaders = {
+            'User-Agent': this.userAgent
+        };
         const response: ResponseWithHttpInfo<Backend> = await new Fastly.BackendApi().updateBackendWithHttpInfo({
             ...Transformer.for(model.toJSON())
                 .transformKeys(CaseTransformer.PASCAL_TO_SNAKE)
@@ -61,6 +76,9 @@ class Resource extends AbstractFastlyResource<ResourceModel, Backend, Backend, B
 
     async delete(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<void> {
         Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
+        Fastly.ApiClient.instance.defaultHeaders = {
+            'User-Agent': this.userAgent
+        };
         await new Fastly.BackendApi().deleteBackendWithHttpInfo({
             ...Transformer.for(model.toJSON())
                 .transformKeys(CaseTransformer.PASCAL_TO_SNAKE)

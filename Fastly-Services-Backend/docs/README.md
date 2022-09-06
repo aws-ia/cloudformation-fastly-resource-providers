@@ -387,7 +387,15 @@ For more information about using the `Fn::GetAtt` intrinsic function, see [Fn::G
 
 #### BackendName
 
-The name of the backend.
+The name of the backend. Read-only
+
+#### Version
+
+Returns the <code>Version</code> value.
+
+#### Locked
+
+Returns the <code>Locked</code> value.
 
 #### CreatedAt
 

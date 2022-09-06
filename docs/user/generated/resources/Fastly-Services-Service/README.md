@@ -85,7 +85,7 @@ Whether the service is paused. Services are paused due to a lack of traffic for 
 
 #### CustomerId
 
-Alphanumeric string identifying the customer. Ready-only.
+Alphanumeric string identifying the customer. Read-only.
 
 #### CreatedAt
 
