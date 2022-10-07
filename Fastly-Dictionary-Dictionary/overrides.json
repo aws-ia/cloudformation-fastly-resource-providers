@@ -1,0 +1,12 @@
+{
+  "CREATE": {
+    "/ServiceId": "0lA7DJyR4OghKSdVc4Zpjv",
+    "/VersionId": "2",
+    "/Name": "CFNDict"
+  },
+  "UPDATE": {
+    "/ServiceId": "0lA7DJyR4OghKSdVc4Zpjv",
+    "/VersionId": "2",
+    "/Name": "NewCFNDict"
+  }
+}
