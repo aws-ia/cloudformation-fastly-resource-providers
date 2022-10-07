@@ -1,0 +1,14 @@
+{
+  "CREATE": {
+    "/ServiceId": "0lA7DJyR4OghKSdVc4Zpjv",
+    "/DictionaryId": "3GuCLmerJfUFio5AgRS2wT",
+    "/ItemKey": "SAMKey",
+    "/ItemValue": "SAM Value"
+  },
+  "UPDATE": {
+    "/ServiceId": "0lA7DJyR4OghKSdVc4Zpjv",
+    "/DictionaryId": "3GuCLmerJfUFio5AgRS2wT",
+    "/ItemKey": "SAMKey",
+    "/ItemValue": "Updated SAM Value"
+  }
+}
