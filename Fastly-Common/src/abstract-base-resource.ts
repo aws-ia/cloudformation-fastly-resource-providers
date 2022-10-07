@@ -57,7 +57,7 @@ export abstract class AbstractBaseResource<ResourceModelType extends BaseModel, 
      * @param typeConfiguration The type configuration for the resource. This can be null
      * output already set by previous handler which returned an IN_PROGRESS event.
      */
-    abstract update(model: ResourceModelType, typeConfiguration?: TypeConfigurationType): Promise<UpdateResponseData>;
+    abstract update(model: ResourceModelType, typeConfiguration?: TypeConfigurationType, previousModel?: ResourceModelType): Promise<UpdateResponseData>;
 
     /**
      * This method is invoked to delete a resource from a vendor API, that should correspond to the given the CloudFormation model input.
@@ -176,13 +176,14 @@ export abstract class AbstractBaseResource<ResourceModelType extends BaseModel, 
         typeConfiguration: TypeConfigurationType
     ): Promise<ProgressEvent<ResourceModelType, RetryableCallbackContext>> {
         let model = this.newModel(request.desiredResourceState);
+        let previousModel = this.newModel(request.previousResourceState)
 
         if (!(await this.assertExists(model, typeConfiguration))) {
             throw new exceptions.NotFound(this.typeName, request.logicalResourceIdentifier);
         }
 
         try {
-            await this.update(model, typeConfiguration);
+            await this.update(model, typeConfiguration, previousModel);
             const data = await this.get(model, typeConfiguration);
             model = this.setModelFrom(model, data);
         } catch (e) {
