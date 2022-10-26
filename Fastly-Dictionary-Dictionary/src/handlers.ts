@@ -20,10 +20,7 @@ class Resource extends AbstractFastlyResource<ResourceModel, Dictionary, Diction
 
 
     async get(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<Dictionary> {
-        Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
-        Fastly.ApiClient.instance.defaultHeaders = {
-            'User-Agent': this.userAgent
-        };
+        this.setAuthenticationAndTypeConfiguration(typeConfiguration)
         const response: ResponseWithHttpInfo<Dictionary> = await new Fastly.DictionaryApi().getDictionaryWithHttpInfo({service_id: model.serviceId || '', version_id: model.versionId || '', dictionary_name: model.name || ''});
         // When a resource is deleted, the GET still returns the resource but with the "deletedAt" field set.
         // When this happens, we should throw a `NotFound` exception to CloudFormation instead of returning the resource
@@ -34,10 +31,7 @@ class Resource extends AbstractFastlyResource<ResourceModel, Dictionary, Diction
     }
 
     async list(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<ResourceModel[]> {
-        Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
-        Fastly.ApiClient.instance.defaultHeaders = {
-            'User-Agent': this.userAgent
-        };
+        this.setAuthenticationAndTypeConfiguration(typeConfiguration)
         const response: ResponseWithHttpInfo<Dictionary[]> = await new Fastly.DictionaryApi().listDictionariesWithHttpInfo({service_id: model.serviceId || '', version_id: model.versionId || ''});
         return response.response.body
             .map(backendPayload => this.setModelFrom(model, backendPayload))
@@ -45,10 +39,7 @@ class Resource extends AbstractFastlyResource<ResourceModel, Dictionary, Diction
     }
 
     async create(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<Dictionary> {
-        Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
-        Fastly.ApiClient.instance.defaultHeaders = {
-            'User-Agent': this.userAgent
-        };
+        this.setAuthenticationAndTypeConfiguration(typeConfiguration)
         const response: ResponseWithHttpInfo<Dictionary> = await new Fastly.DictionaryApi().createDictionaryWithHttpInfo(Transformer.for(model.toJSON())
             .transformKeys(CaseTransformer.PASCAL_TO_SNAKE)
             .transform());
@@ -56,10 +47,7 @@ class Resource extends AbstractFastlyResource<ResourceModel, Dictionary, Diction
     }
 
     async update(model: ResourceModel, typeConfiguration?: TypeConfigurationModel, previousModel?: ResourceModel): Promise<Dictionary> {
-        Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
-        Fastly.ApiClient.instance.defaultHeaders = {
-            'User-Agent': this.userAgent
-        };
+        this.setAuthenticationAndTypeConfiguration(typeConfiguration)
         const response: ResponseWithHttpInfo<Dictionary> = await new Fastly.DictionaryApi().updateDictionaryWithHttpInfo({
             ...Transformer.for(model.toJSON())
                 .transformKeys(CaseTransformer.PASCAL_TO_SNAKE)
@@ -72,11 +60,15 @@ class Resource extends AbstractFastlyResource<ResourceModel, Dictionary, Diction
     }
 
     async delete(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<void> {
+        this.setAuthenticationAndTypeConfiguration(typeConfiguration)
+        await new Fastly.DictionaryApi().deleteDictionaryWithHttpInfo({service_id: model.serviceId || '', version_id: model.versionId || '', dictionary_name: model.name || ''});
+    }
+
+    setAuthenticationAndTypeConfiguration(typeConfiguration?: TypeConfigurationModel) {
         Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
         Fastly.ApiClient.instance.defaultHeaders = {
             'User-Agent': this.userAgent
         };
-        await new Fastly.DictionaryApi().deleteDictionaryWithHttpInfo({service_id: model.serviceId || '', version_id: model.versionId || '', dictionary_name: model.name || ''});
     }
 
     newModel(partial?: any): ResourceModel {

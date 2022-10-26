@@ -1,7 +1,7 @@
 {
   "typeName": "Fastly::Dictionary::DictionaryItem",
   "description": "Manage a Fastly service dictionary item.",
-  "sourceUrl": "https://developer.fastly.com/reference/api/dictionaries/dictionary-item/",
+  "sourceUrl": "https://github.com/aws-ia/cloudformation-fastly-resource-providers",
   "definitions": {
     "FastlyAccess": {
       "description": "Properties needed to access Fastly.",

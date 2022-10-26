@@ -18,12 +18,8 @@ class Resource extends AbstractFastlyResource<ResourceModel, Dictionary, Diction
 
     private userAgent = `AWS CloudFormation (+https://aws.amazon.com/cloudformation/) CloudFormation resource ${this.typeName}/${version}`;
 
-
     async get(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<Dictionary> {
-        Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
-        Fastly.ApiClient.instance.defaultHeaders = {
-            'User-Agent': this.userAgent
-        };
+        this.setAuthenticationAndTypeConfiguration(typeConfiguration)
         const response: ResponseWithHttpInfo<Dictionary> = await new Fastly.DictionaryItemApi().getDictionaryItemWithHttpInfo({service_id: model.serviceId || '', dictionary_id: model.dictionaryId || '', dictionary_item_key: model.itemKey || ''});
         // When a resource is deleted, the GET still returns the resource but with the "deletedAt" field set.
         // When this happens, we should throw a `NotFound` exception to CloudFormation instead of returning the resource
@@ -34,10 +30,7 @@ class Resource extends AbstractFastlyResource<ResourceModel, Dictionary, Diction
     }
 
     async list(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<ResourceModel[]> {
-        Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
-        Fastly.ApiClient.instance.defaultHeaders = {
-            'User-Agent': this.userAgent
-        };
+        this.setAuthenticationAndTypeConfiguration(typeConfiguration)
         const response: ResponseWithHttpInfo<Dictionary[]> = await new Fastly.DictionaryItemApi().listDictionaryItemsWithHttpInfo({service_id: model.serviceId || '', dictionary_id: model.dictionaryId || ''});
         return response.response.body
             .map(backendPayload => this.setModelFrom(model, backendPayload))
@@ -45,10 +38,7 @@ class Resource extends AbstractFastlyResource<ResourceModel, Dictionary, Diction
     }
 
     async create(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<Dictionary> {
-        Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
-        Fastly.ApiClient.instance.defaultHeaders = {
-            'User-Agent': this.userAgent
-        };
+        this.setAuthenticationAndTypeConfiguration(typeConfiguration)
         const response: ResponseWithHttpInfo<Dictionary> = await new Fastly.DictionaryItemApi().createDictionaryItemWithHttpInfo(Transformer.for(model.toJSON())
             .transformKeys(CaseTransformer.PASCAL_TO_SNAKE)
             .transform());
@@ -56,10 +46,7 @@ class Resource extends AbstractFastlyResource<ResourceModel, Dictionary, Diction
     }
 
     async update(model: ResourceModel, typeConfiguration?: TypeConfigurationModel, previousModel?: ResourceModel): Promise<Dictionary> {
-        Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
-        Fastly.ApiClient.instance.defaultHeaders = {
-            'User-Agent': this.userAgent
-        };
+        this.setAuthenticationAndTypeConfiguration(typeConfiguration)
         const response: ResponseWithHttpInfo<Dictionary> = await new Fastly.DictionaryItemApi().updateDictionaryItemWithHttpInfo({
             ...Transformer.for(model.toJSON())
                 .transformKeys(CaseTransformer.PASCAL_TO_SNAKE)
@@ -72,11 +59,15 @@ class Resource extends AbstractFastlyResource<ResourceModel, Dictionary, Diction
     }
 
     async delete(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<void> {
+        this.setAuthenticationAndTypeConfiguration(typeConfiguration)
+        await new Fastly.DictionaryItemApi().deleteDictionaryItemWithHttpInfo({service_id: model.serviceId || '', dictionary_id: model.dictionaryId || '', dictionary_item_key: model.itemKey || ''});
+    }
+
+    setAuthenticationAndTypeConfiguration(typeConfiguration?: TypeConfigurationModel) {
         Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
         Fastly.ApiClient.instance.defaultHeaders = {
             'User-Agent': this.userAgent
         };
-        await new Fastly.DictionaryItemApi().deleteDictionaryItemWithHttpInfo({service_id: model.serviceId || '', dictionary_id: model.dictionaryId || '', dictionary_item_key: model.itemKey || ''});
     }
 
     newModel(partial?: any): ResourceModel {
