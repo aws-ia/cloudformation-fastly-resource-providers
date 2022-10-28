@@ -1,0 +1,14 @@
+{
+  "CREATE": {
+    "/ServiceId": "<FASTLY_SERVICE_ID>",
+    "/DictionaryId": "<FASTLY_DICTIONARY_ID>",
+    "/ItemKey": "SAMKey",
+    "/ItemValue": "SAM Value"
+  },
+  "UPDATE": {
+    "/ServiceId": "<FASTLY_SERVICE_ID>",
+    "/DictionaryId": "<FASTLY_DICTIONARY_ID>",
+    "/ItemKey": "SAMKey",
+    "/ItemValue": "Updated SAM Value"
+  }
+}

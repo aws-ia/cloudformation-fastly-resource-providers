@@ -1,0 +1,34 @@
+{
+    "name": "fastly-dictionary-dictionary",
+    "version": "0.1.0",
+    "description": "AWS custom resource provider named Fastly::Dictionary::Dictionary.",
+    "private": true,
+    "main": "dist/Fastly-Dictionary-Dictionary/src/handlers.js",
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "build": "npx tsc",
+        "watch": "npx tsc -w",
+        "prepack": "npm run build",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "dependencies": {
+        "@amazon-web-services-cloudformation/cloudformation-cli-typescript-lib": "^1.0.3",
+        "class-transformer": "0.3.1",
+        "fastly": "^3.0.0-beta3"
+    },
+    "devDependencies": {
+        "jest": "^29.1.2",
+        "@types/jest": "^27.5.2",
+        "@types/node": "^14.0.0",
+        "@types/snowflake-sdk": "^1.6.7",
+        "jest": "^27.5.1",
+        "ts-jest": "^27.1.3",
+        "ts-node": "^10.8.1",
+        "typescript": "^4.1.2"
+    },
+    "optionalDependencies": {
+        "aws-sdk": "^2.656.0"
+    }
+}

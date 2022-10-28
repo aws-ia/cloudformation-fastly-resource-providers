@@ -1,0 +1,12 @@
+{
+  "CREATE": {
+    "/ServiceId": "<FASTLY_SERVICE_ID>",
+    "/VersionId": "2",
+    "/Name": "CFNDict"
+  },
+  "UPDATE": {
+    "/ServiceId": "<FASTLY_SERVICE_ID>",
+    "/VersionId": "2",
+    "/Name": "NewCFNDict"
+  }
+}
