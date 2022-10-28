@@ -19,7 +19,8 @@
     },
     "Comment": {
       "description": "A freeform descriptive note.",
-      "type": "string"
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_';:, \\!\\-\\.\\*\\\"\\?]*$"
     },
     "CreatedAt": {
       "description": "Date and time in ISO 8601 format. Read-only.",
