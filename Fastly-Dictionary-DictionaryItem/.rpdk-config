@@ -3,8 +3,8 @@
     "typeName": "Fastly::Dictionary::DictionaryItem",
     "language": "typescript",
     "runtime": "nodejs14.x",
-    "entrypoint": "dist/Fastly-Dictionary-DictionaryItem/handlers.entrypoint",
-    "testEntrypoint": "dist/Fastly-Dictionary-DictionaryItem/handlers.testEntrypoint",
+    "entrypoint": "dist/Fastly-Dictionary-DictionaryItem/src/handlers.entrypoint",
+    "testEntrypoint": "dist/Fastly-Dictionary-DictionaryItem/src/handlers.testEntrypoint",
     "settings": {
         "version": false,
         "subparser_name": null,
