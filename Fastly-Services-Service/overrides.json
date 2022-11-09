@@ -1,8 +1,0 @@
-{
-  "CREATE": {
-    "/Name": "Test service (Contract test)"
-  },
-  "UPDATE": {
-    "/Name": "[UPDATED] Test service (Contract test)"
-  }
-}
