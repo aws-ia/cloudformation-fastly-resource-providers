@@ -1,6 +1,5 @@
 {
   "ServiceId": "<FASTLY_SERVICE_ID>",
-  "DictionaryId": "<FASTLY_DICTIONARY_ID>",
-  "ItemKey": "SAMKey",
-  "ItemValue": "Updated SAM Value"
+  "VersionId": "<FASTLY_VERSION_ID>",
+  "Name": "NewCFNDict"
 }
