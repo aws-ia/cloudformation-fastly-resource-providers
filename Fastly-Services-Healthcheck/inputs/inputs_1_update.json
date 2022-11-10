@@ -1,0 +1,11 @@
+{
+  "Name": "Test healthcheck [UPDATE]",
+  "Comment": "This is a comment [UPDATE]",
+  "CheckInterval": <FASTLY_VERSION_ID>000,
+  "Host": "aws.amazon.com",
+  "Initial": 9,
+  "Path": "cloudformation",
+  "Threshold": 7,
+  "Timeout": 5000,
+  "Window": 10
+}
