@@ -292,6 +292,9 @@
     },
     "DeletedAt": {
       "$ref": "#/definitions/DeletedAt"
+    },
+    "Version": {
+      "$ref": "#/definitions/Version"
     }
   },
   "additionalProperties": false,
@@ -304,9 +307,7 @@
     "VersionId"
   ],
   "readOnlyProperties": [
-    "/properties/BackendName",
     "/properties/Version",
-    "/properties/Locked",
     "/properties/CreatedAt",
     "/properties/UpdatedAt",
     "/properties/DeletedAt"

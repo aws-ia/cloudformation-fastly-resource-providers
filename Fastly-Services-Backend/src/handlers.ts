@@ -100,7 +100,7 @@ class Resource extends AbstractFastlyResource<ResourceModel, Backend, Backend, B
         // `hostname` is generated from `address` but we don't care about this.
         delete from.hostname;
 
-        return new ResourceModel({
+        const resourceModel =  new ResourceModel({
             ...model,
             ...Transformer.for(from)
                 .transformKeys(CaseTransformer.SNAKE_TO_CAMEL)
@@ -108,6 +108,10 @@ class Resource extends AbstractFastlyResource<ResourceModel, Backend, Backend, B
                 .transform(),
             version: from.version.toString()
         });
+        // Delete a couple of unused fields that are returned by the API
+        delete (<any>resourceModel)?.errorThreshold;
+        delete (<any>resourceModel)?.sslHostname;
+        return resourceModel;
     }
 }
 
