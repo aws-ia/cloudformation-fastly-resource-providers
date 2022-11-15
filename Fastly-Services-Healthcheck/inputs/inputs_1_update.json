@@ -1,5 +1,7 @@
 {
-  "Name": "Test healthcheck [UPDATE]",
+  "ServiceId": "<FASTLY_SERVICE_ID>",
+  "VersionId": "<FASTLY_VERSION_ID>",
+  "Name": "Test healthcheck",
   "Comment": "This is a comment [UPDATE]",
   "CheckInterval": <FASTLY_VERSION_ID>000,
   "Host": "aws.amazon.com",

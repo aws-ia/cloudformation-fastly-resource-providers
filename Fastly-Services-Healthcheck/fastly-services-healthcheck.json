@@ -184,7 +184,6 @@
     "VersionId"
   ],
   "readOnlyProperties": [
-    "/properties/HealthcheckName",
     "/properties/Version",
     "/properties/CreatedAt",
     "/properties/UpdatedAt",
