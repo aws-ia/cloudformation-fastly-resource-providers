@@ -93,13 +93,18 @@ class Resource extends AbstractFastlyResource<ResourceModel, Service, Service, S
             model.latestVersionId = from.versions.reduce((max, v) => max.number > v.number ? max : v)?.number.toString() || '';
         }
 
-        return new ResourceModel({
+        const resourceModel = new ResourceModel({
             ...model,
             ...Transformer.for(from)
                 .transformKeys(CaseTransformer.SNAKE_TO_CAMEL)
                 .forModelIngestion()
                 .transform()
         });
+        // Delete a couple of unused fields that are returned by the API
+        delete (<any>resourceModel)?.versions;
+        delete (<any>resourceModel)?.publishKey;
+
+        return resourceModel;
     }
 
 }
