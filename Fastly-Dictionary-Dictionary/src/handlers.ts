@@ -55,6 +55,7 @@ class Resource extends AbstractFastlyResource<ResourceModel, Dictionary, Diction
             service_id: previousModel.serviceId,
             version_id: previousModel.versionId,
             dictionary_name: previousModel.name,
+            name: model.name
         });
         return response.response.body;
     }

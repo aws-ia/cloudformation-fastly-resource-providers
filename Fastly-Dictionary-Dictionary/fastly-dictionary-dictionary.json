@@ -65,6 +65,10 @@
         "VersionId": {
             "description": "Alphanumeric string identifying the service version.",
             "type": "string"
+        },
+        "Version": {
+            "description": "Integer identifying a domain version. Read-only.",
+            "type": "string"
         }
     },
     "additionalProperties": false,
@@ -76,17 +80,15 @@
     "readOnlyProperties": [
         "/properties/WriteOnly",
         "/properties/CreatedAt",
-        "/properties/DeletedAt",
         "/properties/Id",
-        "/properties/UpdatedAt"
+        "/properties/UpdatedAt",
+        "/properties/Version"
     ],
     "createOnlyProperties": [
-        "/properties/Name",
         "/properties/ServiceId",
         "/properties/VersionId"
     ],
     "primaryIdentifier": [
-        "/properties/Name",
         "/properties/ServiceId",
         "/properties/VersionId"
     ],
