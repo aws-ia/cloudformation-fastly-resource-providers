@@ -85,10 +85,12 @@
         "/properties/Version"
     ],
     "createOnlyProperties": [
+        "/properties/Name",
         "/properties/ServiceId",
         "/properties/VersionId"
     ],
     "primaryIdentifier": [
+        "/properties/Name",
         "/properties/ServiceId",
         "/properties/VersionId"
     ],

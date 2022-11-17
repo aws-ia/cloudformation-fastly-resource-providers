@@ -1,5 +1,5 @@
 {
   "ServiceId": "<FASTLY_SERVICE_ID>",
   "VersionId": "<FASTLY_VERSION_ID>",
-  "Name": "NewCFNDict"
+  "Name": "CFNDict"
 }

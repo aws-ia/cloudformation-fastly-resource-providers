@@ -9,6 +9,8 @@ export class ResourceModel extends BaseModel {
     public static readonly TYPE_NAME: string = 'Fastly::Dictionary::Dictionary';
 
     @Exclude()
+    protected readonly IDENTIFIER_KEY_NAME: string = '/properties/Name';
+    @Exclude()
     protected readonly IDENTIFIER_KEY_SERVICEID: string = '/properties/ServiceId';
     @Exclude()
     protected readonly IDENTIFIER_KEY_VERSIONID: string = '/properties/VersionId';
@@ -98,6 +100,10 @@ export class ResourceModel extends BaseModel {
     @Exclude()
     public getPrimaryIdentifier(): Dict {
         const identifier: Dict = {};
+        if (this.name != null) {
+            identifier[this.IDENTIFIER_KEY_NAME] = this.name;
+        }
+
         if (this.serviceId != null) {
             identifier[this.IDENTIFIER_KEY_SERVICEID] = this.serviceId;
         }
@@ -107,7 +113,7 @@ export class ResourceModel extends BaseModel {
         }
 
         // only return the identifier if it can be used, i.e. if all components are present
-        return Object.keys(identifier).length === 2 ? identifier : null;
+        return Object.keys(identifier).length === 3 ? identifier : null;
     }
 
     @Exclude()
