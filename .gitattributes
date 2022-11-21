@@ -1,1 +1,2 @@
 */overrides.json filter=fastly
+**/inputs/*.json filter=fastly

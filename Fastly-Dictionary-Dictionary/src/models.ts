@@ -87,6 +87,15 @@ export class ResourceModel extends BaseModel {
         }
     )
     versionId?: Optional<string>;
+    @Expose({ name: 'Version' })
+    @Transform(
+        (value: any, obj: any) =>
+            transformValue(String, 'version', value, obj, []),
+        {
+            toClassOnly: true,
+        }
+    )
+    version?: Optional<string>;
 
     @Exclude()
     public getPrimaryIdentifier(): Dict {
