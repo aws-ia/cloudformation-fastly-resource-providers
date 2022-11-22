@@ -13,8 +13,9 @@ To declare this entity in your AWS CloudFormation template, use the following sy
     "Type" : "Fastly::Dictionary::Dictionary",
     "Properties" : {
         "<a href="#name" title="Name">Name</a>" : <i>String</i>,
+        "<a href="#deletedat" title="DeletedAt">DeletedAt</a>" : <i>String</i>,
         "<a href="#serviceid" title="ServiceId">ServiceId</a>" : <i>String</i>,
-        "<a href="#versionid" title="VersionId">VersionId</a>" : <i>String</i>
+        "<a href="#versionid" title="VersionId">VersionId</a>" : <i>String</i>,
     }
 }
 </pre>
@@ -25,6 +26,7 @@ To declare this entity in your AWS CloudFormation template, use the following sy
 Type: Fastly::Dictionary::Dictionary
 Properties:
     <a href="#name" title="Name">Name</a>: <i>String</i>
+    <a href="#deletedat" title="DeletedAt">DeletedAt</a>: <i>String</i>
     <a href="#serviceid" title="ServiceId">ServiceId</a>: <i>String</i>
     <a href="#versionid" title="VersionId">VersionId</a>: <i>String</i>
 </pre>
@@ -40,6 +42,16 @@ _Required_: Yes
 _Type_: String
 
 _Update requires_: [Replacement](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-replacement)
+
+#### DeletedAt
+
+Date and time in ISO 8601 format.
+
+_Required_: No
+
+_Type_: String
+
+_Update requires_: [No interruption](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-no-interrupt)
 
 #### ServiceId
 
@@ -77,10 +89,6 @@ Determines if items in the dictionary are readable or not.
 
 Date and time in ISO 8601 format.
 
-#### DeletedAt
-
-Date and time in ISO 8601 format.
-
 #### Id
 
 Alphanumeric string identifying a Dictionary
@@ -88,4 +96,8 @@ Alphanumeric string identifying a Dictionary
 #### UpdatedAt
 
 Date and time in ISO 8601 format. Read-only.
+
+#### Version
+
+Integer identifying a domain version. Read-only.
 
