@@ -111,6 +111,7 @@ class Resource extends AbstractFastlyResource<ResourceModel, Backend, Backend, B
         // Delete a couple of unused fields that are returned by the API
         delete (<any>resourceModel)?.errorThreshold;
         delete (<any>resourceModel)?.sslHostname;
+        delete (<any>resourceModel)?.keepaliveTime;
         return resourceModel;
     }
 }
