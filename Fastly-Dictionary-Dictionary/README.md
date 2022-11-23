@@ -131,7 +131,6 @@ Keep in mind, during runtime all logs will be delivered to CloudWatch if you use
 [2]: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html
 [3]: https://docs.fastly.com/en/guides/working-with-dictionaries-using-the-web-interface#creating-a-dictionary-container
 [4]: ./docs/README.md
-[9]: https://docs.newrelic.com/docs/query-your-data/explore-query-data/dashboards/introduction-dashboards/
 [11]: https://aws.amazon.com/console/
 [12]: https://console.aws.amazon.com/cloudformation/home
 [13]: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry.html
