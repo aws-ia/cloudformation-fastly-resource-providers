@@ -1,0 +1,8 @@
+{
+  "ServiceId": "0lA7DJyR4OghKSdVc4Zpjv",
+  "Version": "3",
+  "AccessKey": "<AWS_ACCESS_KEY>",
+  "SecretKey": "<AWS_SECRET_KEY>",
+  "Name": "MyName",
+  "BucketName": "MyBucketName"
+}
