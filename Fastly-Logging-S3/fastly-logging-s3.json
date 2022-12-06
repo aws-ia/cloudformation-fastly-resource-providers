@@ -1,0 +1,194 @@
+{
+    "typeName": "Fastly::Logging::S3",
+    "description": "Manage a Fastly service",
+    "sourceUrl": "https://developer.fastly.com/reference/api/logging/s3/",
+    "definitions": {
+        "FastlyAccess": {
+            "description": "Properties needed to access Fastly.",
+            "type": "object",
+            "properties": {
+                "Token": {
+                    "type": "string",
+                    "description": "API token used to access Fastly"
+                }
+            },
+            "required": [
+                "Token"
+            ],
+            "additionalProperties": false
+        }
+    },
+    "typeConfiguration": {
+        "properties": {
+            "FastlyAccess": {
+                "$ref": "#/definitions/FastlyAccess"
+            }
+        },
+        "additionalProperties": false,
+        "required": [
+            "FastlyAccess"
+        ]
+    },
+    "properties": {
+        "AccessKey": {
+            "description": "The access key for your S3 account. Not required if iam_role is provided.",
+            "type": "string"
+        },
+        "Acl": {
+            "description": "The access control list (ACL) specific request header",
+            "type": "string"
+        },
+        "BucketName": {
+            "description": "The bucket name for S3 account.",
+            "type": "string"
+        },
+        "CompressionCodec": {
+            "description": "The codec used for compressing your logs.",
+            "type": "string",
+            "enum": [
+                "zstd",
+                "snappy",
+                "gzip"
+            ]
+        },
+        "Domain": {
+            "description": "The domain of the Amazon S3 endpoint.",
+            "type": "string"
+        },
+        "Format": {
+            "description": "A Fastly log format string.",
+            "type": "string"
+        },
+        "FormatVersion": {
+            "description": "The version of the custom logging format used for the configured endpoint.",
+            "type": "integer",
+            "enum": [
+                1,
+                2
+            ]
+        },
+        "GzipLevel": {
+            "description": "The level of gzip encoding when sending logs (default 0, no compression).",
+            "type": "integer",
+            "default": 0
+        },
+        "IamRole": {
+            "description": "The Amazon Resource Name (ARN) for the IAM role granting Fastly access to S3. Not required if access_key and secret_key are provided.",
+            "type": "string"
+        },
+        "MessageType": {
+            "description": "How the message should be formatted. [Default classic]",
+            "type": "string",
+            "enum": [
+                "classic",
+                "loggly",
+                "logplex",
+                "blank"
+            ]
+        },
+        "Name": {
+            "description": "The name for the real-time logging configuration.",
+            "type": "string"
+        },
+        "Path": {
+            "description": "The path to upload logs to.",
+            "type": "string"
+        },
+        "Period": {
+            "description": "How frequently log files are finalized so they can be available for reading (in seconds).",
+            "type": "integer",
+            "default": 3600
+        },
+        "Placement": {
+            "description": "Where in the generated VCL the logging call should be placed.",
+            "type": "string",
+            "enum": [
+                "none",
+                "waf_debug"
+            ]
+        },
+        "PublicKey": {
+            "description": "A PGP public key that Fastly will use to encrypt your log files before writing them to disk.",
+            "type": "string"
+        },
+        "Redundancy": {
+            "description": "The S3 redundancy level",
+            "type": "string"
+        },
+        "ResponseCondition": {
+            "description": "The name of an existing condition in the configured endpoint, or leave blank to always execute.",
+            "type": "string"
+        },
+        "SecretKey": {
+            "description": "The secret key for your S3 account. Not required if iam_role is provided.",
+            "type": "string"
+        },
+        "ServerSideEncryption": {
+            "description": "Set this to AES256 or aws:kms to enable S3 Server Side Encryption.",
+            "type": "string"
+        },
+        "ServerSideEncryptionKmsKeyId": {
+            "description": "Optional server-side KMS Key Id. Must be set if server_side_encryption is set to aws:kms or AES256.",
+            "type": "string"
+        },
+        "CreatedAt": {
+            "description": "Date and time in ISO 8601 format. Read-only.",
+            "type": "string",
+            "format": "date-time"
+        },
+        "DeletedAt": {
+            "description": "Date and time in ISO 8601 format. Read-only.",
+            "type": "string",
+            "format": "date-time"
+        },
+        "ServiceId": {
+            "description": "Alphanumeric string identifying the service. Read-only.",
+            "type": "string"
+        },
+        "UpdatedAt": {
+            "description": "Date and time in ISO 8601 format. Read-only.",
+            "type": "string",
+            "format": "date-time"
+        },
+        "Version": {
+            "description": "Integer identifying a backend version. Read-only.",
+            "type": "string"
+        }
+    },
+    "additionalProperties": false,
+    "required": [
+        "BucketName"
+    ],
+    "primaryIdentifier": [
+        "/properties/ServiceId",
+        "/properties/Version",
+        "/properties/Name"
+    ],
+    "readOnlyProperties": [
+        "/properties/CreatedAt",
+        "/properties/DeletedAt",
+        "/properties/UpdatedAt"
+    ],
+    "createOnlyProperties": [
+        "/properties/ServiceId",
+        "/properties/Version",
+        "/properties/Name"
+    ],
+    "handlers": {
+        "create": {
+            "permissions": []
+        },
+        "read": {
+            "permissions": []
+        },
+        "update": {
+            "permissions": []
+        },
+        "delete": {
+            "permissions": []
+        },
+        "list": {
+            "permissions": []
+        }
+    }
+}
