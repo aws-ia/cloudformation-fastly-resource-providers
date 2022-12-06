@@ -1,0 +1,7 @@
+{
+    "Type": "tls_certificate",
+    "Attributes": {
+        "CertBlob": "<CERT_BLOB>",
+        "Name": "Tls name"
+    }
+}
