@@ -1,5 +1,5 @@
 {
-  "ServiceId": "0lA7DJyR4OghKSdVc4Zpjv",
+  "ServiceId": "<SERVICE_ID>",
   "Version": "3",
   "Name": "MySplunkEndpoint",
   "Token": "MySplunkToken",

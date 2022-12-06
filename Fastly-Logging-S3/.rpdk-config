@@ -22,7 +22,7 @@
         "typeConfiguration": {
             "configuration": {
                 "FastlyAccess": {
-                    "Token": "<FASTLY_TOKEN>"
+                    "Token": "{{resolve:ssm-secure:/cfn/fastly/token:1}}"
                 }
             },
             "configurationAlias": "default"
