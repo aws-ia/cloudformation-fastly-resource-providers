@@ -2,19 +2,19 @@
     "Relationships": {
         "TlsCertificate": {
             "Data": {
-                "Id":"<TLS_CERT_ID>",
+                "Id": "<TLS_CERT_ID>",
                 "Type": "tls_certificate"
             }
         },
         "TlsDomain": {
             "Data":{
-                "Id":"<TLS_DOMAIN_ID>",
+                "Id": "<TLS_DOMAIN_ID>",
                 "Type": "tls_domain"
             }
         },
         "TlsConfiguration": {
             "Data":{
-                "Id":"<TLS_CONFIG_ID>",
+                "Id": "<TLS_CONFIG_ID>",
                 "Type": "tls_configuration"
             }
         }
