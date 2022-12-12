@@ -1,10 +1,10 @@
 {
     "artifact_type": "RESOURCE",
-    "typeName": "Fastly::Tls::Certificate",
+    "typeName": "Fastly::Tls::Domain",
     "language": "typescript",
     "runtime": "nodejs14.x",
-    "entrypoint": "dist/Fastly-Tls-Certificate/src/handlers.entrypoint",
-    "testEntrypoint": "dist/Fastly-Tls-Certificate/src/handlers.testEntrypoint",
+    "entrypoint": "dist/Fastly-Tls-Domain/src/handlers.entrypoint",
+    "testEntrypoint": "dist/Fastly-Tls-Domain/src/handlers.testEntrypoint",
     "settings": {
         "version": false,
         "subparser_name": null,
