@@ -15,7 +15,7 @@
 mkdir -p inputs
 
 cat example-inputs/inputs_1_create.json | sed "s/acme.co.uk/cep-build-${CODEBUILD_BUILD_NUMBER}.com/g" | sed "s/<FASTLY_SERVICE_ID>/${FASTLY_SERVICE_ID}/g" | sed "s/<FASTLY_VERSION_ID>/${FASTLY_VERSION_ID}/g" > inputs/inputs_1_create.json
-cat example-inputs/inputs_1_create.json | sed "s/acme.co.uk/cep-build-${CODEBUILD_BUILD_NUMBER}.com/g" | sed "s/<FASTLY_SERVICE_ID>/${FASTLY_SERVICE_ID}/g" | sed "s/<FASTLY_VERSION_ID>/${FASTLY_VERSION_ID}/g" > inputs/inputs_1_update.json
+cat example-inputs/inputs_1_update.json | sed "s/acme.co.uk/cep-build-${CODEBUILD_BUILD_NUMBER}.com/g" | sed "s/<FASTLY_SERVICE_ID>/${FASTLY_SERVICE_ID}/g" | sed "s/<FASTLY_VERSION_ID>/${FASTLY_VERSION_ID}/g" > inputs/inputs_1_update.json
 cp example-inputs/inputs_1_invalid.json inputs/
 cat test/integ.yml | sed "s/<FASTLY_SERVICE_ID>/${FASTLY_SERVICE_ID}/g" | sed "s/<FASTLY_VERSION_ID>/${FASTLY_VERSION_ID}/g" | sed "s/<TEST_DOMAIN>/$(uuidgen).com/" > test/integ-unique.yml
 
