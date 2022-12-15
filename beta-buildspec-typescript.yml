@@ -24,11 +24,11 @@ phases:
       - npm install && npm run build
       - cd $RESOURCE_PATH
       - TYPE_NAME=$(cat .rpdk-config | jq -r .typeName)
-      - test -x ./setup.sh && ./setup.sh
+      - if test -x ./setup.sh; then ./setup.sh; fi
       - cfn validate
       - cfn generate
       - npm install && npm run build
-      - cfn submit --set-default
+      - cfn submit --region $AWS_REGION --set-default
       - aws cloudformation set-type-configuration --type RESOURCE --type-name $TYPE_NAME --configuration-alias default --configuration $(cat /root/.cfn-cli/typeConfiguration.json| jq -c "")
       - INTEG_STACK_NAME="integ-$(echo $RESOURCE_PATH | tr '[:upper:]' '[:lower:]')"
       - aws cloudformation create-stack --stack-name $INTEG_STACK_NAME --template-body file://test/integ-unique.yml
@@ -36,7 +36,7 @@ phases:
     finally:
       - cat rpdk.log
       - aws cloudformation delete-stack --stack-name $INTEG_STACK_NAME
-      - test -x ./cleanup.sh && ./cleanup.sh
+      - if test -x ./cleanup.sh; then ./cleanup.sh; fi
 artifacts:
   files:
     - $BUILD_FILE_NAME 
