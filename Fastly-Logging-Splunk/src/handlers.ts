@@ -59,6 +59,7 @@ class Resource extends AbstractFastlyResource<ResourceModel, LoggingSplunk, Logg
         const response: ResponseWithHttpInfo<LoggingSplunk> = await new Fastly.LoggingSplunkApi().updateLogSplunkWithHttpInfo({
             version_id: model.version,
             service_id: model.serviceId,
+            logging_splunk_name: model.name,
             ...Transformer.for(model.toJSON())
                 .transformKeys(CaseTransformer.PASCAL_TO_SNAKE)
                 .transform()
