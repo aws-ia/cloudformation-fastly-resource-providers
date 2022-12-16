@@ -1,8 +1,0 @@
-{
-  "ServiceId": "<SERVICE_ID>",
-  "Version": "3",
-  "AccessKey": "<AWS_ACCESS_KEY>",
-  "SecretKey": "<AWS_SECRET_KEY>",
-  "Name": "MyName",
-  "BucketName": "UpdatedBucketName"
-}
