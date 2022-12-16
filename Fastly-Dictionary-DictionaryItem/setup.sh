@@ -13,7 +13,8 @@
 
 mkdir -p inputs
 
-RANDOM_DICTIONARY=$(uuidgen | sed 's/[-]//g')
+#Fastly requires dictionary name to start with a letter
+RANDOM_DICTIONARY=a$(uuidgen | sed 's/[-]//g')
 
 cat example-inputs/inputs_1_create.json | sed "s/<FASTLY_SERVICE_ID>/${FASTLY_SERVICE_ID}/g" | sed "s/<FASTLY_DICTIONARY_ID>/{{DictionaryIdExport}}/g" > inputs/inputs_1_create.json
 cat example-inputs/inputs_1_update.json | sed "s/<FASTLY_SERVICE_ID>/${FASTLY_SERVICE_ID}/g" | sed "s/<FASTLY_DICTIONARY_ID>/{{DictionaryIdExport}}/g" > inputs/inputs_1_update.json
