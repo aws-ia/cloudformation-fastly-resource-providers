@@ -13,7 +13,7 @@
 
 mkdir -p inputs
 
-RANDOM_NAME=$(uuidgen | sed 's/[-]//g')
+RANDOM_NAME=a$(uuidgen | sed 's/[-]//g')
 
 cat example-inputs/inputs_1_create.json | sed "s/<RANDOM_NAME>/${RANDOM_NAME}/g" | sed "s/<FASTLY_SERVICE_ID>/${FASTLY_SERVICE_ID}/g" | sed "s/<FASTLY_VERSION_ID>/${FASTLY_VERSION_ID}/g" > inputs/inputs_1_create.json
 cat example-inputs/inputs_1_update.json | sed "s/<RANDOM_NAME>/${RANDOM_NAME}/g" | sed "s/<FASTLY_SERVICE_ID>/${FASTLY_SERVICE_ID}/g" | sed "s/<FASTLY_VERSION_ID>/${FASTLY_VERSION_ID}/g" > inputs/inputs_1_update.json

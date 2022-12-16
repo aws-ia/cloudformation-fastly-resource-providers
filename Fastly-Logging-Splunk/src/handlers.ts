@@ -24,7 +24,7 @@ class Resource extends AbstractFastlyResource<ResourceModel, LoggingSplunk, Logg
 
     async get(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<LoggingSplunk> {
         this.setAuthenticationAndTypeConfiguration(typeConfiguration);
-        const response: ResponseWithHttpInfo<LoggingSplunk> = await new Fastly.LoggingSplunkApi().getLogSplunkWithHttpInfo({service_id: model.serviceId || '', version_id: model.version || '', logging_splunk_name: model.name || ''});
+        const response: ResponseWithHttpInfo<LoggingSplunk> = await new Fastly.LoggingSplunkApi().getLogSplunkWithHttpInfo({service_id: model.serviceId || '', version_id: model.versionId || '', logging_splunk_name: model.name || ''});
         // When a resource is deleted, the GET still returns the resource but with the "deletedAt" field set.
         // When this happens, we should throw a `NotFound` exception to CloudFormation instead of returning the resource
         if (response.response.body.deleted_at !== null) {
@@ -35,7 +35,7 @@ class Resource extends AbstractFastlyResource<ResourceModel, LoggingSplunk, Logg
 
     async list(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<ResourceModel[]> {
         this.setAuthenticationAndTypeConfiguration(typeConfiguration);
-        const response: ResponseWithHttpInfo<LoggingSplunk[]> = await new Fastly.LoggingSplunkApi().listLogSplunkWithHttpInfo({service_id: model.serviceId || '', version_id: model.version || ''});
+        const response: ResponseWithHttpInfo<LoggingSplunk[]> = await new Fastly.LoggingSplunkApi().listLogSplunkWithHttpInfo({service_id: model.serviceId || '', version_id: model.versionId || ''});
 
         return response.response.body
             .map(servicePayload => this.setModelFrom(new ResourceModel(), servicePayload))
@@ -46,7 +46,7 @@ class Resource extends AbstractFastlyResource<ResourceModel, LoggingSplunk, Logg
         this.setAuthenticationAndTypeConfiguration(typeConfiguration);
         const response: ResponseWithHttpInfo<LoggingSplunk> = await new Fastly.LoggingSplunkApi().createLogSplunkWithHttpInfo({
             service_id: model.serviceId,
-            version_id: model.version,
+            version_id: model.versionId,
             ...Transformer.for(model.toJSON())
                 .transformKeys(CaseTransformer.PASCAL_TO_SNAKE)
                 .transform()
@@ -57,7 +57,7 @@ class Resource extends AbstractFastlyResource<ResourceModel, LoggingSplunk, Logg
     async update(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<LoggingSplunk> {
         this.setAuthenticationAndTypeConfiguration(typeConfiguration)
         const response: ResponseWithHttpInfo<LoggingSplunk> = await new Fastly.LoggingSplunkApi().updateLogSplunkWithHttpInfo({
-            version_id: model.version,
+            version_id: model.versionId,
             service_id: model.serviceId,
             logging_splunk_name: model.name,
             ...Transformer.for(model.toJSON())
@@ -69,7 +69,7 @@ class Resource extends AbstractFastlyResource<ResourceModel, LoggingSplunk, Logg
 
     async delete(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<void> {
         this.setAuthenticationAndTypeConfiguration(typeConfiguration)
-        await new Fastly.LoggingSplunkApi().deleteLogSplunkWithHttpInfo({service_id: model.serviceId || '', version_id: model.version || '', logging_splunk_name: model.name || ''});
+        await new Fastly.LoggingSplunkApi().deleteLogSplunkWithHttpInfo({service_id: model.serviceId || '', version_id: model.versionId || '', logging_splunk_name: model.name || ''});
     }
 
     setAuthenticationAndTypeConfiguration(typeConfiguration?: TypeConfigurationModel) {
