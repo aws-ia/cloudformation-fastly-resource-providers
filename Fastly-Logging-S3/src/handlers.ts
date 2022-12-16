@@ -59,6 +59,7 @@ class Resource extends AbstractFastlyResource<ResourceModel, LogAwsS3, LogAwsS3,
         const response: ResponseWithHttpInfo<LogAwsS3> = await new Fastly.LoggingS3Api().updateLogAwsS3WithHttpInfo({
             version_id: model.version,
             service_id: model.serviceId,
+            logging_s3_name: model.name,
             ...Transformer.for(model.toJSON())
                 .transformKeys(CaseTransformer.PASCAL_TO_SNAKE)
                 .transform()
