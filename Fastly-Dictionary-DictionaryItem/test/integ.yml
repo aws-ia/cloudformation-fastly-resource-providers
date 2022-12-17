@@ -11,6 +11,6 @@ Resources:
     Type: Fastly::Dictionary::DictionaryItem
     Properties:
       ServiceId: <FASTLY_SERVICE_ID>
-      DictionaryId: !GetAtt TestFastlyDictionary.id
+      DictionaryId: !GetAtt TestFastlyDictionary.Id
       ItemKey: Example Item Dictionary Key
       ItemValue: Value of Dictionary Key
