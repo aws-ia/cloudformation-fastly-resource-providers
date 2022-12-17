@@ -22,6 +22,7 @@ phases:
     commands:
       - echo Entered the build phase...
       - npm install && npm run build
+      - cp resource-role-prod.yaml $RESOURCE_PATH
       - cd $RESOURCE_PATH
       - pwd
       - ls
