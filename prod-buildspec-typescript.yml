@@ -27,12 +27,12 @@ phases:
       - pwd
       - ls
       - npm install && npm run build
-      - test -x ./setup.sh && ./setup.sh
+      - if test -x ./setup.sh; then ./setup.sh; fi
       - ../deregister-all.sh us-east-1
       - ../publish.sh us-east-1
       - ../deregister-all.sh us-west-2
       - ../publish.sh us-west-2
     finally:
       - cat rpdk.log
-      - test -x ./cleanup.sh && ./cleanup.sh
+      - if test -x ./cleanup.sh; then ./cleanup.sh; fi
 

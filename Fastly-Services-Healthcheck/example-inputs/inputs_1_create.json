@@ -7,5 +7,5 @@
   "Initial": 1,
   "Threshold": 1,
   "Timeout": 5000,
-  "Window": <FASTLY_VERSION_ID>
+  "Window": 10
 }

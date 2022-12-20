@@ -82,14 +82,14 @@ Resources:
   MySampleProject:
     Type: Fastly::Services::Healthcheck
     Properties:
-        ServiceId: abc123xyz,
-        VersionId: 2,
-        Name: Test healthcheck,
-        CheckInterval: 60000,
-        Host: aws.amazon.com,
-        Initial: 1,
-        Threshold: 1,
-        Timeout: 5000,
+        ServiceId: abc123xyz
+        VersionId: 2
+        Name: Test healthcheck
+        CheckInterval: 60000
+        Host: aws.amazon.com
+        Initial: 1
+        Threshold: 1
+        Timeout: 5000
         Window: 2
 ```
 

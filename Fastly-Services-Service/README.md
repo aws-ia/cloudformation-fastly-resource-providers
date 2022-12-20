@@ -1,4 +1,4 @@
-# Fastly::Services::Healthcheck
+# Fastly::Services::Service
 
 This resource type manages a [Fastly Service][3]
 

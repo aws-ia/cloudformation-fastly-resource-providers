@@ -28,7 +28,7 @@ phases:
       - if test -x ./setup.sh; then ./setup.sh; fi
       - cfn validate
       - cfn generate
-      - if test -e ./test/setup.yml; then SETUP_STACK_NAME="setup-$(echo $ENTRY_PATH | sed s/_/-/g)"; fi
+      - if test -e ./test/setup.yml; then SETUP_STACK_NAME="setup-$(echo $RESOURCE_PATH | sed s/_/-/g)"; fi
       - if test -e ./test/setup.yml; then aws cloudformation create-stack --stack-name $SETUP_STACK_NAME --template-body file://test/setup.yml; fi
       - if test -e ./test/setup.yml; then aws cloudformation wait stack-create-complete --stack-name $SETUP_STACK_NAME; fi
       - npm install && npm run build
