@@ -1,6 +1,6 @@
 # Fastly::Tls::Domain
 
-An example resource schema demonstrating some basic constructs and validation rules.
+Manage the activation of a Tls Domain
 
 ## Syntax
 

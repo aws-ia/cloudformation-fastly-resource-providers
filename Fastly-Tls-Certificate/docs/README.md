@@ -1,6 +1,6 @@
 # Fastly::Tls::Certificate
 
-An example resource schema demonstrating some basic constructs and validation rules.
+Manage a custom Tls Certificate upload
 
 ## Syntax
 

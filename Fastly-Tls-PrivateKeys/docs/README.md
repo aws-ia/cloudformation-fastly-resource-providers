@@ -1,6 +1,6 @@
 # Fastly::Tls::PrivateKeys
 
-An example resource schema demonstrating some basic constructs and validation rules.
+Manage the Tls Private Key upload
 
 ## Syntax
 

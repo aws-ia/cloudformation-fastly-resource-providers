@@ -1,7 +1,7 @@
 {
     "typeName": "Fastly::Tls::Domain",
-    "description": "An example resource schema demonstrating some basic constructs and validation rules.",
-    "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-rpdk.git",
+    "description": "Manage the activation of a Tls Domain",
+    "sourceUrl": "https://github.com/aws-ia/cloudformation-fastly-resource-providers",
     "definitions": {
         "FastlyAccess": {
             "description": "Properties needed to access Fastly.",

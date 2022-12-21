@@ -1,5 +1,5 @@
 # Fastly::Tls::Certificate
-
+To upload a valid custom certificate make sure to upload the [Fastly Tls Private Key][18] related to that Tls Certificate.
 This resource type manages a [custom Fastly Tls Certificate][3]
 
 [Documentation][4]
@@ -105,3 +105,4 @@ Keep in mind, during runtime all logs will be delivered to CloudWatch if you use
 [15]: https://aws.amazon.com/cli/
 [16]: https://Fastly.com/
 [17]: https://docs.fastly.com/en/guides/using-api-tokens
+[18]: /Fastly-Tls-PrivateKeys/

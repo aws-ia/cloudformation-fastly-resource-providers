@@ -36,7 +36,7 @@ For example:
   ```Bash
   $ aws cloudformation set-type-configuration \
   --region us-west-2 --type RESOURCE \
-  --type-name Fastly::Tls::Certificate \
+  --type-name Fastly::Tls::Domain \
   --configuration-alias default \
   --configuration "{ \"FastlyAccess\":{\"Token\":\"YOURTOKEN\"}}"
   ```

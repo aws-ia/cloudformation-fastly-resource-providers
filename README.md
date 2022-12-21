@@ -21,6 +21,7 @@ See the [end-user documentation](docs/user/generated) including:
 | Fastly::Logging::Splunk | This resource type manages a [Fastly Logging for Splunk ][27] | [/Fastly-Logging-Splunk][28] |
 | Fastly::Tls::Certificate | This resource type manages a custom [Fastly Tls Certificate][29] | [/Fastly-Tls-Certificate][30] |
 | Fastly::Tls::Domain | This resource type manages a [Fastly Tls Domain Activation][31] | [/Fastly-Tls-Domain][32] |
+| Fastly::Tls::PrivateKeys | This resource type manages a [Fastly Tls Private Keys upload][33] | [/Fastly-Tls-PrivateKeys][34] |
 
 ## Prerequisites
 * [AWS Account][14]
@@ -227,6 +228,21 @@ Resources:
       Url: "https://mysplunkhost:8088/services/collector/event/1.0"
 ```
 
+### Shows how to upload custom Tls Private Keys for Fastly
+```yaml
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Shows how to activate a custom Tls Private Keys for Fastly
+Resources:
+  MySampleProject:
+    Type: Fastly::Tls::PrivateKeys
+    Properties:
+        Type: tls_private_key,
+        Attributes:
+            Key: -----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\ns
+            Name: example name
+```
+
 ### Shows how to upload a custom Tls Certificate to Fastly
 ```yaml
 ---
@@ -300,3 +316,5 @@ Resources:
 [30]: /Fastly-Tls-Certificate/
 [31]: https://developer.fastly.com/reference/api/tls/custom-certs/activations/
 [32]: /Fastly-Tls-Domain/
+[33]: https://developer.fastly.com/reference/api/tls/custom-certs/private-keys/
+[34]: /Fastly-Tls-PrivateKeys/

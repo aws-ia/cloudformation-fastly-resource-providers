@@ -1,7 +1,7 @@
 {
     "typeName": "Fastly::Tls::Certificate",
-    "description": "An example resource schema demonstrating some basic constructs and validation rules.",
-    "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-rpdk.git",
+    "description": "Manage a custom Tls Certificate upload",
+    "sourceUrl": "https://github.com/aws-ia/cloudformation-fastly-resource-providers",
     "definitions": {
         "FastlyAccess": {
             "description": "Properties needed to access Fastly.",
@@ -13,7 +13,7 @@
             }
             },
             "required": [
-            "Token"
+                "Token"
             ],
             "additionalProperties": false
         },
