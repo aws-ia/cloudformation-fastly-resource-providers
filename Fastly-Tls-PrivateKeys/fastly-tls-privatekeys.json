@@ -1,0 +1,137 @@
+{
+    "typeName": "Fastly::Tls::PrivateKeys",
+    "description": "Manage the Tls Private Key upload",
+    "sourceUrl": "https://github.com/aws-ia/cloudformation-fastly-resource-providers",
+    "definitions": {
+        "FastlyAccess": {
+            "description": "Properties needed to access Fastly.",
+            "type": "object",
+            "properties": {
+                "Token": {
+                    "type": "string",
+                    "description": "API token used to access Fastly"
+                }
+            },
+            "required": [
+                "Token"
+            ],
+            "additionalProperties": false
+        },
+        "Attributes": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "Key": {
+                    "type": "string",
+                    "description": "The contents of the private key. Must be a PEM-formatted key. Not returned in response body."
+                },
+                "Name": {
+                    "type": "string",
+                    "description": "A customizable name for your private key"
+                },
+                "KeyType": {
+                    "$ref": "#/definitions/KeyType"
+                },
+                "KeyLength": {
+                    "$ref": "#/definitions/KeyLength"
+                },
+                "PublicKeySha1": {
+                    "$ref": "#/definitions/PublicKeySha1"
+                },
+                "Replace": {
+                    "$ref": "#/definitions/Replace"
+                },
+                "CreatedAt": {
+                    "$ref": "#/definitions/CreatedAt"
+                }
+            },
+            "required": [
+                "Key"
+            ]
+        },
+        "CreatedAt": {
+            "description": "Date and time in ISO 8601 format. Read-only.",
+            "type": "string",
+            "format": "date-time"
+        },
+        "DeletedAt": {
+            "description": "Date and time in ISO 8601 format. Read-only.",
+            "type": "string",
+            "format": "date-time"
+        },
+        "KeyType": {
+            "type": "string",
+            "description": "The algorithm used to generate the private key. Must be RSA"
+        },
+        "KeyLength": {
+            "type": "number",
+            "description": "The key length used to generate the private key"
+        },
+        "PublicKeySha1": {
+            "type": "string",
+            "description": "Useful for safely identifying the key"
+        },
+        "Replace": {
+            "type": "boolean",
+            "description": "A recommendation from Fastly to replace this private key and all associated certificates"
+        }
+    },
+    "typeConfiguration": {
+        "properties": {
+          "FastlyAccess": {
+            "$ref": "#/definitions/FastlyAccess"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "FastlyAccess"
+        ]
+    },
+    "properties": {
+        "Type": {
+            "type": "string",
+            "description": "Resource type. [Default tls_private_key]",
+            "enum": [
+                "tls_private_key"
+            ]
+        },
+        "Id": {
+            "type": "string",
+            "description": "Alphanumeric string identifying a private Key"
+        },
+        "Attributes": {
+            "$ref": "#/definitions/Attributes"
+        }
+    },
+    "additionalProperties": false,
+    "required": [
+        "Attributes"
+    ],
+    "readOnlyProperties": [
+        "/properties/Id",
+        "/properties/Attributes/KeyType",
+        "/properties/Attributes/KeyLength",
+        "/properties/Attributes/PublicKeySha1",
+        "/properties/Attributes/Replace"
+    ],
+    "writeOnlyProperties": [
+        "/properties/Attributes/Key"
+    ],
+    "primaryIdentifier": [
+        "/properties/Id"
+    ],
+    "handlers": {
+        "create": {
+            "permissions": []
+        },
+        "read": {
+            "permissions": []
+        },
+        "delete": {
+            "permissions": []
+        },
+        "list": {
+            "permissions": []
+        }
+    }
+}

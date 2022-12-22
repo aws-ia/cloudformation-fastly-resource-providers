@@ -1,0 +1,23 @@
+{
+    "Relationships": {
+        "TlsCertificate": {
+            "Data": {
+                "Id": "invalidTls",
+                "Type": "tls_certificate"
+            }
+        },
+        "TlsDomain": {
+            "Data":{
+                "Id": "example.com",
+                "Type": "tls_domain"
+            }
+        },
+        "TlsConfiguration": {
+            "Data":{
+                "Id": "invalidTls",
+                "Type": "tls_configuration"
+            }
+        }
+    },
+    "Type":"tls_activation"
+}

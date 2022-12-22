@@ -17,7 +17,11 @@ See the [end-user documentation](docs/user/generated) including:
 | Fastly::Dictionary::Dictionary | This resource type manages a [Fastly Dictionary][3] | [/Fastly-Dictionary-Dictionary][4] |
 | Fastly::Dictionary::DictionaryItem | This resource type manages a [Fastly  Dictionary Item][5] | [/Fastly-Dictionary-DictionaryItem][6] |
 | Fastly::Services::Healthcheck | This resource type manages a [Fastly Health Check ][24] | [/Fastly-Services-Healthcheck][19] |
-
+| Fastly::Logging::S3 | This resource type manages a [Fastly Logging for S3][25] | [/Fastly-Logging-S3][26] |
+| Fastly::Logging::Splunk | This resource type manages a [Fastly Logging for Splunk ][27] | [/Fastly-Logging-Splunk][28] |
+| Fastly::Tls::Certificate | This resource type manages a custom [Fastly Tls Certificate][29] | [/Fastly-Tls-Certificate][30] |
+| Fastly::Tls::Domain | This resource type manages a [Fastly Tls Domain Activation][31] | [/Fastly-Tls-Domain][32] |
+| Fastly::Tls::PrivateKeys | This resource type manages a [Fastly Tls Private Keys upload][33] | [/Fastly-Tls-PrivateKeys][34] |
 
 ## Prerequisites
 * [AWS Account][14]
@@ -191,6 +195,95 @@ Resources:
       ItemValue: Value of Dictionary Key
 ```
 
+### Shows how to create a Logging S3 Endpoint in Fastly
+```yaml
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Shows how to create a Logging S3 Endpoint in Fastly
+Resources:
+  MySampleProject:
+    Type: Fastly::Logging::S3
+    Properties:
+      ServiceId: 3504143
+      VersionId: 123
+      Name: S3 Example Name
+      AccessKey: MyAWSAccessKey
+      SecretKey: MyAWSSecretKey
+      BucketName: MyS3BucketName
+```
+
+### Shows how to create a Logging Splunk Endpoint in Fastly
+```yaml
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Shows how to create a Logging Splunk Endpoint in Fastly
+Resources:
+  MySampleProject:
+    Type: Fastly::Logging::Splunk
+    Properties:
+      ServiceId: 3504143
+      VersionId: 123
+      Name: Splunk Example Name
+      Token: MySplunkToken
+      Url: "https://mysplunkhost:8088/services/collector/event/1.0"
+```
+
+### Shows how to upload custom Tls Private Keys for Fastly
+```yaml
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Shows how to activate a custom Tls Private Keys for Fastly
+Resources:
+  MySampleProject:
+    Type: Fastly::Tls::PrivateKeys
+    Properties:
+        Type: tls_private_key,
+        Attributes:
+            Key: -----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\ns
+            Name: example name
+```
+
+### Shows how to upload a custom Tls Certificate to Fastly
+```yaml
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Shows how to upload a custom Tls Certificate to Fastly
+Resources:
+  MySampleProject:
+    Type: Fastly::Tls::Certificate
+    Properties:
+        Type: tls_certificate,
+        Attributes: 
+            CertBlob: -----BEGIN CERTIFICATE-----\n ... \n-----END CERTIFICATE-----,
+            Name: Tls name
+
+```
+
+### Shows how to activate a custom Tls Domain for Fastly
+```yaml
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Shows how to activate a custom Tls Domain for Fastly
+Resources:
+  MySampleProject:
+    Type: Fastly::Tls::Domain
+    Properties:
+        Type: tls_activation
+        Relationships: 
+            TlsCertificate: 
+                Data: 
+                    Id: tlsCertId123,
+                    Type: tls_certificate
+            TlsDomain: 
+                Data:
+                    Id: example.com,
+                    Type: tls_domain
+            TlsConfiguration: 
+                Data:
+                    Id: tlsConfigId123,
+                    Type: tls_configuration
+```
+
 [1]: https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-types.html
 [2]: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html
 [3]: https://docs.fastly.com/en/guides/working-with-dictionaries-using-the-web-interface#creating-a-dictionary-container
@@ -215,3 +308,13 @@ Resources:
 [22]: ./docs/
 [23]: ./docs/user/src/main/docs/stories/creating-a-service/
 [24]: https://docs.fastly.com/en/guides/working-with-health-checks
+[25]: https://docs.fastly.com/en/guides/log-streaming-amazon-s3
+[26]: /Fastly-Logging-S3/
+[27]: https://docs.fastly.com/en/guides/log-streaming-splunk
+[28]: /Fastly-Logging-Splunk/
+[29]: https://docs.fastly.com/products/tls-service-options
+[30]: /Fastly-Tls-Certificate/
+[31]: https://developer.fastly.com/reference/api/tls/custom-certs/activations/
+[32]: /Fastly-Tls-Domain/
+[33]: https://developer.fastly.com/reference/api/tls/custom-certs/private-keys/
+[34]: /Fastly-Tls-PrivateKeys/
