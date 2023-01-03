@@ -33,6 +33,7 @@ To declare this entity in your AWS CloudFormation template, use the following sy
         "<a href="#serversideencryption" title="ServerSideEncryption">ServerSideEncryption</a>" : <i>String</i>,
         "<a href="#serversideencryptionkmskeyid" title="ServerSideEncryptionKmsKeyId">ServerSideEncryptionKmsKeyId</a>" : <i>String</i>,
         "<a href="#serviceid" title="ServiceId">ServiceId</a>" : <i>String</i>,
+        "<a href="#versionid" title="VersionId">VersionId</a>" : <i>String</i>,
         "<a href="#version" title="Version">Version</a>" : <i>String</i>
     }
 }
@@ -64,6 +65,7 @@ Properties:
     <a href="#serversideencryption" title="ServerSideEncryption">ServerSideEncryption</a>: <i>String</i>
     <a href="#serversideencryptionkmskeyid" title="ServerSideEncryptionKmsKeyId">ServerSideEncryptionKmsKeyId</a>: <i>String</i>
     <a href="#serviceid" title="ServiceId">ServiceId</a>: <i>String</i>
+    <a href="#versionid" title="VersionId">VersionId</a>: <i>String</i>
     <a href="#version" title="Version">Version</a>: <i>String</i>
 </pre>
 
@@ -287,15 +289,25 @@ _Type_: String
 
 _Update requires_: [Replacement](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-replacement)
 
-#### Version
+#### VersionId
 
-Integer identifying a backend version. Read-only.
+Alphanumeric string identifying the service version.
 
 _Required_: No
 
 _Type_: String
 
 _Update requires_: [Replacement](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-replacement)
+
+#### Version
+
+Integer identifying a domain version. Read-only.
+
+_Required_: No
+
+_Type_: String
+
+_Update requires_: [No interruption](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-no-interrupt)
 
 ## Return Values
 

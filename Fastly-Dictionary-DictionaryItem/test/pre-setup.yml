@@ -1,0 +1,14 @@
+
+Resources:
+  TestFastlyDictionary:
+    Type: Fastly::Dictionary::Dictionary
+    Properties:
+        Name: UnitTestDictionary
+        ServiceId: <FASTLY_SERVICE_ID>
+        VersionId: <FASTLY_VERSION_ID>
+
+Outputs:
+  DictionaryId:
+    Value: !GetAtt TestFastlyDictionary.Id
+    Export: 
+      Name: DictionaryIdExport

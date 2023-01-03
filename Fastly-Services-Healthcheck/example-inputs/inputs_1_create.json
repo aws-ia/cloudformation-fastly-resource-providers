@@ -1,0 +1,11 @@
+{
+  "ServiceId": "<FASTLY_SERVICE_ID>",
+  "VersionId": "<FASTLY_VERSION_ID>",
+  "Name": "Test healthcheck",
+  "CheckInterval": 60000,
+  "Host": "aws.amazon.com",
+  "Initial": 1,
+  "Threshold": 1,
+  "Timeout": 5000,
+  "Window": 10
+}

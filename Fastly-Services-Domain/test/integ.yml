@@ -1,0 +1,9 @@
+
+Resources:
+  TestFastlyDomain:
+    Type: Fastly::Services::Domain
+    Properties:
+        Name: <TEST_DOMAIN>
+        ServiceId: <FASTLY_SERVICE_ID>
+        VersionId: <FASTLY_VERSION_ID>
+        Comment: This the integration domain

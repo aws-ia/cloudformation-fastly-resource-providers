@@ -1,0 +1,16 @@
+
+Resources:
+  TestFastlyDictionary:
+    Type: Fastly::Dictionary::Dictionary
+    Properties:
+        Name: <RANDOM_DICTIONARY>
+        ServiceId: <FASTLY_SERVICE_ID>
+        VersionId: <FASTLY_VERSION_ID>
+
+  TestFastlyDictionaryItem:
+    Type: Fastly::Dictionary::DictionaryItem
+    Properties:
+      ServiceId: <FASTLY_SERVICE_ID>
+      DictionaryId: !GetAtt TestFastlyDictionary.Id
+      ItemKey: Example Item Dictionary Key
+      ItemValue: Value of Dictionary Key

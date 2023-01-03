@@ -1,0 +1,5 @@
+{
+  "ServiceId": "idDoesNotExist",
+  "VersionId": "<FASTLY_VERSION_ID>",
+  "Name": "CFNDict"
+}

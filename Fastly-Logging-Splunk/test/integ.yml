@@ -1,0 +1,10 @@
+Resources:
+  MySampleProject:
+    Type: Fastly::Logging::Splunk
+    Properties:
+      ServiceId: <FASTLY_SERVICE_ID>
+      VersionId: <FASTLY_VERSION_ID>
+      Name: <RANDOM_NAME>
+      Token: MySplunkToken
+      Url: "https://mysplunkhost:8088/services/collector/event/1.0"
+      

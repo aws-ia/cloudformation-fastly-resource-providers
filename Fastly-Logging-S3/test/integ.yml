@@ -1,0 +1,10 @@
+Resources:
+  MySampleProject:
+    Type: Fastly::Logging::S3
+    Properties:
+      ServiceId: <FASTLY_SERVICE_ID>
+      VersionId: <FASTLY_VERSION_ID>
+      Name: <RANDOM_NAME>
+      AccessKey: AKIAIOSFODNN7EXAMPLE
+      SecretKey: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+      BucketName: FastlyLoggingS3Bucket

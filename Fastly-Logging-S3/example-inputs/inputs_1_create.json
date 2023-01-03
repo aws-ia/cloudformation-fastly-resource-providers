@@ -1,0 +1,8 @@
+{
+  "ServiceId": "<FASTLY_SERVICE_ID>",
+  "VersionId": "<FASTLY_VERSION_ID>",
+  "AccessKey": "AKIAIOSFODNN7EXAMPLE",
+  "SecretKey": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+  "Name": "<RANDOM_NAME>",
+  "BucketName": "MyFastlyLogS3Bucket"
+}

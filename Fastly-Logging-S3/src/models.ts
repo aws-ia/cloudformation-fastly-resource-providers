@@ -11,8 +11,6 @@ export class ResourceModel extends BaseModel {
     @Exclude()
     protected readonly IDENTIFIER_KEY_SERVICEID: string = '/properties/ServiceId';
     @Exclude()
-    protected readonly IDENTIFIER_KEY_VERSION: string = '/properties/Version';
-    @Exclude()
     protected readonly IDENTIFIER_KEY_NAME: string = '/properties/Name';
 
     @Expose({ name: 'AccessKey' })
@@ -231,6 +229,15 @@ export class ResourceModel extends BaseModel {
         }
     )
     updatedAt?: Optional<string>;
+    @Expose({ name: 'VersionId' })
+    @Transform(
+        (value: any, obj: any) =>
+            transformValue(String, 'versionId', value, obj, []),
+        {
+            toClassOnly: true,
+        }
+    )
+    versionId?: Optional<string>;
     @Expose({ name: 'Version' })
     @Transform(
         (value: any, obj: any) =>
@@ -248,16 +255,12 @@ export class ResourceModel extends BaseModel {
             identifier[this.IDENTIFIER_KEY_SERVICEID] = this.serviceId;
         }
 
-        if (this.version != null) {
-            identifier[this.IDENTIFIER_KEY_VERSION] = this.version;
-        }
-
         if (this.name != null) {
             identifier[this.IDENTIFIER_KEY_NAME] = this.name;
         }
 
         // only return the identifier if it can be used, i.e. if all components are present
-        return Object.keys(identifier).length === 3 ? identifier : null;
+        return Object.keys(identifier).length === 2 ? identifier : null;
     }
 
     @Exclude()
