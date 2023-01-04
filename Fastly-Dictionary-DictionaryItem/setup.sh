@@ -23,3 +23,9 @@ cat test/integ.yml | sed "s/<RANDOM_DICTIONARY>/${RANDOM_DICTIONARY}/g" | sed "s
 cat test/pre-setup.yml | sed "s/<FASTLY_SERVICE_ID>/${FASTLY_SERVICE_ID}/g" | sed "s/<FASTLY_VERSION_ID>/${FASTLY_VERSION_ID}/g" > test/setup.yml
 
 python3 ../get_type_configuration.py
+
+cd ../Fastly-Dictionary-Dictionary
+TYPE_NAME=$(cat .rpdk-config | jq -r .typeName)
+
+cfn submit --region $AWS_REGION --set-default
+aws cloudformation set-type-configuration --type RESOURCE --type-name $TYPE_NAME --configuration-alias default --configuration $(cat /root/.cfn-cli/typeConfiguration.json| jq -c "")
