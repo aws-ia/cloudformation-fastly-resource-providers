@@ -93,7 +93,7 @@ The Fastly CloudFormation resources are available on the CloudFormation Public R
 
 ### [Sample use case][23]
 
-### Shows how to create an Deliver Service in Fastly
+### Shows how to create a Deliver Service in Fastly
 
 ```yaml
 ---
