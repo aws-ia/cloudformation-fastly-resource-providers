@@ -36,6 +36,7 @@ phases:
     finally:
       - cat rpdk.log
       - aws cloudformation delete-stack --stack-name $INTEG_STACK_NAME
+      - aws cloudformation wait stack-delete-complete --stack-name $INTEG_STACK_NAME
       - if test -x ./cleanup.sh; then ./cleanup.sh; fi
 artifacts:
   files:

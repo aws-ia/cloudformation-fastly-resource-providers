@@ -39,6 +39,7 @@ phases:
     finally:
       - cat rpdk.log
       - if test -e ./test/setup.yml; then aws cloudformation delete-stack --stack-name $SETUP_STACK_NAME; fi
+      - if test -e ./test/setup.yml; then aws cloudformation wait stack-delete-complete --stack-name $SETUP_STACK_NAME; fi
       - if test -x ./cleanup.sh; then ./cleanup.sh; fi
 artifacts:
   files:
