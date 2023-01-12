@@ -34,8 +34,11 @@ class Resource extends AbstractFastlyResource<ResourceModel, DomainPayload, Doma
         Fastly.ApiClient.instance.defaultHeaders = {
             'User-Agent': this.userAgent
         };
-        const response: ResponseWithHttpInfo<DomainPayload[]> = await new Fastly.TlsDomainsApi().listTlsDomainsWithHttpInfo();
-        return response.data;
+        const response: ResponseWithHttpInfo<DomainPayload> = await new Fastly.TlsDomainsApi().listTlsDomainsWithHttpInfo();
+
+        return response.response.body.data.map((pk: any) => {
+            return this.setModelFrom(new ResourceModel(), pk);
+        });
     }
 
     async create(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<DomainPayload> {
