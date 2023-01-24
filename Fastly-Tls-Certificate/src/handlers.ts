@@ -28,13 +28,16 @@ class Resource extends AbstractFastlyResource<ResourceModel, CertificatePayload,
         return response.response.body.data;
     }
 
-    async list(typeConfiguration?: TypeConfigurationModel): Promise<ResourceModel[]> {
+    async list(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<ResourceModel[]> {
         Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
         Fastly.ApiClient.instance.defaultHeaders = {
             'User-Agent': this.userAgent
         };
-        const response: ResponseWithHttpInfo<CertificatePayload[]> = await new Fastly.TlsCertificatesApi().listTlsCertsWithHttpInfo();
-        return response.data;
+        const response: ResponseWithHttpInfo<CertificatePayload> = await new Fastly.TlsCertificatesApi().listTlsCertsWithHttpInfo();
+        
+        return response.response.body.data.map((pk: any) => {
+            return this.setModelFrom(new ResourceModel(), pk);
+        });
     }
 
     async create(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<CertificatePayload> {
