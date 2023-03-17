@@ -29,15 +29,17 @@ class Resource extends AbstractFastlyResource<ResourceModel, DomainPayload, Doma
         return response.response.body.data;
     }
 
-    async list(typeConfiguration?: TypeConfigurationModel): Promise<ResourceModel[]> {
+    async list(initialModel: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<ResourceModel[]> {
         Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
         Fastly.ApiClient.instance.defaultHeaders = {
             'User-Agent': this.userAgent
         };
         const response: ResponseWithHttpInfo<DomainPayload> = await new Fastly.TlsDomainsApi().listTlsDomainsWithHttpInfo();
-
         return response.response.body.data.map((pk: any) => {
-            return this.setModelFrom(new ResourceModel(), pk);
+            // Id is returned inside the response, need's to be reset in order for ctv tests to pass
+            delete pk.id
+            const model =this.setModelFrom(initialModel, pk);
+            return model
         });
     }
 
