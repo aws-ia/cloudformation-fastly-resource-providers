@@ -13,15 +13,13 @@
 
 mkdir -p inputs
 
-cat example-inputs/inputs_1_create.json | sed "s/FASTLY_TLS_CERTIFICATE/${FASTLY_TLS_CERTIFICATE}/g" > inputs/inputs_1_create.json
-cat example-inputs/inputs_1_update.json | sed "s/FASTLY_TLS_CERTIFICATE/${FASTLY_TLS_CERTIFICATE}/g" > inputs/inputs_1_update.json
+cat example-inputs/inputs_1_create.json  > inputs/inputs_1_create.json
+cat example-inputs/inputs_1_update.json  > inputs/inputs_1_update.json
 cp example-inputs/inputs_1_invalid.json inputs/
-cat test/integ.yml | sed "s/FASTLY_TLS_CERTIFICATE/${FASTLY_TLS_CERTIFICATE}/g" > test/integ-unique.yml
+cat test/integ.yml > test/integ-unique.yml
+python3 ../get_parameterstore_values.py cep-fastly-tls-certificate FASTLY_TLS_CERTIFICATE
 
 echo "Printing inputs/inputs_1_create.json"
 cat inputs/inputs_1_create.json
-
-echo "Printing FASTLY_TLS_CERTIFICATE"
-echo ${FASTLY_TLS_CERTIFICATE}
 
 python3 ../get_type_configuration.py
