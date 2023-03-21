@@ -37,9 +37,15 @@ class Resource extends AbstractFastlyResource<ResourceModel, DomainPayload, Doma
         const response: ResponseWithHttpInfo<DomainPayload> = await new Fastly.TlsDomainsApi().listTlsDomainsWithHttpInfo();
         return response.response.body.data.map((pk: any) => {
             // Id is returned inside the response, need's to be reset in order for ctv tests to pass
-            delete pk.id
-            const model =this.setModelFrom(initialModel, pk);
-            return model
+            const data = pk.relationships.tls_activations.data
+            if (data.length > 0){ 
+                pk.id = data[0].id
+            } else {
+                const deleted = new ResourceModel()
+                deleted.id = pk.id;
+                return deleted;
+            }
+            return this.setModelFrom(new ResourceModel(), pk);
         });
     }
 
