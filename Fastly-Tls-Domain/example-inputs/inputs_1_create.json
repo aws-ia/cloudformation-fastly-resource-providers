@@ -2,19 +2,19 @@
     "Relationships": {
         "TlsCertificate": {
             "Data": {
-                "Id": "<TLS_CERT_ID>",
+                "Id": "Sij86NJeHglwfC5YWau9X4",
                 "Type": "tls_certificate"
             }
         },
         "TlsDomain": {
             "Data":{
-                "Id": "<TLS_DOMAIN_ID>",
+                "Id": "rajdnp.people.aws.dev",
                 "Type": "tls_domain"
             }
         },
         "TlsConfiguration": {
             "Data":{
-                "Id": "<TLS_CONFIG_ID>",
+                "Id": "EPX0oGlP0WxowN5JAh4IGA",
                 "Type": "tls_configuration"
             }
         }
