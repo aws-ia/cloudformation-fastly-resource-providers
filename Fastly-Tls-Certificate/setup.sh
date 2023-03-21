@@ -18,4 +18,10 @@ cat example-inputs/inputs_1_update.json | sed "s/FASTLY_TLS_CERTIFICATE/${FASTLY
 cp example-inputs/inputs_1_invalid.json inputs/
 cat test/integ.yml | sed "s/FASTLY_TLS_CERTIFICATE/${FASTLY_TLS_CERTIFICATE}/g" > test/integ-unique.yml
 
+echo "Printing inputs/inputs_1_create.json"
+cat inputs/inputs_1_create.json
+
+echo "Printing FASTLY_TLS_CERTIFICATE"
+echo ${FASTLY_TLS_CERTIFICATE}
+
 python3 ../get_type_configuration.py
