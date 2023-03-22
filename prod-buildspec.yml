@@ -17,22 +17,16 @@ phases:
       - node --version
       - pwd
       - ls
-
   build:
     commands:
       - echo Entered the build phase...
       - npm install && npm run build
-      - cp resource-role-prod.yaml $RESOURCE_PATH
       - cd $RESOURCE_PATH
       - pwd
       - ls
       - npm install && npm run build
-      - if test -x ./setup.sh; then ./setup.sh; fi
-      - ../deregister-all.sh us-east-1
-      - ../publish.sh us-east-1
-      - ../deregister-all.sh us-west-2
-      - ../publish.sh us-west-2
+      - ./setup.sh
+      - ../publish-resource-regions.sh
     finally:
       - cat rpdk.log
-      - if test -x ./cleanup.sh; then ./cleanup.sh; fi
-
+      - ./cleanup.sh    

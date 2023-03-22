@@ -1,0 +1,18 @@
+Resources:
+  MySampleProject:
+    Type: Fastly::Tls::Domain
+    Properties:
+      Type: tls_activation
+      Relationships:
+        TlsCertificate:
+          Data:
+            Id: FASTLY_TLS_CERT_ID
+            Type: tls_certificate
+        TlsDomain:
+          Data:
+            Id: FASTLY_TLS_DOMAIN_ID
+            Type: tls_domain
+        TlsConfiguration:
+          Data:
+            Id: FASTLY_TLS_CONFIG_ID
+            Type: tls_configuration

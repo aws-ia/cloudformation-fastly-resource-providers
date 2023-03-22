@@ -1,7 +1,7 @@
 {
     "Type": "tls_certificate",
     "Attributes": {
-        "CertBlob": "<FASTLY_TLS_CERTIFICATE>",
+        "CertBlob": FASTLY_TLS_CERTIFICATE,
         "Name": "Tls name"
     }
 }

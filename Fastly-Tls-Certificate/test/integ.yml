@@ -1,0 +1,8 @@
+Resources:
+  MySampleProject:
+    Type: Fastly::Tls::Certificate
+    Properties:
+      Type: tls_certificate
+      Attributes:
+        CertBlob: FASTLY_TLS_CERTIFICATE
+        Name: Tls name

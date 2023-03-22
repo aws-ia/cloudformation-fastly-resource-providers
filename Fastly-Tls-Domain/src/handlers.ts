@@ -35,6 +35,7 @@ class Resource extends AbstractFastlyResource<ResourceModel, DomainPayload, Doma
             'User-Agent': this.userAgent
         };
         const response: ResponseWithHttpInfo<DomainPayload> = await new Fastly.TlsDomainsApi().listTlsDomainsWithHttpInfo();
+
         return response.response.body.data.map((pk: any) => {
             // Id is returned inside the response, need's to be reset in order for ctv tests to pass
             const data = pk.relationships.tls_activations.data
