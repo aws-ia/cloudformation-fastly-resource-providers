@@ -2,7 +2,7 @@ Resources:
   MySampleProject:
     Type: Fastly::Tls::PrivateKeys
     Properties:
-      Type: tls_private_key,
+      Type: tls_private_key
       Attributes:
         Key: FASTLY_PRIVATE_KEY
         Name: example name
