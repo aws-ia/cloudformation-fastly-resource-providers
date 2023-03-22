@@ -4,7 +4,7 @@
 #
 # Run this from the resource folder
 
-regions_to_publish=(us-west-2,us-east-1)
+regions_to_publish=(us-west-2 us-east-1)
 
 # Errors:
 
