@@ -6,27 +6,6 @@
 
 regions_to_publish=(us-west-2 us-east-1)
 
-# Errors:
-
-# This is a registry bug
-
-#About to poll test status for arn:aws:cloudformation:eu-south-2:387586997764:type/resource/AwsCommunity-S3-DeleteBucketContents/00000001
-#NOT_TESTED
-#About to publish AwsCommunity::S3::DeleteBucketContents in eu-south-2
-#An error occurred (CFNRegistryException) when calling the PublishType operation: The version 00000001 for Type AwsCommunity::S3::DeleteBucketContents needs to be tested first. Please run the TestType API on this version first.
-#Publishing to eu-south-2 failed
-# (Same for me-central-1)
-
-# This has something to do with a failure when registering our prod account as a publisher.
-
-# An error occurred (CFNRegistryException) when calling the PublishType operation: The account 387586997764 is not verified as a publisher. Please register as publisher first
-#Publishing to eu-central-2 failed
-#Publishing to ap-south-2 failed
-
-
-# Use this to test succeed-fail locally
-#regions_to_publish=(us-east-1 us-seattle)
-
 successes=()
 failures=()
 
