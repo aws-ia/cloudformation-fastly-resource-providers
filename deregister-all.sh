@@ -4,7 +4,7 @@
 #
 # Does not un-publish any published versions.
 #
-# Run this from the resource directory, for example `Databricks-Clusters-Job/`
+# Run this from the resource directory, for example `Fastly-Dictionary-Dictionary/`
 #
 # Args
 #

@@ -23,12 +23,9 @@ class Resource extends AbstractFastlyResource<ResourceModel, DomainPayload, Doma
         Fastly.ApiClient.instance.defaultHeaders = {
             'User-Agent': this.userAgent
         };
-        console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@ RAJESH : ');
         const response: ResponseWithHttpInfo<DomainPayload> = await new Fastly.TlsActivationsApi().getTlsActivationWithHttpInfo({
             tls_activation_id: model.id || ''
         });
-        console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@Create : ',response.response.body.data);
-        console.log(`\n\n####################Create request: ${JSON.stringify(response.response.body.data,null,4)}`);
         return response.response.body.data;
     }
 
@@ -58,8 +55,6 @@ class Resource extends AbstractFastlyResource<ResourceModel, DomainPayload, Doma
         Fastly.ApiClient.instance.defaultHeaders = {
             'User-Agent': this.userAgent
         };
-        console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@ RAJESH ######');
-        console.log(`\n\n#####################Create request: ${JSON.stringify(model.toJSON(),null,4)}`);
         const response = await new Fastly.TlsActivationsApi().createTlsActivationWithHttpInfo({
             tls_activation: {
                 data: {
