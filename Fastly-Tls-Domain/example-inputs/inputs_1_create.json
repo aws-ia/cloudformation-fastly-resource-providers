@@ -2,19 +2,19 @@
     "Relationships": {
         "TlsCertificate": {
             "Data": {
-                "Id": "Sij86NJeHglwfC5YWau9X4",
+                "Id": "FASTLY_TLS_CERT_ID",
                 "Type": "tls_certificate"
             }
         },
         "TlsDomain": {
             "Data":{
-                "Id": "rajdnp.people.aws.dev",
+                "Id": "FASTLY_TLS_DOMAIN_ID",
                 "Type": "tls_domain"
             }
         },
         "TlsConfiguration": {
             "Data":{
-                "Id": "EPX0oGlP0WxowN5JAh4IGA",
+                "Id": "FASTLY_TLS_CONFIG_ID",
                 "Type": "tls_configuration"
             }
         }
