@@ -16,8 +16,8 @@ mkdir -p inputs
 #Fastly requires dictionary name to start with a letter
 RANDOM_DICTIONARY=a$(uuidgen | sed 's/[-]//g')
 
-cat example-inputs/inputs_1_create.json | sed "s/<FASTLY_SERVICE_ID>/${FASTLY_SERVICE_ID}/g" | sed "s/<FASTLY_DICTIONARY_ID>/{{DictionaryIdExport}}/g" > inputs/inputs_1_create.json
-cat example-inputs/inputs_1_update.json | sed "s/<FASTLY_SERVICE_ID>/${FASTLY_SERVICE_ID}/g" | sed "s/<FASTLY_DICTIONARY_ID>/{{DictionaryIdExport}}/g" > inputs/inputs_1_update.json
+cat example-inputs/inputs_1_create.json | sed "s/<FASTLY_SERVICE_ID>/${FASTLY_SERVICE_ID}/g" | sed "s/<FASTLY_DICTIONARY_ID>/${FASTLY_DICTIONARY_ID}/g" > inputs/inputs_1_create.json
+cat example-inputs/inputs_1_update.json | sed "s/<FASTLY_SERVICE_ID>/${FASTLY_SERVICE_ID}/g" | sed "s/<FASTLY_DICTIONARY_ID>/${FASTLY_DICTIONARY_ID}/g" > inputs/inputs_1_update.json
 cp example-inputs/inputs_1_invalid.json inputs/
 cat test/integ.yml | sed "s/<RANDOM_DICTIONARY>/${RANDOM_DICTIONARY}/g" | sed "s/<FASTLY_SERVICE_ID>/${FASTLY_SERVICE_ID}/g" | sed "s/<FASTLY_VERSION_ID>/${FASTLY_VERSION_ID}/g" > test/integ-unique.yml
 cat test/pre-setup.yml | sed "s/<FASTLY_SERVICE_ID>/${FASTLY_SERVICE_ID}/g" | sed "s/<FASTLY_VERSION_ID>/${FASTLY_VERSION_ID}/g" > test/setup.yml
