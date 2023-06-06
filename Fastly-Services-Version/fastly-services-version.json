@@ -1,0 +1,109 @@
+{
+  "typeName": "Fastly::Services::Version",
+  "description": "Manage a Fastly service version.",
+  "sourceUrl": "https://github.com/aws-ia/cloudformation-fastly-resource-providers.git",
+  "documentationUrl": "https://github.com/aws-ia/cloudformation-fastly-resource-providers",
+  "definitions": {
+    "FastlyAccess": {
+      "description": "Properties needed to access Fastly.",
+      "type": "object",
+      "properties": {
+        "Token": {
+          "type": "string",
+          "description": "API token used to access Fastly"
+        }
+      },
+      "required": [
+        "Token"
+      ],
+      "additionalProperties": false
+    },
+    "CreatedAt": {
+      "description": "Date and time in ISO 8601 format. Read-only.",
+      "type": "string",
+      "format": "date-time"
+    },
+    "UpdatedAt": {
+      "description": "Date and time in ISO 8601 format. Read-only.",
+      "type": "string",
+      "format": "date-time"
+    },
+    "DeletedAt": {
+      "description": "Date and time in ISO 8601 format. Read-only.",
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "typeConfiguration": {
+    "properties": {
+      "FastlyAccess": {
+        "$ref": "#/definitions/FastlyAccess"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "FastlyAccess"
+    ]
+  },
+  "properties": {
+    "ServiceId": {
+      "description": "Alphanumeric string identifying the service. Read-only.",
+      "type": "string"
+    },
+    "Comment": {
+      "description": "A freeform descriptive note.",
+      "type": "string"
+    },
+    "VersionNumber": {
+      "description": "The number of this version.",
+      "type": "integer"
+    },
+    "CreatedAt": {
+      "$ref": "#/definitions/CreatedAt"
+    },
+    "UpdatedAt": {
+      "$ref": "#/definitions/UpdatedAt"
+    },
+    "DeletedAt": {
+      "$ref": "#/definitions/DeletedAt"
+    }
+  },
+  "additionalProperties": false,
+  "tagging": {
+    "taggable": false
+  },
+  "required": [
+    "ServiceId"
+  ],
+  "createOnlyProperties": [
+    "/properties/ServiceId"
+  ],
+  "readOnlyProperties": [
+    "/properties/VersionNumber",
+    "/properties/Active",
+    "/properties/CreatedAt",
+    "/properties/UpdatedAt",
+    "/properties/DeletedAt"
+  ],
+  "primaryIdentifier": [
+    "/properties/ServiceId",
+    "/properties/VersionNumber"
+  ],
+  "handlers": {
+    "create": {
+      "permissions": []
+    },
+    "read": {
+      "permissions": []
+    },
+    "update": {
+      "permissions": []
+    },
+    "delete": {
+      "permissions": []
+    },
+    "list": {
+      "permissions": []
+    }
+  }
+}

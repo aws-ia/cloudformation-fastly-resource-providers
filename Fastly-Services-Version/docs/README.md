@@ -1,6 +1,6 @@
-# Fastly::Services::Service
+# Fastly::Services::Version
 
-Manage a Fastly service.
+Manage a Fastly service version.
 
 ## Syntax
 
@@ -10,9 +10,9 @@ To declare this entity in your AWS CloudFormation template, use the following sy
 
 <pre>
 {
-    "Type" : "Fastly::Services::Service",
+    "Type" : "Fastly::Services::Version",
     "Properties" : {
-        "<a href="#name" title="Name">Name</a>" : <i>String</i>,
+        "<a href="#serviceid" title="ServiceId">ServiceId</a>" : <i>String</i>,
         "<a href="#comment" title="Comment">Comment</a>" : <i>String</i>,
     }
 }
@@ -21,25 +21,23 @@ To declare this entity in your AWS CloudFormation template, use the following sy
 ### YAML
 
 <pre>
-Type: Fastly::Services::Service
+Type: Fastly::Services::Version
 Properties:
-    <a href="#name" title="Name">Name</a>: <i>String</i>
+    <a href="#serviceid" title="ServiceId">ServiceId</a>: <i>String</i>
     <a href="#comment" title="Comment">Comment</a>: <i>String</i>
 </pre>
 
 ## Properties
 
-#### Name
+#### ServiceId
 
-The name of the service.
+Alphanumeric string identifying the service. Read-only.
 
 _Required_: Yes
 
 _Type_: String
 
-_Minimum_: <code>1</code>
-
-_Update requires_: [No interruption](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-no-interrupt)
+_Update requires_: [Replacement](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-replacement)
 
 #### Comment
 
@@ -49,15 +47,9 @@ _Required_: No
 
 _Type_: String
 
-_Pattern_: <code>^[a-zA-Z0-9_';:, \!\-\.\*\"\?]*$</code>
-
 _Update requires_: [No interruption](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-no-interrupt)
 
 ## Return Values
-
-### Ref
-
-When you pass the logical ID of this resource to the intrinsic `Ref` function, Ref returns the Id.
 
 ### Fn::GetAtt
 
@@ -65,29 +57,13 @@ The `Fn::GetAtt` intrinsic function returns a value for a specified attribute of
 
 For more information about using the `Fn::GetAtt` intrinsic function, see [Fn::GetAtt](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-getatt.html).
 
-#### Id
+#### VersionNumber
 
-Alphanumeric string identifying the service. Read-only.
+The number of this version.
 
-#### ActiveVersionId
+#### Active
 
-The number of the active version.
-
-#### LatestVersionId
-
-The number of the latest version.
-
-#### Type
-
-The type of this service.
-
-#### Paused
-
-Whether the service is paused. Services are paused due to a lack of traffic for an extended period of time. Services are resumed either when a draft version is activated or a locked version is cloned and reactivated.
-
-#### CustomerId
-
-Alphanumeric string identifying the customer. Read-only.
+Returns the <code>Active</code> value.
 
 #### CreatedAt
 
