@@ -40,3 +40,9 @@ We have focussed on those objects and properties which have seemed most useful.
 If we missed something, open an issue to let us know, or even better, contribute an extension!
 
 The **Full Fastly CloudFormation Resources Reference** is available [here](resources).
+
+### Implementation notes
+
+For the Fastly::Services::Version resource, Fastly does not support the deletion of service versions. In order
+to support the CFN framework, which requires that resources can be deleted, the comment field is set to "CFN-DELETED"
+when a service resource is deleted, which causes the version to be ignored by subsequent list and get operations.
