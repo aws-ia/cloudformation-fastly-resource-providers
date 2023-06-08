@@ -22,15 +22,6 @@ export class ResourceModel extends BaseModel {
         }
     )
     serviceId?: Optional<string>;
-    @Expose({ name: 'Comment' })
-    @Transform(
-        (value: any, obj: any) =>
-            transformValue(String, 'comment', value, obj, []),
-        {
-            toClassOnly: true,
-        }
-    )
-    comment?: Optional<string>;
     @Expose({ name: 'VersionNumber' })
     @Transform(
         (value: any, obj: any) =>

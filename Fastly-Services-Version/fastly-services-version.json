@@ -50,10 +50,6 @@
       "description": "Alphanumeric string identifying the service. Read-only.",
       "type": "string"
     },
-    "Comment": {
-      "description": "A freeform descriptive note.",
-      "type": "string"
-    },
     "VersionNumber": {
       "description": "The number of this version.",
       "type": "integer"
@@ -80,7 +76,6 @@
   ],
   "readOnlyProperties": [
     "/properties/VersionNumber",
-    "/properties/Active",
     "/properties/CreatedAt",
     "/properties/UpdatedAt",
     "/properties/DeletedAt"
@@ -96,13 +91,7 @@
     "read": {
       "permissions": []
     },
-    "update": {
-      "permissions": []
-    },
     "delete": {
-      "permissions": []
-    },
-    "list": {
       "permissions": []
     }
   }

@@ -1,12 +1,12 @@
 import {ResourceModel, TypeConfigurationModel} from './models';
 import {AbstractFastlyResource} from '../../Fastly-Common/src/abstract-fastly-resource';
-import {CaseTransformer, Transformer} from '../../Fastly-Common/src/util';
-import {FastlyApiObject, FastlyError, fastlyNotFoundError, ResponseWithHttpInfo} from '../../Fastly-Common/src/types';
+import {FastlyApiObject, fastlyNotFoundError, ResponseWithHttpInfo} from '../../Fastly-Common/src/types';
 // We have to use @ts-ignore here as the "fastly" lib doesn't have TypeScript definitions
 // @ts-ignore
 import * as Fastly from "fastly";
 import {version} from '../package.json';
-import {LoggerProxy} from "@amazon-web-services-cloudformation/cloudformation-cli-typescript-lib";
+import {exceptions, LoggerProxy} from "@amazon-web-services-cloudformation/cloudformation-cli-typescript-lib";
+import {InvalidRequest} from "@amazon-web-services-cloudformation/cloudformation-cli-typescript-lib/dist/exceptions";
 
 // The types below are only partial representation of what the API is returning. It's only needed for TypeScript niceties
 type ServiceVersion = {
@@ -14,6 +14,8 @@ type ServiceVersion = {
     service_id: string
     number: string
 } & FastlyApiObject
+
+const DELETED_COMMENT="CFN-DELETED";
 
 class Resource extends AbstractFastlyResource<ResourceModel, ServiceVersion, ServiceVersion, ServiceVersion, TypeConfigurationModel> {
 
@@ -36,21 +38,14 @@ class Resource extends AbstractFastlyResource<ResourceModel, ServiceVersion, Ser
 
         // When a resource is deleted, the GET still returns the resource but with the "deletedAt" field set.
         // When this happens, we should throw a `NotFound` exception to CloudFormation instead of returning the resource
-        if (response.response.body.deleted_at !== null) {
+        if (response.response.body.deleted_at !== null || DELETED_COMMENT == response.response.body.comment) {
             throw fastlyNotFoundError;
         }
         return response.response.body;
     }
 
     async list(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<ResourceModel[]> {
-        Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
-        Fastly.ApiClient.instance.defaultHeaders = {
-            'User-Agent': this.userAgent
-        };
-        const response: ResponseWithHttpInfo<ServiceVersion[]> = await new Fastly.ServiceApi().listServicesWithHttpInfo();
-        return response.response.body
-            .map(servicePayload => this.setModelFrom(new ResourceModel(), servicePayload))
-            .filter(newModel => newModel.deletedAt === null)
+        throw new InvalidRequest(`${this.typeName} resource cannot be listed`);
     }
 
     async create(model: ResourceModel, typeConfiguration?: TypeConfigurationModel, logger?: LoggerProxy): Promise<ServiceVersion> {
@@ -63,17 +58,7 @@ class Resource extends AbstractFastlyResource<ResourceModel, ServiceVersion, Ser
     }
 
     async update(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<ServiceVersion> {
-        Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
-        Fastly.ApiClient.instance.defaultHeaders = {
-            'User-Agent': this.userAgent
-        };
-        const response: ResponseWithHttpInfo<ServiceVersion> = await new Fastly.ServiceApi().updateServiceWithHttpInfo({
-            service_id: model.serviceId,
-            ...Transformer.for(model.toJSON())
-                .transformKeys(CaseTransformer.PASCAL_TO_SNAKE)
-                .transform()
-        });
-        return response.response.body;
+        throw new exceptions.NotUpdatable;
     }
 
     async delete(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<void> {
@@ -81,7 +66,7 @@ class Resource extends AbstractFastlyResource<ResourceModel, ServiceVersion, Ser
         Fastly.ApiClient.instance.defaultHeaders = {
             'User-Agent': this.userAgent
         };
-        await new Fastly.ServiceApi().deleteServiceWithHttpInfo({service_id: model.serviceId});
+        await new Fastly.VersionApi().updateServiceVersionWithHttpInfo({service_id: model.serviceId, version_id: model.versionNumber, comment: DELETED_COMMENT});
     }
 
     newModel(partial?: any): ResourceModel {
@@ -97,7 +82,10 @@ class Resource extends AbstractFastlyResource<ResourceModel, ServiceVersion, Ser
             ...model,
             serviceId: from.service_id,
             versionNumber: from.number,
-            comment: from.comment
+            comment: from.comment,
+            createdAt: from.created_at,
+            updatedAt: from.updated_at,
+            deletedAt: from.deleted_at
         });
 
         return resourceModel;
