@@ -86,7 +86,9 @@
   ],
   "handlers": {
     "create": {
-      "permissions": []
+      "permissions": [
+        "appsync:CreateApiKey"
+      ]
     },
     "read": {
       "permissions": []
