@@ -6,11 +6,20 @@ import {FastlyApiObject, fastlyNotFoundError, ResponseWithHttpInfo} from '../../
 // @ts-ignore
 import * as Fastly from "fastly";
 import {version} from '../package.json';
+import {
+    Action, exceptions,
+    handlerEvent, LoggerProxy,
+    Optional, ProgressEvent, ResourceHandlerRequest,
+    SessionProxy
+} from "@amazon-web-services-cloudformation/cloudformation-cli-typescript-lib";
+import {NotFound} from "@amazon-web-services-cloudformation/cloudformation-cli-typescript-lib/dist/exceptions";
+import {RetryableCallbackContext} from "../../Fastly-Common/src/abstract-base-resource";
 
 // The type below are only partial representation of what the API is returning. It's only needed for TypeScript niceties
 type Domain = {
     name: string,
-    version: number
+    version: number,
+    service_id: number
 } & FastlyApiObject
 
 class Resource extends AbstractFastlyResource<ResourceModel, Domain, Domain, Domain, TypeConfigurationModel> {
@@ -103,11 +112,14 @@ class Resource extends AbstractFastlyResource<ResourceModel, Domain, Domain, Dom
                 .transformKeys(CaseTransformer.SNAKE_TO_CAMEL)
                 .forModelIngestion()
                 .transform(),
-            version: from.version.toString()
+            version: from.version,
+            service: from.service_id
         });
     }
 
 }
+
+
 
 export const resource = new Resource(ResourceModel.TYPE_NAME, ResourceModel, null, null, TypeConfigurationModel);
 
