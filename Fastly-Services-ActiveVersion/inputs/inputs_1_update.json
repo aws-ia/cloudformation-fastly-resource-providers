@@ -1,0 +1,4 @@
+{
+    "ServiceId": "<FASTLY_SERVICE_ID>",
+    "VersionNumber": <FASTLY_VERSION_UPDATE_NUMBER>
+}

@@ -1,0 +1,73 @@
+{
+  "typeName": "Fastly::Services::ActiveVersion",
+  "description": "Manage a Fastly service active version.",
+  "sourceUrl": "https://github.com/aws-ia/cloudformation-fastly-resource-providers.git",
+  "documentationUrl": "https://github.com/aws-ia/cloudformation-fastly-resource-providers",
+  "definitions": {
+    "FastlyAccess": {
+      "description": "Properties needed to access Fastly.",
+      "type": "object",
+      "properties": {
+        "Token": {
+          "type": "string",
+          "description": "API token used to access Fastly"
+        }
+      },
+      "required": [
+        "Token"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "typeConfiguration": {
+    "properties": {
+      "FastlyAccess": {
+        "$ref": "#/definitions/FastlyAccess"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "FastlyAccess"
+    ]
+  },
+  "properties": {
+    "ServiceId": {
+      "description": "Alphanumeric string identifying the service. Read-only.",
+      "type": "string"
+    },
+    "VersionNumber": {
+      "description": "The number of the version to be activated.",
+      "type": "integer"
+    }
+  },
+  "additionalProperties": false,
+  "tagging": {
+    "taggable": false
+  },
+  "required": [
+    "ServiceId",
+    "VersionNumber"
+  ],
+  "createOnlyProperties": [
+    "/properties/ServiceId"
+  ],
+  "primaryIdentifier": [
+    "/properties/ServiceId"
+  ],
+  "handlers": {
+    "create": {
+      "permissions": [
+        "appsync:CreateApiKey"
+      ]
+    },
+    "read": {
+      "permissions": []
+    },
+    "update": {
+      "permissions": []
+    },
+    "delete": {
+      "permissions": []
+    }
+  }
+}

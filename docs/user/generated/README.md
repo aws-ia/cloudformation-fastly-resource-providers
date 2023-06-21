@@ -46,3 +46,8 @@ The **Full Fastly CloudFormation Resources Reference** is available [here](resou
 For the Fastly::Services::Version resource, Fastly does not support the deletion of service versions. In order
 to support the CFN framework, which requires that resources can be deleted, the comment field is set to "CFN-DELETED"
 when a service resource is deleted, which causes the version to be ignored by subsequent list and get operations.
+
+Once a Fastly::Services::Version resource has been activated by the creation of a Fastly::Services::ActiveVersion resource,
+it, along with its dependent domains becomes immutable, and can no longer be edited or deleted via the Fastly API. Child
+resources created as part of a Fastly::Services::Service resource will be deleted upon deletion of the parent Fastly::Services::Service
+resource

@@ -1,9 +1,9 @@
 {
-    "name": "fastly-services-domain",
+    "name": "fastly-services-activeversion",
     "version": "0.1.0",
-    "description": "AWS custom resource provider named Fastly::Services::Domain.",
+    "description": "AWS custom resource provider named Fastly::Services::ActiveVersion.",
     "private": true,
-    "main": "dist/Fastly-Services-Domain/src/handlers.js",
+    "main": "dist/Fastly-Services-ActiveVersion/src/handlers.js",
     "files": [
         "dist"
     ],

@@ -19,7 +19,7 @@ export interface RetryableCallbackContext {
 
 export abstract class AbstractBaseResource<ResourceModelType extends BaseModel, GetResponseData, CreateResponseData, UpdateResponseData, ErrorType, TypeConfigurationType> extends BaseResource<ResourceModelType> {
 
-    private maxRetries = 5;
+    protected maxRetries = 5;
 
     /**
      * This method is invoked to get a resource from a vendor API, corresponding to the given the CloudFormation model input.
@@ -319,7 +319,7 @@ export abstract class AbstractBaseResource<ResourceModelType extends BaseModel, 
         }
     }
 
-    private async assertExists(model: ResourceModelType, typeConfiguration: TypeConfigurationType, logger?: LoggerProxy) {
+    protected async assertExists(model: ResourceModelType, typeConfiguration: TypeConfigurationType, logger?: LoggerProxy) {
         try {
             await this.get(model, typeConfiguration, logger);
         } catch (e) {
