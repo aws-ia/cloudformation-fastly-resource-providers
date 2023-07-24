@@ -1,0 +1,37 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+
+Description: |
+  The following CloudFormation Fastly resource types allow the creation and configuration of 
+  service level objectives, locations, monitors and metrics related to your application.
+  This allows kicking off monitoring of new projects simply, efficiently, and consistently.
+
+Resources:
+  DeliveryService:
+    Type: Fastly::Services::Service
+    Properties:
+      Name: MyService
+
+  TestServiceVersion:
+    Type: Fastly::Services::Version
+    Properties:
+      ServiceId: !GetAtt DeliveryService.Id
+
+  AnotherTestServiceVersion:
+    Type: Fastly::Services::Version
+    Properties:
+      ServiceId: !GetAtt DeliveryService.Id
+
+  MyDomain:
+    Type: Fastly::Services::Domain
+    Properties:
+      Name: nakom.is
+      Comment: This is a specific domain to access the ACME public webpage in the UK
+      ServiceId: !GetAtt DeliveryService.Id
+      VersionId: !GetAtt TestServiceVersion.VersionNumber
+
+#  TestActiveVersion:
+#    Type: Fastly::Services::ActiveVersion
+#    Properties:
+#      ServiceId: !GetAtt MyDomain.Service
+#      VersionNumber: !GetAtt MyDomain.Version

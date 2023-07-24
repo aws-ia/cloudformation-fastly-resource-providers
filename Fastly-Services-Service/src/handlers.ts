@@ -27,6 +27,8 @@ class Resource extends AbstractFastlyResource<ResourceModel, Service, Service, S
         Fastly.ApiClient.instance.defaultHeaders = {
             'User-Agent': this.userAgent
         };
+        this.loggerProxy?.log("USING TOKEN:")
+        this.loggerProxy?.log(typeConfiguration?.fastlyAccess.token)
         const response: ResponseWithHttpInfo<Service> = await new Fastly.ServiceApi().getServiceWithHttpInfo({service_id: model.id || ''});
         // When a resource is deleted, the GET still returns the resource but with the "deletedAt" field set.
         // When this happens, we should throw a `NotFound` exception to CloudFormation instead of returning the resource

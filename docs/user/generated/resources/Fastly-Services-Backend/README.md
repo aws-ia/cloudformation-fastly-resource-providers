@@ -40,6 +40,7 @@ To declare this entity in your AWS CloudFormation template, use the following sy
         "<a href="#usessl" title="UseSsl">UseSsl</a>" : <i>Boolean</i>,
         "<a href="#weight" title="Weight">Weight</a>" : <i>Integer</i>,
         "<a href="#serviceid" title="ServiceId">ServiceId</a>" : <i>String</i>,
+        "<a href="#backendname" title="BackendName">BackendName</a>" : <i>String</i>,
         "<a href="#versionid" title="VersionId">VersionId</a>" : <i>String</i>,
     }
 }
@@ -78,6 +79,7 @@ Properties:
     <a href="#usessl" title="UseSsl">UseSsl</a>: <i>Boolean</i>
     <a href="#weight" title="Weight">Weight</a>: <i>Integer</i>
     <a href="#serviceid" title="ServiceId">ServiceId</a>: <i>String</i>
+    <a href="#backendname" title="BackendName">BackendName</a>: <i>String</i>
     <a href="#versionid" title="VersionId">VersionId</a>: <i>String</i>
 </pre>
 
@@ -367,6 +369,16 @@ _Type_: String
 
 _Update requires_: [Replacement](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-replacement)
 
+#### BackendName
+
+The name of the backend. Read-only
+
+_Required_: No
+
+_Type_: String
+
+_Update requires_: [No interruption](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-no-interrupt)
+
 #### VersionId
 
 Alphanumeric string identifying the service version.
@@ -385,17 +397,9 @@ The `Fn::GetAtt` intrinsic function returns a value for a specified attribute of
 
 For more information about using the `Fn::GetAtt` intrinsic function, see [Fn::GetAtt](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-getatt.html).
 
-#### BackendName
-
-The name of the backend. Read-only
-
 #### Version
 
-Returns the <code>Version</code> value.
-
-#### Locked
-
-Returns the <code>Locked</code> value.
+Integer identifying a backend version. Read-only.
 
 #### CreatedAt
 

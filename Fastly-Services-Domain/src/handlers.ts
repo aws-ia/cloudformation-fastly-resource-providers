@@ -6,16 +6,27 @@ import {FastlyApiObject, fastlyNotFoundError, ResponseWithHttpInfo} from '../../
 // @ts-ignore
 import * as Fastly from "fastly";
 import {version} from '../package.json';
+import {
+    Action, exceptions,
+    handlerEvent, LoggerProxy,
+    Optional, ProgressEvent, ResourceHandlerRequest,
+    SessionProxy
+} from "@amazon-web-services-cloudformation/cloudformation-cli-typescript-lib";
+import {NotFound} from "@amazon-web-services-cloudformation/cloudformation-cli-typescript-lib/dist/exceptions";
+import {RetryableCallbackContext} from "../../Fastly-Common/src/abstract-base-resource";
 
 // The type below are only partial representation of what the API is returning. It's only needed for TypeScript niceties
 type Domain = {
     name: string,
-    version: number
+    version: number,
+    service_id: number
 } & FastlyApiObject
 
 class Resource extends AbstractFastlyResource<ResourceModel, Domain, Domain, Domain, TypeConfigurationModel> {
 
     private userAgent = `AWS CloudFormation (+https://aws.amazon.com/cloudformation/) CloudFormation resource ${this.typeName}/${version}`;
+
+    private VERSION_LOCKED_MESSAGE = "Version locked";
 
     async get(model: ResourceModel, typeConfiguration?: TypeConfigurationModel): Promise<Domain> {
         Fastly.ApiClient.instance.authenticate(typeConfiguration?.fastlyAccess.token);
@@ -79,12 +90,15 @@ class Resource extends AbstractFastlyResource<ResourceModel, Domain, Domain, Dom
         Fastly.ApiClient.instance.defaultHeaders = {
             'User-Agent': this.userAgent
         };
-        await new Fastly.DomainApi().deleteDomainWithHttpInfo({
+
+        let params = {
             ...Transformer.for(model.toJSON())
                 .transformKeys(CaseTransformer.PASCAL_TO_SNAKE)
                 .transform(),
             domain_name: model.name
-        });
+        }
+
+        await new Fastly.DomainApi().deleteDomainWithHttpInfo(params);
     }
 
     newModel(partial?: any): ResourceModel {
@@ -103,11 +117,79 @@ class Resource extends AbstractFastlyResource<ResourceModel, Domain, Domain, Dom
                 .transformKeys(CaseTransformer.SNAKE_TO_CAMEL)
                 .forModelIngestion()
                 .transform(),
-            version: from.version.toString()
+            version: from.version,
+            service: from.service_id
         });
     }
 
+    /**
+     * CloudFormation invokes this handler when the resource is deleted, either when
+     * the resource is deleted from the stack as part of a stack update operation,
+     * or the stack itself is deleted.
+     *
+     * @param session Current AWS session passed through from caller
+     * @param request The request object for the provisioning request passed to the implementor
+     * @param callbackContext Custom context object to allow the passing through of additional
+     * state or metadata between subsequent retries
+     * @param logger Logger to proxy requests to default publishers
+     * @param typeConfiguration The resource configuration data
+     */
+    @handlerEvent(Action.Delete)
+    public async deleteHandler(
+        session: Optional<SessionProxy>,
+        request: ResourceHandlerRequest<ResourceModel>,
+        callbackContext: RetryableCallbackContext,
+        logger: LoggerProxy,
+        typeConfiguration: TypeConfigurationModel
+    ): Promise<ProgressEvent<ResourceModel, RetryableCallbackContext>> {
+        let model = this.newModel(request.desiredResourceState);
+
+        if (!callbackContext.retry) {
+            if (!(await this.assertExists(model, typeConfiguration, logger))) {
+                throw new exceptions.NotFound(this.typeName, request.logicalResourceIdentifier);
+            }
+
+            try {
+                await this.delete(model, typeConfiguration)
+                return ProgressEvent.progress<ProgressEvent<ResourceModel, RetryableCallbackContext>>(model, {
+                    retry: 1
+                });
+            } catch (e) {
+                // If the version to which this domain relates has been locked, it cannot be deleted. We
+                // squash this message here to allow for clean stack deletion. The Domain will be deleted
+                // on the Fastly side when the Service is deleted
+                if (e.status == 422 && e.body?.msg == this.VERSION_LOCKED_MESSAGE) {
+                    return ProgressEvent.success<ProgressEvent<ResourceModel, RetryableCallbackContext>>();
+                }
+                logger.log(`Error ${e}`);
+                this.processRequestException(e, request);
+            }
+        }
+
+        try {
+            await this.get(model, typeConfiguration);
+        } catch (e) {
+            try {
+                this.processRequestException(e, request);
+            } catch (e) {
+                if (e instanceof NotFound) {
+                    return ProgressEvent.success<ProgressEvent<ResourceModel, RetryableCallbackContext>>();
+                }
+                throw e;
+            }
+        }
+
+        if (callbackContext.retry <= this.maxRetries) {
+            return ProgressEvent.progress<ProgressEvent<ResourceModel, RetryableCallbackContext>>(model, {
+                retry: callbackContext.retry + 1
+            });
+        } else {
+            throw new exceptions.NotStabilized(`Resource failed to stabilized after ${this.maxRetries} retries`);
+        }
+    }
 }
+
+
 
 export const resource = new Resource(ResourceModel.TYPE_NAME, ResourceModel, null, null, TypeConfigurationModel);
 

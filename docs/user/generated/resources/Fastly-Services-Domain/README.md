@@ -15,7 +15,7 @@ To declare this entity in your AWS CloudFormation template, use the following sy
         "<a href="#name" title="Name">Name</a>" : <i>String</i>,
         "<a href="#comment" title="Comment">Comment</a>" : <i>String</i>,
         "<a href="#serviceid" title="ServiceId">ServiceId</a>" : <i>String</i>,
-        "<a href="#versionid" title="VersionId">VersionId</a>" : <i>String</i>,
+        "<a href="#versionid" title="VersionId">VersionId</a>" : <i>Integer</i>,
     }
 }
 </pre>
@@ -28,7 +28,7 @@ Properties:
     <a href="#name" title="Name">Name</a>: <i>String</i>
     <a href="#comment" title="Comment">Comment</a>: <i>String</i>
     <a href="#serviceid" title="ServiceId">ServiceId</a>: <i>String</i>
-    <a href="#versionid" title="VersionId">VersionId</a>: <i>String</i>
+    <a href="#versionid" title="VersionId">VersionId</a>: <i>Integer</i>
 </pre>
 
 ## Properties
@@ -67,11 +67,11 @@ _Update requires_: [Replacement](https://docs.aws.amazon.com/AWSCloudFormation/l
 
 #### VersionId
 
-Alphanumeric string identifying the service version.
+Integer identifying the service version.
 
 _Required_: Yes
 
-_Type_: String
+_Type_: Integer
 
 _Update requires_: [Replacement](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-replacement)
 
@@ -90,6 +90,10 @@ The name of the domain or domains associated with this service.
 #### Version
 
 Integer identifying a domain version. Read-only.
+
+#### Service
+
+String identifying a domain service. Read-only.
 
 #### CreatedAt
 
