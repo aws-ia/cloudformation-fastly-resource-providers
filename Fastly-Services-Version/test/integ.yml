@@ -4,3 +4,4 @@ Resources:
     Type: Fastly::Services::Service
     Properties:
       Name: <RANDOM_NAME>
+      ServiceId: "oViBWfTZBCjNDlibOKn3b2"

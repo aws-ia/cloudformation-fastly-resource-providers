@@ -12,9 +12,12 @@
 #    GITHUB_ORG=ericzbeard-aws-cep-testing GITHUB_REPO=test-stable-1 AWS_PROFILE=ezbeard-cep GITHUB_SHA=6907b5086cfdc46381af05d94c2e41ac6812a962 ./setup.sh
 
 mkdir -p inputs
-# semi Random name from uuid but must start with letter
+
 RANDOM_NAME=a$(uuidgen | sed 's/[-]//g')
 
-cat test/integ.yml | sed "s/<RANDOM_NAME>/${RANDOM_NAME}/" > test/integ-unique.yml
+cat example-inputs/inputs_1_create.json |  sed "s/<FASTLY_SERVICE_ID>/${FASTLY_SERVICE_ID}/g" | sed "s/<FASTLY_VERSION_ID>/${FASTLY_VERSION_ID}/g" > inputs/inputs_1_create.json
+cat example-inputs/inputs_1_update.json |  sed "s/<FASTLY_SERVICE_ID>/${FASTLY_SERVICE_ID}/g" | sed "s/<FASTLY_VERSION_ID>/${FASTLY_VERSION_ID}/g" > inputs/inputs_1_update.json
+cp example-inputs/inputs_1_invalid.json inputs/
+cat test/integ.yml | sed "s/<RANDOM_NAME>/${RANDOM_NAME}/g" | sed "s/<FASTLY_SERVICE_ID>/${FASTLY_SERVICE_ID}/g" | sed "s/<FASTLY_VERSION_ID>/${FASTLY_VERSION_ID}/g" > test/integ-unique.yml
 
 python3 ../get_type_configuration.py

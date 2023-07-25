@@ -4,3 +4,5 @@ Resources:
     Type: Fastly::Services::ActiveVersion
     Properties:
       Name: <RANDOM_NAME>
+      ServiceId: TB6Yydx912nPgFJUNZjBH3
+      VersionNumber: 1
