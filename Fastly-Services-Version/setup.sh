@@ -20,4 +20,8 @@ cat example-inputs/inputs_1_update.json |  sed "s/<FASTLY_SERVICE_ID>/${FASTLY_S
 cp example-inputs/inputs_1_invalid.json inputs/
 cat test/integ.yml | sed "s/<RANDOM_NAME>/${RANDOM_NAME}/g" | sed "s/<FASTLY_SERVICE_ID>/${FASTLY_SERVICE_ID}/g" > test/integ-unique.yml
 
+cat inputs/inputs_1_create.json
+cat inputs/inputs_1_update.json
+cat inputs/inputs_1_invalid.json
+
 python3 ../get_type_configuration.py
