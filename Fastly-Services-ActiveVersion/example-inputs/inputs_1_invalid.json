@@ -1,4 +1,4 @@
 {
-    "ServiceId": "<FASTLY_SERVICE_ID>",
+    "ServiceId": "<FASTLY_AV_SERVICE_ID>",
     "VersionNumber": 99
 }
