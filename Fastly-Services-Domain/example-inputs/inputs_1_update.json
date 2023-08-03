@@ -1,6 +1,6 @@
 {
   "Name": "acme.co.uk",
   "ServiceId": "<FASTLY_SERVICE_ID>",
-  "VersionId": "<FASTLY_VERSION_ID>",
+  "VersionId": <FASTLY_VERSION_ID>,
   "Comment": "This is an updated domain"
 }
