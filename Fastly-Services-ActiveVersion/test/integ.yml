@@ -1,6 +1,7 @@
 
 Resources:
-  TestFastlyService:
+  TestFastlyServiceActiveVersion:
     Type: Fastly::Services::ActiveVersion
     Properties:
-      Name: <RANDOM_NAME>
+      ServiceId: <FASTLY_AV_SERVICE_ID>
+      VersionNumber: <FASTLY_AC_VERSION_ID>
