@@ -1,7 +1,6 @@
 
 Resources:
-  TestFastlyService:
-    Type: Fastly::Services::Service
+  TestFastlyServiceVersion:
+    Type: Fastly::Services::Version
     Properties:
-      Name: <RANDOM_NAME>
       ServiceId: "<FASTLY_SERVICE_ID>"
