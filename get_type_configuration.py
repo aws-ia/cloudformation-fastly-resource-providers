@@ -10,7 +10,7 @@ def get_secret():
     "Get the secret from secrets manager"
 
     secret_name = "cep-fastly-type-configuration"
-    region_name = 'us-west-2'
+    region_name = os.environ['AWS_REGION']
     session = boto3.session.Session()
     client = session.client(
         service_name="secretsmanager",
