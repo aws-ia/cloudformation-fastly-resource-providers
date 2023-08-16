@@ -1,6 +1,6 @@
-# Fastly::Services::Service
+# Fastly::Services::Version
 
-This resource type manages a [Fastly Service][3]
+This resource type manages a [Fastly Service Version][3]
 
  [Documentation][4]
 
@@ -36,7 +36,7 @@ To get started:
   ```Bash
   $ aws cloudformation set-type-configuration \
   --region us-west-2 --type RESOURCE \
-  --type-name Fastly::Services::Backend \
+  --type-name Fastly::Services::Version \
   --configuration-alias default \
   --configuration "{ \"FastlyAccess\":{\"Token\":\"YOURTOKEN\"}}"
   ```
@@ -75,23 +75,22 @@ The Fastly CloudFormation resources are available on the CloudFormation Public R
 
 ### Shows how to create a Service in Fastly
 ```yaml
----
 AWSTemplateFormatVersion: '2010-09-09'
-Description: Shows how to create a Service in Fastly
+Description: Shows how to create a Service Version in Fastly
 Resources:
   MySampleProject:
-    Type: Fastly::Services::Service
+    Type: Fastly::Services::Version
     Properties:
-        Name: Example Service Name
+      ServiceId: String
 ```
 # Development
 
 Congratulations on starting development! Next steps:
 
-1. Write the JSON schema describing your resource, [fastly-services-service.json](./fastly-services-service.json)
-2. Implement your resource handlers in [handlers.ts](./fastly-services-service/handlers.ts)
+1. Write the JSON schema describing your resource, [fastly-services-service.json](./fastly-services-version.json)
+2. Implement your resource handlers in [handlers.ts](./fastly-services-version/handlers.ts)
 
-> Don't modify [models.ts](./fastly-services-service/models.ts) by hand, any modifications will be overwritten when the `generate` or `package` commands are run.
+> Don't modify [models.ts](./fastly-services-version/models.ts) by hand, any modifications will be overwritten when the `generate` or `package` commands are run.
 
 Implement CloudFormation resource here. Each function must always return a ProgressEvent.
 
@@ -126,7 +125,7 @@ Keep in mind, during runtime all logs will be delivered to CloudWatch if you use
 
 [1]: https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-types.html
 [2]: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html
-[3]: https://docs.fastly.com/en/guides/working-with-services#creating-a-new-service
+[3]: https://docs.fastly.com/en/guides/working-with-services#understanding-fastly-services-and-versions
 [4]: ./docs/README.md
 [11]: https://aws.amazon.com/console/
 [12]: https://console.aws.amazon.com/cloudformation/home
