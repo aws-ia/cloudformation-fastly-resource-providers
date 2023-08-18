@@ -94,11 +94,11 @@
     },
     "ActiveVersionId": {
       "description": "The number of the active version.",
-      "type": "string"
+      "type": "number"
     },
     "LatestVersionId": {
       "description": "The number of the latest version.",
-      "type": "string"
+      "type": "number"
     },
     "Type": {
       "$ref": "#/definitions/Type"

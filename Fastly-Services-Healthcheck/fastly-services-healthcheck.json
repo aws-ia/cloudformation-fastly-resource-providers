@@ -23,8 +23,8 @@
       "type": "string"
     },
     "VersionId": {
-      "description": "Alphanumeric string identifying the service version.",
-      "type": "string"
+      "description": "Id identifying the service version.",
+      "type": "number"
     },
     "CheckInterval": {
       "description": "How often to run the healthcheck in milliseconds.",

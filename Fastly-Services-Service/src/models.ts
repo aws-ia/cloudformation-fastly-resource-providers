@@ -50,21 +50,21 @@ export class ResourceModel extends BaseModel {
     @Expose({ name: 'ActiveVersionId' })
     @Transform(
         (value: any, obj: any) =>
-            transformValue(String, 'activeVersionId', value, obj, []),
+            transformValue(Number, 'activeVersionId', value, obj, []),
         {
             toClassOnly: true,
         }
     )
-    activeVersionId?: Optional<string>;
+    activeVersionId?: Optional<number>;
     @Expose({ name: 'LatestVersionId' })
     @Transform(
         (value: any, obj: any) =>
-            transformValue(String, 'latestVersionId', value, obj, []),
+            transformValue(Number, 'latestVersionId', value, obj, []),
         {
             toClassOnly: true,
         }
     )
-    latestVersionId?: Optional<string>;
+    latestVersionId?: Optional<number>;
     @Expose({ name: 'Type' })
     @Transform(
         (value: any, obj: any) =>
