@@ -6,6 +6,7 @@ import {FastlyApiObject, fastlyNotFoundError, ResponseWithHttpInfo} from '../../
 // @ts-ignore
 import * as Fastly from "fastly";
 import {version} from '../package.json';
+import {integer} from "@amazon-web-services-cloudformation/cloudformation-cli-typescript-lib";
 
 // The types below are only partial representation of what the API is returning. It's only needed for TypeScript niceties
 type Service = {
@@ -91,8 +92,8 @@ class Resource extends AbstractFastlyResource<ResourceModel, Service, Service, S
             return model;
         }
         if (Array.isArray(from.versions)) {
-            model.activeVersionId = from.versions.find(v => v.active === true)?.number.toString() || '';
-            model.latestVersionId = from.versions.reduce((max, v) => max.number > v.number ? max : v)?.number.toString() || '';
+            model.activeVersionId = from.versions.find(v => v.active === true)?.number || 0;
+            model.latestVersionId = from.versions.reduce((max, v) => max.number > v.number ? max : v)?.number || 0;
         }
 
         const resourceModel = new ResourceModel({
