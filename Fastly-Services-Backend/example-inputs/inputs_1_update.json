@@ -1,6 +1,6 @@
 {
   "ServiceId": "<FASTLY_SERVICE_ID>",
-  "VersionId": "<FASTLY_VERSION_ID>",
+  "VersionId": <FASTLY_VERSION_ID>,
   "Name": "aws.amazon.com",
   "Address": "aws.amazon.com",
   "Comment": "Hello AWS updated",
