@@ -41,7 +41,7 @@ To declare this entity in your AWS CloudFormation template, use the following sy
         "<a href="#weight" title="Weight">Weight</a>" : <i>Integer</i>,
         "<a href="#serviceid" title="ServiceId">ServiceId</a>" : <i>String</i>,
         "<a href="#backendname" title="BackendName">BackendName</a>" : <i>String</i>,
-        "<a href="#versionid" title="VersionId">VersionId</a>" : <i>String</i>,
+        "<a href="#versionid" title="VersionId">VersionId</a>" : <i>Double</i>,
     }
 }
 </pre>
@@ -80,7 +80,7 @@ Properties:
     <a href="#weight" title="Weight">Weight</a>: <i>Integer</i>
     <a href="#serviceid" title="ServiceId">ServiceId</a>: <i>String</i>
     <a href="#backendname" title="BackendName">BackendName</a>: <i>String</i>
-    <a href="#versionid" title="VersionId">VersionId</a>: <i>String</i>
+    <a href="#versionid" title="VersionId">VersionId</a>: <i>Double</i>
 </pre>
 
 ## Properties
@@ -381,11 +381,11 @@ _Update requires_: [No interruption](https://docs.aws.amazon.com/AWSCloudFormati
 
 #### VersionId
 
-Alphanumeric string identifying the service version.
+Id identifying the service version.
 
 _Required_: Yes
 
-_Type_: String
+_Type_: Double
 
 _Update requires_: [Replacement](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-replacement)
 

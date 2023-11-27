@@ -25,7 +25,7 @@ To declare this entity in your AWS CloudFormation template, use the following sy
         "<a href="#timeout" title="Timeout">Timeout</a>" : <i>Integer</i>,
         "<a href="#window" title="Window">Window</a>" : <i>Integer</i>,
         "<a href="#serviceid" title="ServiceId">ServiceId</a>" : <i>String</i>,
-        "<a href="#versionid" title="VersionId">VersionId</a>" : <i>String</i>,
+        "<a href="#versionid" title="VersionId">VersionId</a>" : <i>Double</i>,
         "<a href="#healthcheckname" title="HealthcheckName">HealthcheckName</a>" : <i>String</i>,
     }
 }
@@ -49,7 +49,7 @@ Properties:
     <a href="#timeout" title="Timeout">Timeout</a>: <i>Integer</i>
     <a href="#window" title="Window">Window</a>: <i>Integer</i>
     <a href="#serviceid" title="ServiceId">ServiceId</a>: <i>String</i>
-    <a href="#versionid" title="VersionId">VersionId</a>: <i>String</i>
+    <a href="#versionid" title="VersionId">VersionId</a>: <i>Double</i>
     <a href="#healthcheckname" title="HealthcheckName">HealthcheckName</a>: <i>String</i>
 </pre>
 
@@ -191,11 +191,11 @@ _Update requires_: [Replacement](https://docs.aws.amazon.com/AWSCloudFormation/l
 
 #### VersionId
 
-Alphanumeric string identifying the service version.
+Id identifying the service version.
 
 _Required_: Yes
 
-_Type_: String
+_Type_: Double
 
 _Update requires_: [Replacement](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-replacement)
 
